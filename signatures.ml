@@ -71,6 +71,7 @@ module type RMATH =
 sig
   include SIMPLE_RENDER
   val join_h : t list -> t
+  val join_v : t list -> t
   val join_top : t -> t -> t
   val join_bot : t -> t -> t
   val join_topbot : t -> t -> t -> t

@@ -144,11 +144,8 @@ struct
           "\\prod",      [] -> Rmath.prod () |
           "\\sum",       [] -> Rmath.sum () |
           "\\displaystyle", [] -> Rmath.empty 0 0 |
-          "\\\\", b1::boxlist ->
-            ListEx.fold
-              (fun accum box -> Rmath.join_bot accum box)
-              b1
-              boxlist |
+          "\\\\", _::_ ->
+            Rmath.join_v boxlist |
           "&", b1::boxlist ->
             ListEx.fold
               (fun accum box -> Rmath.join_h [accum; Rmath.empty 3 1; box])

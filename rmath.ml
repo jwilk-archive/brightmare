@@ -37,24 +37,36 @@ struct
     { rbox = Render.empty width height;
       baseline = 0 }
 
+  let join_v boxes =
+    match boxes with
+      [] -> 
+        raise(Invalid_argument "Rmath()().join_v") |
+      box::_ ->
+        let boxes = ListEx.map (fun box -> box.rbox) boxes in
+          { rbox = Render.join_v 'E' boxes;
+            baseline = box.baseline }
+
   let join_h boxes =
-    let 
-      maxbaseline = ListEx.max_map (fun box -> box.baseline) boxes and
-      maxheight = ListEx.max_map (fun box -> height box) boxes
-    in let
-      boxes = 
-        ListEx.map 
-          ( fun box -> 
-            Render.grow 
-              'Q'
-              box.rbox
-              (width box) 
-              (height box + maxbaseline - box.baseline)
-          )
-          boxes
-    in
-      { rbox = Render.join_h 'Z' boxes; 
-        baseline = maxbaseline; }
+    if boxes = [] then
+      raise(Invalid_argument "Rmath()().join_h")
+    else
+      let 
+        maxbaseline = ListEx.max_map (fun box -> box.baseline) boxes and
+        maxheight = ListEx.max_map (fun box -> height box) boxes
+      in let
+        boxes = 
+          ListEx.map 
+            ( fun box -> 
+              Render.grow 
+                'Q'
+                box.rbox
+                (width box) 
+                (height box + maxbaseline - box.baseline)
+            )
+            boxes
+      in
+        { rbox = Render.join_h 'Z' boxes; 
+          baseline = maxbaseline; }
 
   let join_top box top =
     { rbox = Render.join_v 'X' [top.rbox; box.rbox];

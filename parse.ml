@@ -33,38 +33,48 @@ struct
       Operator (op, trees) -> 
         Operator (op, ListEx.rev_map fix trees)
 
-  let add basetree subtree  =
+  let rec add basetree subtree =
     match basetree with
-      Element _ -> Operator ("", [basetree; subtree]) |
-      Operator (op, basetrees) -> Operator (op, subtree::basetrees)
+      Element _ -> 
+        Operator ("", [subtree; basetree]) |
+      Operator (("&" | "\\\\") as opstr, baselast::basetrees) ->
+        (* Operator (opstr, Operator("", [subtree; baselast])::basetrees) | *)
+        Operator (opstr, (add baselast subtree)::basetrees) |
+      Operator (opstr, basetrees) -> 
+        Operator (opstr, subtree::basetrees)
 
  let add_nl basetree subtree =
     match subtree with
       Operator ("\\\\", subtrees) ->
       ( match basetree with
-          Operator ("\\\\", basetrees) -> Operator ("\\\\", subtrees@basetrees) |
-          _ -> Operator("\\\\", subtrees@[basetree]) ) |
+          Operator ("\\\\", basetrees) -> 
+            Operator ("\\\\", subtrees@basetrees) |
+          _ -> 
+            Operator("\\\\", subtrees@[basetree]) ) |
       _ -> raise(Internal_error)
 
   let rec add_amp basetree subtree =
     match subtree with
       Operator ("&", subtrees) ->
       ( match basetree with
-          Operator ("&", basetrees) -> Operator ("&", subtrees@basetrees) |
+          Operator ("&", basetrees) -> 
+            Operator ("&", subtrees@basetrees) |
           Operator ("\\\\", baselast::basetrees) ->
             Operator ("\\\\", (add_amp baselast subtree)::basetrees) |
-          _ -> Operator("&", subtrees@[basetree]) ) |
+          _ -> 
+            Operator("&", subtrees@[basetree]) ) |
       _ -> raise(Internal_error)
 
-  let add_infix basetree subtree =
+  let rec add_infix basetree subtree =
     match subtree with
       Operator (subop, subtrees) ->
       ( match basetree with
+          Operator (("\\\\" | "&") as opstr, baselast::basetrees) ->
+            Operator (opstr, (add_infix baselast subtree)::basetrees) |
           Operator ("", baselast::basetrees) ->
             Operator 
             ( "", 
-              [ Operator (subop, baselast::subtrees);
-                Operator ("", basetrees) ] ) |
+              Operator (subop, baselast::subtrees)::basetrees ) |
           _ -> 
             Operator (subop, basetree::subtrees) ) |
       _ -> raise(Internal_error)
