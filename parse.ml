@@ -3,32 +3,34 @@ open Dictionary_lib;;
 type parse_operator = PO_Void | PO_Custom of string;;
 type parse_element = PE_Void | PE_Custom of string;;
 type parse_tree = 
-  PT_Element of parse_element | 
-  PT_Operator of parse_operator * parse_tree list;;
+  Element of parse_element | 
+  Operator of parse_operator * parse_tree list;;
 
-let pt_empty = PT_Operator (PO_Void, []);;
+type t = parse_tree
 
-(* pt_rev: fixes up a `tree' *)
-let rec pt_rev tree =
+let empty = Operator (PO_Void, []);;
+
+(* rev: fixes up a `tree' *)
+let rec rev tree =
   match tree with
-    PT_Element _ -> tree |
-    PT_Operator (PO_Void, [tree]) ->
-      pt_rev tree |
-    PT_Operator (op, [PT_Operator (PO_Void, lst)]) ->
-      PT_Operator (op, List.rev (List.map pt_rev lst)) |
-    PT_Operator (op, lst) -> 
-      PT_Operator (op, List.rev (List.map pt_rev lst));;
+    Element _ -> tree |
+    Operator (PO_Void, [tree]) ->
+      rev tree |
+    Operator (op, [Operator (PO_Void, lst)]) ->
+      Operator (op, List.rev (List.map rev lst)) |
+    Operator (op, lst) -> 
+      Operator (op, List.rev (List.map rev lst));;
 
-let pt_add basetree subtree  =
+let add basetree subtree  =
   match basetree with
-    PT_Element _ -> PT_Operator (PO_Void, [basetree; subtree]) |
-    PT_Operator (op, basetree) -> PT_Operator (op, subtree::basetree);;
+    Element _ -> Operator (PO_Void, [basetree; subtree]) |
+    Operator (op, basetree) -> Operator (op, subtree::basetree);;
 
-let pt_backadd basetree subtree  =
-  pt_add subtree basetree;;
+let backadd basetree subtree  =
+  add subtree basetree;;
 (*  match basetree with
-    PT_Element _ -> PT_Operator (PO_Void, [basetree; subtree]) |
-    PT_Operator (op, basetree) -> PT_Operator (op, subtree::basetree);; *)
+    Element _ -> Operator (PO_Void, [basetree; subtree]) |
+    Operator (op, basetree) -> Operator (op, subtree::basetree);; *)
 
 let infty = -1;;
 
@@ -40,16 +42,16 @@ let rec parse_a bldtree toklist limit =
     [] -> (bldtree, toklist) |
     "}"::toklist -> (bldtree, toklist) |
     "{"::toklist -> 
-      let (newbldtree, toklist) = parse_a pt_empty toklist infty in
-        parse_a (pt_add bldtree newbldtree) toklist (limit-1) |
+      let (newbldtree, toklist) = parse_a empty toklist infty in
+        parse_a (add bldtree newbldtree) toklist (limit-1) |
    token::toklist ->
       try 
         let 
           (p, q) = JoinedDictionary.get Latex_dictionary.commands token 
        in
-        let (newbldtree, toklist) = parse_a (PT_Operator (PO_Custom token, [])) toklist q in
+        let (newbldtree, toklist) = parse_a (Operator (PO_Custom token, [])) toklist q in
          parse_a 
-            ( (if token.[0] = '\\' then pt_add else pt_backadd)
+            ( (if token.[0] = '\\' then add else backadd)
                 bldtree 
                 newbldtree
             ) 
@@ -58,21 +60,24 @@ let rec parse_a bldtree toklist limit =
      with 
         Not_found ->
           parse_a 
-            (pt_add bldtree (PT_Element (PE_Custom token))) toklist (limit-1);;
+            (add bldtree (Element (PE_Custom token))) toklist (limit-1);;
 
-let rec pt_to_rmb tree =
+let rec as_rmathbox tree =
   match tree with
-    PT_Element (PE_Void) -> Rmath.empty 1 1 |
-    PT_Element (PE_Custom str) -> Rmath.si str |
-    PT_Operator (op, treelist) ->
-      let boxlist = List.map pt_to_rmb treelist in
+    Element (PE_Void) -> Rmath.empty 1 1 |
+    Element (PE_Custom str) -> Rmath.si (Unicode.from_string str) |
+    Operator (op, treelist) ->
+      let boxlist = List.map as_rmathbox treelist in
       match (op, boxlist) with
         PO_Custom opstr, [] -> 
           if Dictionary.exist Latex_dictionary.symbols opstr
           then
-            Rmath.si (Unicode.wchar_of_int (Dictionary.get Latex_dictionary.symbols opstr))
+            let symbol = Dictionary.get Latex_dictionary.symbols opstr in
+            let symbol = Unicode.wchar_of_int symbol in
+            let symbol = Unicode.make 1 symbol in
+              Rmath.si symbol 
           else
-            Rmath.si (opstr) (* FIXME *) |
+            Rmath.si (Unicode.from_string opstr) (* FIXME *) |
         PO_Void, _ -> Rmath.join_h boxlist |
         PO_Custom "\\frac", [b1; b2] -> Rmath.frac b1 b2 |
         PO_Custom "_", [b1; b2] -> Rmath.crossjoin_SE b2 b1 |
@@ -83,16 +88,16 @@ let rec pt_to_rmb tree =
             Rmath.join_h boxlist (* FIXME *)
           else
             let
-              opbox = Rmath.si (opstr^"[[") and (* FIXME *)
-              opbox2 = Rmath.si "]]" (* FIXME *)
+              opbox = Rmath.si (Unicode.from_string (opstr^"[[")) and (* FIXME *)
+              opbox2 = Rmath.si (Unicode.from_string "]]") (* FIXME *)
             in
               Rmath.join_h (opbox::boxlist @ [opbox2]);;
 
-let parse str =
-  let (revptree, _) = parse_a pt_empty (Tokenize.make str) infty in
-    pt_rev revptree;;
+let from_string str =
+  let (revptree, _) = parse_a empty (Tokenize.make str) infty in
+    rev revptree;;
 
-let string_to_rmb s =
-  pt_to_rmb (parse s);;
+let string_to_rmathbox s =
+  as_rmathbox (from_string s);;
 
 (* vim: set tw=96 et ts=2 sw=2: *)

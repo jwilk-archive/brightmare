@@ -1,21 +1,23 @@
 let (++) = Unicode.(++);;
 
-type renderbox = 
-  { rb_width: int; rb_height: int; rb_lines: Unicode.wstring list }
+type t = 
+  { width: int; height: int; lines: Unicode.t list }
 
 let si str =
-  { rb_width = Unicode.length str; rb_height=1; rb_lines = [str] };;
+  { width = Unicode.length str; height=1; lines = [str] };;
 
 let make width height chr =
   let filler = Unicode.make width chr in
-    { rb_width=width; rb_height=height; rb_lines=List2.make height filler};;
+    { width=width; height=height; lines=List2.make height filler};;
 
-let empty width height = make width height " ";;
+let wspace = Unicode.wchar_of_char ' ';;
+
+let empty width height = make width height wspace;;
 
 (* ---------------------------------------------------------------------- *)
 
-let width box = box.rb_width;;
-let height box = box.rb_height;;
+let width box = box.width;;
+let height box = box.height;;
 
 (* -- HORIZONTAL GROW --------------------------------------------------- *)
 
@@ -23,17 +25,17 @@ let grow_h box diffwidth modfun =
   if diffwidth < 0 then
     raise(Invalid_argument "grow_h")
   else
-    { rb_width=box.rb_width+diffwidth; rb_height=box.rb_height;
-      rb_lines=List.map modfun box.rb_lines};;
+    { width=box.width+diffwidth; height=box.height;
+      lines=List.map modfun box.lines};;
 
 (* -- HORIZONTAL GROW, part II ------------------------------------------ *)
 
 let grow_leftright box width modfun =
-  let diffwidth = width-box.rb_width in
+  let diffwidth = width-box.width in
   if diffwidth < 0 then
     raise(Invalid_argument "grow_leftright")
   else
-    let spacer = Unicode.make diffwidth " " in
+    let spacer = Unicode.make diffwidth wspace in
       grow_h box diffwidth (modfun spacer);;
 
 let grow_right box width =
@@ -45,15 +47,15 @@ let grow_left box width =
 (* -- HORIZONTAL GROW, part III ----------------------------------------- *)
 
 let grow_center box width =
-  let diffwidth = width-box.rb_width in
+  let diffwidth = width-box.width in
   if diffwidth < 0 then
     raise(Invalid_argument "grow_center")
   else
     let lspace = diffwidth/2 in
     let rspace = diffwidth-lspace in
     let 
-      lspacer = Unicode.make lspace " " and
-      rspacer = Unicode.make rspace " "
+      lspacer = Unicode.make lspace wspace and
+      rspacer = Unicode.make rspace wspace
     in
       grow_h box diffwidth (fun s -> lspacer ++ s ++ rspacer);;
 
@@ -65,17 +67,17 @@ let grow_v box diffheight modfun =
   if diffheight < 0 then
     raise(Invalid_argument "grow_h")
   else
-    { rb_width=box.rb_width; rb_height=box.rb_height+diffheight;
-      rb_lines=modfun box.rb_lines};;
+    { width=box.width; height=box.height+diffheight;
+      lines=modfun box.lines};;
 
 (* -- VERTICAL GROW, part II -------------------------------------------- *)
 
 let grow_topbottom box height modfun =
-  let diffheight = height-box.rb_height in
+  let diffheight = height-box.height in
   if diffheight < 0 then
     raise(Invalid_argument "grow_topbottom")
   else
-    let spacer = List2.make diffheight (Unicode.make box.rb_width " ") in
+    let spacer = List2.make diffheight (Unicode.make box.width wspace) in
       grow_v box diffheight (modfun spacer);;
 
 let grow_bottom box height =
@@ -87,13 +89,13 @@ let grow_top box height =
 (* -- VERTICAL GROW, part III ------------------------------------------- *)
 
 let grow_vmiddle box height =
-  let diffheight = height-box.rb_height in
+  let diffheight = height-box.height in
   if diffheight < 0 then
     raise(Invalid_argument "grow_vmiddle")
   else
     let tspace = diffheight/2 in
     let bspace = diffheight-tspace in
-    let spacer = Unicode.make box.rb_width " " in
+    let spacer = Unicode.make box.width wspace in
     let 
       tspacer = List2.make tspace spacer and
       bspacer = List2.make bspace spacer
@@ -126,12 +128,12 @@ let grow_middle = grow_custom 'S';;
 (* -- AUTOMATIC GROW ---------------------------------------------------- *)
 
 let grow_auto_h choice boxlist =
-  let maxwidth = List.fold_left (fun width box -> (max width box.rb_width)) 0 boxlist in
-    List.map (fun box -> grow_custom choice box maxwidth box.rb_height) boxlist;;
+  let maxwidth = List.fold_left (fun width box -> (max width box.width)) 0 boxlist in
+    List.map (fun box -> grow_custom choice box maxwidth box.height) boxlist;;
 
 let grow_auto_v choice boxlist =
-  let maxheight = List.fold_left (fun height box -> (max height box.rb_height)) 0 boxlist in
-    List.map (fun box -> grow_custom choice box box.rb_width maxheight) boxlist;;
+  let maxheight = List.fold_left (fun height box -> (max height box.height)) 0 boxlist in
+    List.map (fun box -> grow_custom choice box box.width maxheight) boxlist;;
 
 (* -- SIMPLE JOINS ------------------------------------------------------ *)
 
@@ -141,9 +143,9 @@ let join_v choice boxlist =
     head::boxlist ->
       List.fold_left 
         (fun addbox box -> 
-          { rb_width = head.rb_width; 
-            rb_height = addbox.rb_height+box.rb_height; 
-            rb_lines = addbox.rb_lines@box.rb_lines}
+          { width = head.width; 
+            height = addbox.height+box.height; 
+            lines = addbox.lines@box.lines}
         )
         head 
         boxlist;;
@@ -154,9 +156,9 @@ let join_h choice boxlist =
     head::boxlist ->
       List.fold_left 
         (fun addbox box -> 
-          { rb_width=addbox.rb_width+box.rb_width; 
-            rb_height=head.rb_height; 
-            rb_lines=List.map2 (++) addbox.rb_lines box.rb_lines}
+          { width=addbox.width+box.width; 
+            height=head.height; 
+            lines=List.map2 (++) addbox.lines box.lines}
         )
         head 
         boxlist;;
@@ -172,24 +174,29 @@ let join4 topleft botleft topright botright =
 
 let crossjoin_tr botleft topright =
   let 
-    topleft  = empty  botleft.rb_width topright.rb_height and
-    botright = empty topright.rb_width  botleft.rb_height 
+    topleft  = empty  botleft.width topright.height and
+    botright = empty topright.width  botleft.height 
   in
     join4 topleft botleft topright botright;;
 
 let crossjoin_br topleft botright =
   let 
-    topright = empty botright.rb_width  topleft.rb_height and
-    botleft  = empty  topleft.rb_width botright.rb_height 
+    topright = empty botright.width  topleft.height and
+    botleft  = empty  topleft.width botright.height 
   in
     join4 topleft botleft topright botright;;
 
 (* ---------------------------------------------------------------------- *)
 
 let render_str box =
-  List.fold_right 
-    (fun s1 s2 -> "\x1B[1;44m" ++ s1 ++ "\x1B[22;49m\n" ++ s2 ++ "\x1B[49m" )
-    box.rb_lines 
-    ""
+  let 
+    wstr_left  = Unicode.from_string "\x1B[1;44m"  and
+    wstr_mid   = Unicode.from_string "\x1B[22;49m\n" and
+    wstr_right = Unicode.from_string "\x1B[49m"
+  in
+    List.fold_right 
+      (fun s1 s2 -> wstr_left ++ s1 ++ wstr_mid  ++ s2 ++ wstr_right )
+      box.lines 
+      Unicode.empty
 
 (* vim: set tw=96 et ts=2 sw=2: *)

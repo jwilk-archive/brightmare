@@ -9,6 +9,12 @@ License:
 
 ChangeLog:
 
+10 Nov 2004, version 0.20041110
+  -- (re)written many module interfaces
+
+8 Nov 2004, version 0.20041107
+  -- LateX dictionary is still expanding
+
 7 Nov 2004, version 0.20041107
   -- LateX dictionary is still expanding
 

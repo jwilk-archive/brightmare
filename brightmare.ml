@@ -11,12 +11,14 @@ let argv = match Array.to_list Sys.argv with
   _::tail -> tail;;
 
 List.iter
-  ( fun s -> 
-    Printf.printf 
-      "\x1B[12mZ\x1B[10m %s \n\x1B[12mSRR\x1B[10m> %s\n%s\n" 
-      s 
-      (aos2str (Tokenize.make s)) 
-      (Rmath.render_str (Parse.string_to_rmb s))
+  ( fun s ->
+    let
+      tokens = aos2str (Tokenize.make s) and
+      render = Rmath.render_str (Parse.string_to_rmathbox s)
+    in
+      Printf.printf 
+        "\x1B[12mZ\x1B[10m %s \n\x1B[12mSRR\x1B[10m> %s\n%s\n" 
+        s tokens (Unicode.to_string render)
   ) argv;;
 
 (* vim: set tw=96 et ts=2 sw=2: *)

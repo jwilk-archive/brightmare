@@ -15,9 +15,12 @@ module type DICTIONARY =
    end;;
 
 let asoc_multi_put dict kv_list =
-  List.fold_left (fun dict (k, v) -> AsocString.add k v dict) (AsocString.empty) kv_list;;
+  List.fold_left 
+    (fun dict (k, v) -> AsocString.add k v dict) 
+    (AsocString.empty) 
+    kv_list;;
 
-module Dictionary =
+module Dictionary : DICTIONARY =
   struct
     type 'a t = 'a AsocString.t
     let make kv_list = asoc_multi_put AsocString.empty kv_list
@@ -50,7 +53,7 @@ let rec jdict_exist lst key =
       else
         jdict_exist lst key;;
 
-module JoinedDictionary =
+module JoinedDictionary : JOINED_DICTIONARY =
   struct
     type 'a t = 'a Dictionary.t list
     let get = jdict_get

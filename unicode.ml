@@ -1,7 +1,12 @@
-type wstring = string
-type wchar = string;;
+type wstring = string and wchar = string
+type t = wstring;;
 
-let wstring_of_string s = s;; (* FIXME *)
+let from_string s = s;; (* FIXME *)
+
+let to_string s = s;; (* FIXME or not FIXME -- that is the question *)
+
+let wchar_of_char c = 
+  String.make 1 c (* FIXME *)
 
 let string_of_int n =
   String.make 1 (char_of_int n)
@@ -24,6 +29,8 @@ let wchar_of_int n =
     string_of_int (0x80 + n land 0x3F)
   else
     raise(Invalid_argument "Unicode.wchar_of_int");;
+
+let empty = "";;
 
 let length s =
   let plen = String.length s in

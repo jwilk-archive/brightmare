@@ -1,18 +1,24 @@
 VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
+NATIVE = yes
+
 DIST_FILES = README Makefile Makefile.dep $(SOURCE_FILES)
 SOURCE_FILES = $(MLI_FILES) $(ML_FILES)
-MLI_FILES = list2.mli unicode.mli render.mli dictionary_lib.mli tokenize.mli
+MLI_FILES = \
+	dictionary_lib.mli latex_dictionary.mli unicode.mli \
+	list2.mli render.mli rmath.mli tokenize.mli version.mli \
+	parse.mli 
 ML_FILES = \
 	dictionary_lib.ml latex_dictionary.ml unicode.ml \
 	list2.ml render.ml rmath.ml tokenize.ml version.ml \
-	parse.ml brightmare.ml 
+	parse.ml \
+	brightmare.ml 
 CMI_FILES = $(ML_FILES:ml=cmi)
 CMO_FILES = $(ML_FILES:ml=cmo)
 CMX_FILES = $(ML_FILES:ml=cmx)
 O_FILES   = $(ML_FILES:ml=o)
 
-ifdef NATIVE
+ifeq ($(NATIVE),yes)
 	OCAMLC = ocamlopt.opt
 	OBJ_FILES = $(CMX_FILES)
 	STRIP = strip -s
@@ -30,7 +36,7 @@ include Makefile.dep
 %.cmi: %.mli
 	$(OCAMLC) -c ${<}
 
-ifdef NATIVE
+ifeq ($(NATIVE),yes)
 %.cmx: %.ml
 	$(OCAMLC) -c ${<}
 else
@@ -43,7 +49,7 @@ brightmare: $(OBJ_FILES)
 	$(STRIP) ${@}
 
 test: brightmare
-	cat devel/test[0-9]* | tr '\n' '\0' | xargs -0 printf "\"%s\"\n" | xargs ./brightmare
+	cat test/* | tr '\n' '\0' | xargs -0 printf "\"%s\"\n" | xargs ./brightmare
 
 stats:
 	@echo $(shell cat ${SOURCE_FILES} | wc -l) lines.
