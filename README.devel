@@ -1,4 +1,4 @@
-BrightMaRe, version 0.28
+BrightMaRe, version 0.30
 ------------------------
 
 Author:
@@ -8,6 +8,10 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+19 Dec 2004, version 0.30
+  -- *
+  -- more than 3000 lines... (yawn)...
 
 18 Dec 2004, version 0.29
   -- *
@@ -129,7 +133,7 @@ ChangeLog:
   -- slightly improved LaTeX parser
 
 24 Oct 2004, version 0.20041024
-  -- can finally render `\\frac{3}{4}'
+  -- can finally render `\frac{3}{4}'
 
 23 Oct 2004, version 0.20041023
   -- began to write simple renderer

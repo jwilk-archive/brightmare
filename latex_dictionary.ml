@@ -699,7 +699,7 @@ let commands = union [
 
 let symbols = union [almostallsymbols; delimiters]
 
-let environments = make [
+let environments = make [ (* TODO: not implemented *)
   "align",        (0, 0);
   "align*",       (0, 0);
   "array",        (1, 1);

@@ -1,8 +1,6 @@
-(* WARNING: That won't work! *)
-
 type ('a, 'b) bst = 
-  BST_Empty | 
-  BST_Node of 'a * 'b * ('a,'b) bst * ('a,'b) bst
+| BST_Empty
+| BST_Node of 'a * 'b * ('a,'b) bst * ('a,'b) bst
 
 let rec bst_of_sarray_lim arr p q =
   if p > q then
@@ -31,12 +29,12 @@ let rec bst_of_list lst =
 
 let rec bst_get tree key =
   match tree with
-    BST_Empty -> raise Not_found |
-    BST_Node (k, v, leftson, rightson) ->
+  | BST_Empty -> raise Not_found
+  | BST_Node (k, v, leftson, rightson) ->
       match compare key k with
-        0 -> v |
-        1 -> bst_get rightson key |
-        _ -> bst_get leftson  key
+      | 0 -> v
+      | 1 -> bst_get rightson key
+      | _ -> bst_get leftson  key
 
 (* ------------------------------------------------------------------------------------------ *)
     
@@ -69,7 +67,7 @@ let map f dict key =
 
 let union dicts =
   match dicts with
-    [] -> empty |
-    fdict::dicts -> List.fold_left union2 fdict dicts
+  | [] -> empty
+  | fdict::dicts -> List.fold_left union2 fdict dicts
     
 (* vim: set tw=96 et ts=2 sw=2: *)

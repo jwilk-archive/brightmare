@@ -127,16 +127,16 @@ struct
   let grow choice box width height =
     let g = grow_universal box width height in
     match choice with
-      'Q' -> g grow_left   grow_top |
-      'W' -> g grow_center grow_top |
-      'E' -> g grow_right  grow_top |
-      'A' -> g grow_left   grow_vmiddle |
-      'S' -> g grow_center grow_vmiddle |
-      'D' -> g grow_right  grow_vmiddle |
-      'Z' -> g grow_left   grow_bottom |
-      'X' -> g grow_center grow_bottom |
-      'C' -> g grow_right  grow_bottom |
-      _ -> raise(Invalid_argument "Render.Make()().grow_universal9")
+    | 'Q' -> g grow_left   grow_top
+    | 'W' -> g grow_center grow_top
+    | 'E' -> g grow_right  grow_top
+    | 'A' -> g grow_left   grow_vmiddle
+    | 'S' -> g grow_center grow_vmiddle
+    | 'D' -> g grow_right  grow_vmiddle
+    | 'Z' -> g grow_left   grow_bottom
+    | 'X' -> g grow_center grow_bottom
+    | 'C' -> g grow_right  grow_bottom
+    | _ -> raise(Invalid_argument "Render.Make()().grow_universal9")
 
   let grow_middle = grow 'S'
 
@@ -154,8 +154,8 @@ struct
 
   let join_v choice boxlist =
     match grow_auto_h choice boxlist with
-      [] -> raise (Invalid_argument "Render.Make()().join_v") |
-      head::boxlist ->
+    | [] -> raise (Invalid_argument "Render.Make()().join_v")
+    | head::boxlist ->
         ListEx.fold 
           ( fun addbox box -> 
             { width = head.width; 
@@ -167,8 +167,8 @@ struct
 
   let join_h choice boxlist =
     match grow_auto_v choice boxlist with
-      [] -> raise (Invalid_argument "Render.Make()().join_h") |
-      head::boxlist ->
+    | [] -> raise (Invalid_argument "Render.Make()().join_h")
+    | head::boxlist ->
         ListEx.fold 
           (fun addbox box -> 
             { width=addbox.width+box.width; 

@@ -6,19 +6,19 @@ let fold2 = List.fold_left2
 
 let id x = x
 
-let min_map f lst =
-  match lst with
-    [] -> raise(Invalid_argument "ListEx.min_map") |
-    head::tail -> 
+let min_map f =
+  function
+  | [] -> raise(Invalid_argument "ListEx.min_map")
+  | head::tail -> 
       fold 
         (fun x y -> min (f y) x) 
         (f head) 
         tail
 
-let max_map f lst =
-  match lst with
-    [] -> raise(Invalid_argument "ListEx.max_map") |
-    head::tail -> 
+let max_map f =
+  function
+  | [] -> raise(Invalid_argument "ListEx.max_map")
+  | head::tail -> 
       fold 
         (fun x y -> max (f y) x) 
         (f head) 

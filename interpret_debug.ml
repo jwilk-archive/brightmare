@@ -11,17 +11,16 @@ struct
   
   open Parsetree
 
-  let rec implode args =
-    match args with
-      [] -> "" |
-      head::[] -> head |
-      head::args -> head ^ ", " ^ (implode args)
+  let rec implode =
+    function
+    | [] -> ""
+    | head::[] -> head
+    | head::args -> head ^ ", " ^ (implode args)
 
-  let rec debug_rmathbox tree =
-    match tree with
-      Element str -> 
-        "\x1B[33;1m" ^ str ^ "\x1B[0m" |
-      Operator (op, treelist) ->
+  let rec debug_rmathbox =
+    function
+    | Element str -> "\x1B[33;1m" ^ str ^ "\x1B[0m"
+    | Operator (op, treelist) ->
         let treelist = ListEx.map debug_rmathbox treelist in
         let argstr = implode treelist in
           "\x1B[35m" ^ op ^ "\x1B[0m(" ^ argstr ^ ")"

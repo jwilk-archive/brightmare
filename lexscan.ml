@@ -8,8 +8,8 @@ struct
   
   let rec scan lastlex lexlist chars state =
     match chars with
-      [] -> lastlex::lexlist |
-      head::chars ->
+    | [] -> lastlex::lexlist
+    | head::chars ->
         let state = Aut.execute head state in
         let head = 1 ** head in
           if Aut.pubstate state then
@@ -21,9 +21,10 @@ struct
     let result =
       ListEx.rev 
         (scan "" [] (StrEx.as_list str) Aut.default)
-    in match result with
-      ""::result -> result |
-      _ -> result
+    in 
+      match result with
+      | ""::result -> result
+      | _ -> result
 
 end
 

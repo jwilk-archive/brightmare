@@ -14,8 +14,8 @@ let locale_charmap = Locale.charmap ()
 
 let wchar_of_int =
   match locale_charmap with
-    "UTF-8" -> Unicore.utf8char_of_int |
-    _ -> Unicore_convert.ascii_of_int
+  | "UTF-8" -> Unicore.utf8char_of_int
+  | _ -> Unicore_convert.ascii_of_int
 
 let wchar_of_char ch = 
   wchar_of_int (int_of_char ch)

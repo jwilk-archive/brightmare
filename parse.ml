@@ -20,71 +20,68 @@ struct
 
   let rec fix tree =
     match tree with
-      Element _ -> 
-        tree |
-      Operator ("", [tree]) ->
-        fix tree |
-      Operator ("\\left\\right", d1::d2::trees) ->
-        Operator ("\\left\\right", d1::d2::(ListEx.rev_map fix trees)) |
-      Operator ("_", [Operator ("^", [tree;b]); a]) ->
-        Operator ("_^", [fix a; fix b; fix tree]) |
-      Operator ("^", [Operator ("_", [tree;b]); a]) ->
-        Operator ("_^", [fix b; fix a; fix tree]) |
-      Operator (op, trees) -> 
+    | Element _ -> tree
+    | Operator ("", [tree]) -> fix tree
+    | Operator ("\\left\\right", d1::d2::trees) ->
+        Operator ("\\left\\right", d1::d2::(ListEx.rev_map fix trees))
+    | Operator ("_", [Operator ("^", [tree;b]); a]) ->
+        Operator ("_^", [fix a; fix b; fix tree])
+    | Operator ("^", [Operator ("_", [tree;b]); a]) ->
+        Operator ("_^", [fix b; fix a; fix tree])
+    | Operator (op, trees) -> 
         Operator (op, ListEx.rev_map fix trees)
 
   let rec add basetree subtree =
     match basetree with
-      Element _ -> 
-        Operator ("", [subtree; basetree]) |
-      Operator (("&" | "\\\\") as opstr, baselast::basetrees) ->
-        (* Operator (opstr, Operator("", [subtree; baselast])::basetrees) | *)
-        Operator (opstr, (add baselast subtree)::basetrees) |
-      Operator (opstr, basetrees) -> 
+    | Element _ -> 
+        Operator ("", [subtree; basetree])
+    | Operator (("&" | "\\\\") as opstr, baselast::basetrees) ->
+        Operator (opstr, (add baselast subtree)::basetrees)
+    | Operator (opstr, basetrees) -> 
         Operator (opstr, subtree::basetrees)
 
  let add_nl basetree subtree =
     match subtree with
-      Operator ("\\\\", subtrees) ->
+    | Operator ("\\\\", subtrees) ->
       ( match basetree with
-          Operator ("\\\\", basetrees) -> 
-            Operator ("\\\\", subtrees@basetrees) |
-          _ -> 
-            Operator("\\\\", subtrees@[basetree]) ) |
-      _ -> raise(Internal_error)
+        | Operator ("\\\\", basetrees) -> 
+            Operator ("\\\\", subtrees@basetrees)
+        | _ -> 
+            Operator("\\\\", subtrees@[basetree]) )
+    | _ -> raise(Internal_error)
 
   let rec add_amp basetree subtree =
     match subtree with
-      Operator ("&", subtrees) ->
+    | Operator ("&", subtrees) ->
       ( match basetree with
-          Operator ("&", basetrees) -> 
-            Operator ("&", subtrees@basetrees) |
-          Operator ("\\\\", baselast::basetrees) ->
-            Operator ("\\\\", (add_amp baselast subtree)::basetrees) |
-          _ -> 
-            Operator("&", subtrees@[basetree]) ) |
-      _ -> raise(Internal_error)
+        | Operator ("&", basetrees) -> 
+            Operator ("&", subtrees@basetrees)
+        | Operator ("\\\\", baselast::basetrees) ->
+            Operator ("\\\\", (add_amp baselast subtree)::basetrees)
+        | _ -> 
+            Operator("&", subtrees@[basetree]) )
+    | _ -> raise(Internal_error)
 
   let rec add_infix basetree subtree =
     match subtree with
-      Operator (subop, subtrees) ->
+    | Operator (subop, subtrees) ->
       ( match basetree with
-          Operator (("\\\\" | "&") as opstr, baselast::basetrees) ->
-            Operator (opstr, (add_infix baselast subtree)::basetrees) |
-          Operator ("", baselast::basetrees) ->
+        | Operator (("\\\\" | "&") as opstr, baselast::basetrees) ->
+            Operator (opstr, (add_infix baselast subtree)::basetrees)
+        | Operator ("", baselast::basetrees) ->
             Operator 
             ( "", 
-              Operator (subop, baselast::subtrees)::basetrees ) |
-          _ -> 
-            Operator (subop, basetree::subtrees) ) |
-      _ -> raise(Internal_error)
+              Operator (subop, baselast::subtrees)::basetrees )
+        | _ -> 
+            Operator (subop, basetree::subtrees) )
+    | _ -> raise(Internal_error)
 
   let oo = -1 (* oo + 1 == oo, thus oo = -1 *)
 
   let extract_delim lexlist =
     match lexlist with
-      [] -> ".", [] |
-      cand::tail ->
+    | [] -> ".", []
+    | cand::tail ->
         if LatDict.exists cand LatDict.delimiters then
           cand, tail
         else
@@ -94,8 +91,8 @@ struct
     ListEx.fold
       ( fun accum lexem ->
           match lexem with
-            Operator (opstr, lexems) -> opstr ^ (flatten_lexems lexems) ^ accum |
-            Element b -> b ^ accum )
+          | Operator (opstr, lexems) -> opstr ^ (flatten_lexems lexems) ^ accum
+          | Element b -> b ^ accum )
       ""
       lexems
 
@@ -107,18 +104,18 @@ struct
       (accum, lexlist)
     else
     match lexlist with
-      [] -> (accum, lexlist) |
-      lexem::lexlist -> 
+    | [] -> (accum, lexlist)
+    | lexem::lexlist -> 
     match lexem with
-      "}" -> (accum, lexlist) |
-      "{" -> 
+    | "}" -> (accum, lexlist)
+    | "{" -> 
         let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
-          parse_a (add accum newaccum) lexlist (limit-1) 0 br  |
+          parse_a (add accum newaccum) lexlist (limit-1) 0 br
 
-      "\\end" ->
+    | "\\end" ->
         let (_, lexlist) = parse_a empty lexlist 1 0 false in
-          (accum, lexlist) |
-      "\\begin" ->
+          (accum, lexlist)
+    | "\\begin" ->
         let (envnamelex, lexlist) = parse_a empty lexlist 1 0 false in
         let envname = extract_envname envnamelex in
         let (params, lexlist) =
@@ -131,21 +128,21 @@ struct
           parse_a 
             (add accum (Operator ("#"^envname, [newaccum; params])))
             lexlist 
-            (limit-1) 0 br |
+            (limit-1) 0 br
 
-      "\\right" ->
+    | "\\right" ->
         let (delim, lexlist) = extract_delim lexlist in
-          Operator ("\\right", [Operator (delim, []); accum]), lexlist |
-      "\\left" ->
+          Operator ("\\right", [Operator (delim, []); accum]), lexlist
+    | "\\left" ->
         let (delim, lexlist) = extract_delim lexlist in
         let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
         let newaccum =
         ( match newaccum with
-            Operator ("\\right", trees) ->
+          | Operator ("\\right", trees) ->
               Operator 
                 ( "\\left\\right", 
-                  (Operator (delim, []))::trees ) |
-            _ -> 
+                  (Operator (delim, []))::trees )
+          | _ -> 
               Operator 
                 ( "\\left\\right", 
                   [Operator (delim, []); Operator (".", []); newaccum] )
@@ -153,9 +150,9 @@ struct
           parse_a 
             (add accum newaccum) 
             lexlist 
-            (limit-1) 0 br |
+            (limit-1) 0 br
 
-      "[" ->
+    | "[" ->
         if brlimit = 0 then
           parse_a 
             (add accum (Element "[")) 
@@ -166,26 +163,26 @@ struct
             parse_a 
               (add accum newaccum) 
               lexlist 
-              limit (brlimit-1) false |
-      "]" -> 
+              limit (brlimit-1) false
+    | "]" -> 
         if br then 
           (accum, lexlist) 
         else
           parse_a 
             (add accum (Element "]")) 
             lexlist 
-            (limit-1) brlimit false |
+            (limit-1) brlimit false
 
-      _ ->
+    | _ ->
         try 
           let (p, q) = LatDict.get lexem LatDict.commands in
           let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
             parse_a
               ( ( match lexem with 
-                    "^" | "_" -> add_infix |
-                    "&"       -> add_amp |
-                    "\\\\"    -> add_nl  | 
-                    _         -> add )
+                  | "^" | "_" -> add_infix
+                  | "&"       -> add_amp
+                  | "\\\\"    -> add_nl 
+                  | _         -> add )
                   accum 
                   subtree
                ) 

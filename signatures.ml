@@ -45,9 +45,9 @@ module type SIMPLE_RENDER =
 sig
   type t
   module Uni : UNICODE
+  val empty : int -> int -> t
   val width : t -> int
   val height : t -> int
-  val empty : int -> int -> t
   val s : Uni.wstring -> t
   val render : t -> string
 end
@@ -67,9 +67,9 @@ sig
 end
 
 module type RMATH =
-(* Renderer obrazów matematycznych. *)
 sig
   include SIMPLE_RENDER
+  val align : char -> t -> int -> t
   val join_h : t list -> t
   val join_v : t list -> t
   val join_top : t -> t -> t
@@ -91,24 +91,24 @@ sig
   val integral : unit -> t
   val ointegral : unit -> t
   type bracket_t = 
-    Bracket_round | 
-    Bracket_square | 
-    Bracket_brace | 
-    Bracket_angle
+  | Bracket_round
+  | Bracket_square
+  | Bracket_brace
+  | Bracket_angle
   type delimiter_t = 
-    Delim_bracket of bool * bracket_t | 
-    Delim_floor of bool | 
-    Delim_ceil of bool |
-    Delim_vert |
-    Delim_doublevert
+  | Delim_bracket of bool * bracket_t
+  | Delim_floor of bool
+  | Delim_ceil of bool
+  | Delim_vert
+  | Delim_doublevert
   val largedelimiter : t -> delimiter_t -> t
   type ornament_t =
-    Ornament_line |
-    Ornament_arrow of bool |
-    Ornament_brace
+  | Ornament_line
+  | Ornament_arrow of bool
+  | Ornament_brace
   val overornament : t -> ornament_t -> t
   val underornament : t -> ornament_t -> t
-(* TODO: plus jeszcze kilka innych operacji... *)
+(* TODO: and many, many more operations... *)
 end
 
 module type DICTIONARY =

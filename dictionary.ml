@@ -1,6 +1,6 @@
 type ('a, 'b) t = 
-  BST_Empty | 
-  BST_Node of 'a * 'b * ('a, 'b) t * ('a, 'b) t
+| BST_Empty
+| BST_Node of 'a * 'b * ('a, 'b) t * ('a, 'b) t
 
 let bst_empty =
   BST_Empty
@@ -10,18 +10,17 @@ let bst_single key value =
 
 let rec bst_add nkey nvalue tree =
   match tree with
-    BST_Empty -> 
-      bst_single nkey nvalue |
-    BST_Node (key, value, leftson, rightson) ->
+  | BST_Empty -> bst_single nkey nvalue
+  | BST_Node (key, value, leftson, rightson) ->
       match compare nkey key with
-        0 -> BST_Node (key, nvalue, leftson, rightson) |
-        1 -> BST_Node (key, value, bst_add nkey nvalue leftson, rightson) |
-        _ -> BST_Node (key, value, leftson, bst_add nkey nvalue rightson)
+      | 0 -> BST_Node (key, nvalue, leftson, rightson)
+      | 1 -> BST_Node (key, value, bst_add nkey nvalue leftson, rightson)
+      | _ -> BST_Node (key, value, leftson, bst_add nkey nvalue rightson)
 
 let rec list_split accum lst curlen deslen =
   match lst with
-    [] -> raise(Failure "Dictionary.list_split") |
-    mid::right ->
+  | [] -> raise(Failure "Dictionary.list_split")
+  | mid::right ->
       if curlen >= deslen then
         (accum, mid, right)
       else
@@ -41,9 +40,8 @@ let rec bst_from_list lst len tree =
 
 let rec bst_union atree tree =
   match atree with
-    BST_Empty ->
-      tree |
-    BST_Node (key, value, leftson, rightson) ->
+  | BST_Empty -> tree
+  | BST_Node (key, value, leftson, rightson) ->
       let tree = bst_union leftson  tree in
       let tree = bst_union rightson tree in
       let tree = bst_add key value tree in
@@ -51,9 +49,8 @@ let rec bst_union atree tree =
 
 let rec bst_get nkey tree =
   match tree with
-    BST_Empty -> 
-      raise(Not_found) | 
-    BST_Node (key, value, leftson, rightson) ->
+  | BST_Empty -> raise(Not_found)
+  | BST_Node (key, value, leftson, rightson) ->
       match compare nkey key with
         0 -> value |
         1 -> bst_get nkey leftson |
@@ -61,9 +58,8 @@ let rec bst_get nkey tree =
 
 let rec bst_map f tree =
   match tree with
-    BST_Empty -> 
-      bst_empty |
-    BST_Node (key, value, leftson, rightson) ->
+  | BST_Empty -> bst_empty
+  | BST_Node (key, value, leftson, rightson) ->
       BST_Node (key, f value, bst_map f leftson, bst_map f rightson)
 
 (* ------------------------------------------------------------------------------------------ *)

@@ -8,7 +8,9 @@ module Make
   T with module Uni = Uni =
 struct
 
-  type t = { rbox: Render.t; baseline: int }
+  type t = 
+  { rbox : Render.t; 
+    baseline : int }
   
   module Uni = Uni
 
@@ -37,19 +39,23 @@ struct
     { rbox = Render.empty width height;
       baseline = 0 }
 
-  let join_v boxes =
-    match boxes with
-      [] -> 
-        raise(Invalid_argument "Rmath()().join_v") |
-      box::_ ->
+  let align dir box width =
+    { rbox = Render.grow dir box.rbox width (height box);
+      baseline = box.baseline }
+
+  let join_v =
+    function
+    | [] -> 
+        raise(Invalid_argument "Rmath()().join_v")
+    | box::_ as boxes ->
         let boxes = ListEx.map (fun box -> box.rbox) boxes in
           { rbox = Render.join_v 'E' boxes;
             baseline = box.baseline }
 
-  let join_h boxes =
-    if boxes = [] then
-      raise(Invalid_argument "Rmath()().join_h")
-    else
+  let join_h =
+    function
+    | [] -> raise(Invalid_argument "Rmath()().join_h")
+    | _ as boxes ->
       let 
         maxbaseline = ListEx.max_map (fun box -> box.baseline) boxes and
         maxheight = ListEx.max_map (fun box -> height box) boxes
@@ -125,16 +131,16 @@ struct
         baseline = box.baseline + 1 }
 
   type bracket_t = 
-    Bracket_round | 
-    Bracket_square | 
-    Bracket_brace | 
-    Bracket_angle
+  | Bracket_round 
+  | Bracket_square
+  | Bracket_brace
+  | Bracket_angle
   type delimiter_t = 
-    Delim_bracket of bool * bracket_t | 
-    Delim_floor of bool | 
-    Delim_ceil of bool |
-    Delim_vert |
-    Delim_doublevert
+  | Delim_bracket of bool * bracket_t
+  | Delim_floor of bool
+  | Delim_ceil of bool
+  | Delim_vert
+  | Delim_doublevert
 
   let largedelimiter sbox kind =
     let n = height sbox in
@@ -148,21 +154,21 @@ struct
     let q = (n-3)-p in
     let (tu, mu, bu) =
       match kind with
-        Delim_bracket (true,  Bracket_round)  -> 0x256d, 0x2502, 0x2570 |
-        Delim_bracket (false, Bracket_round)  -> 0x256e, 0x2502, 0x256f |
-        Delim_bracket (true,  Bracket_square) -> 0x2308, 0x2502, 0x230a |
-        Delim_bracket (false, Bracket_square) -> 0x2309, 0x2502, 0x230b |
-        Delim_bracket (true,  Bracket_brace)  -> 0x256d, 0x007b, 0x2570 |
-        Delim_bracket (false, Bracket_brace)  -> 0x256e, 0x007d, 0x256f |
-        Delim_bracket (true,  Bracket_angle)  -> 0x2571, 0x2329, 0x2572 |
-        Delim_bracket (false, Bracket_angle)  -> 0x2572, 0x232a, 0x2571 |
-        Delim_floor true  -> 0x2502, 0x2502, 0x2514 |
-        Delim_floor false -> 0x2502, 0x2502, 0x2518 |
-        Delim_ceil  true  -> 0x250c, 0x2502, 0x2502 |
-        Delim_ceil  false -> 0x2510, 0x2502, 0x2502 |
-        Delim_vert        -> 0x2502, 0x2502, 0x2502 |
-        Delim_doublevert  -> 0x2551, 0x2551, 0x2551 
-    in
+      | Delim_bracket (true,  Bracket_round)  -> 0x256d, 0x2502, 0x2570
+      | Delim_bracket (false, Bracket_round)  -> 0x256e, 0x2502, 0x256f
+      | Delim_bracket (true,  Bracket_square) -> 0x2308, 0x2502, 0x230a
+      | Delim_bracket (false, Bracket_square) -> 0x2309, 0x2502, 0x230b
+      | Delim_bracket (true,  Bracket_brace)  -> 0x256d, 0x007b, 0x2570
+      | Delim_bracket (false, Bracket_brace)  -> 0x256e, 0x007d, 0x256f
+      | Delim_bracket (true,  Bracket_angle)  -> 0x2571, 0x2329, 0x2572
+      | Delim_bracket (false, Bracket_angle)  -> 0x2572, 0x232a, 0x2571
+      | Delim_floor true  -> 0x2502, 0x2502, 0x2514
+      | Delim_floor false -> 0x2502, 0x2502, 0x2518
+      | Delim_ceil  true  -> 0x250c, 0x2502, 0x2502
+      | Delim_ceil  false -> 0x2510, 0x2502, 0x2502
+      | Delim_vert        -> 0x2502, 0x2502, 0x2502
+      | Delim_doublevert  -> 0x2551, 0x2551, 0x2551 
+  in
       { rbox = Render.join_v 'Q' [c tu; (vline p).rbox; c mu; (vline q).rbox; c bu];
         baseline = sbox.baseline }
 
@@ -197,9 +203,10 @@ struct
   let bigcap sq ch =
     let
       v = c 0x2502 and
-      (l, r) = match sq with
-        false -> c 0x256d, c 0x256e |
-        true  -> c 0x250c, c 0x2510
+      (l, r) = 
+        match sq with
+        | false -> c 0x256d, c 0x256e
+        | true  -> c 0x250c, c 0x2510
     in let
       p1 = Render.join_h 'Q' [l; c 0x2500; r] and
       p2 = Render.join_h 'Q' [v; c ch;     v] and
@@ -211,9 +218,10 @@ struct
   let bigcup sq ch =
     let
       v = c 0x2502 and
-      (l, r) = match sq with
-        false -> c 0x2570, c 0x256f |
-        true  -> c 0x2514, c 0x2518
+      (l, r) = 
+        match sq with
+        | false -> c 0x2570, c 0x256f
+        | true  -> c 0x2514, c 0x2518
     in let
       p1 = Render.join_h 'Q' [v; c 0x0020; v] and
       p2 = Render.join_h 'Q' [v; c ch    ; v] and
@@ -262,9 +270,9 @@ struct
       baseline = 1 }
 
   type ornament_t =
-    Ornament_line |
-    Ornament_arrow of bool |
-    Ornament_brace
+  | Ornament_line
+  | Ornament_arrow of bool
+  | Ornament_brace
 
   let ornament isunder sbox kind =
     let n = max 3 (width sbox) in
@@ -272,11 +280,11 @@ struct
     let q = (n-3)-p in
     let (lu, mu, ru) =
       match isunder, kind with
-        _, Ornament_line          -> 0x2500, 0x2500, 0x2500 |
-        _, Ornament_arrow (true)  -> 0x2500, 0x2500, 0x2192 |
-        _, Ornament_arrow (false) -> 0x2190, 0x2500, 0x2500 |
-        false, Ornament_brace     -> 0x256d, 0x005e, 0x256e |
-        true, Ornament_brace      -> 0x2570, 0x0076, 0x256f
+      | _, Ornament_line          -> 0x2500, 0x2500, 0x2500
+      | _, Ornament_arrow (true)  -> 0x2500, 0x2500, 0x2192
+      | _, Ornament_arrow (false) -> 0x2190, 0x2500, 0x2500
+      | false, Ornament_brace     -> 0x256d, 0x005e, 0x256e
+      | true, Ornament_brace      -> 0x2570, 0x0076, 0x256f
     in
       { rbox = Render.join_h 'Q' [c lu; (hline p).rbox; c mu; (hline q).rbox; c ru];
         baseline = 0 }

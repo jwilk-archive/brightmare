@@ -2,6 +2,8 @@ listEx.cmo: listEx.cmi
 listEx.cmx: listEx.cmi 
 strEx.cmo: listEx.cmi strEx.cmi 
 strEx.cmx: listEx.cmx strEx.cmi 
+matrix.cmo: listEx.cmi matrix.cmi 
+matrix.cmx: listEx.cmx matrix.cmi 
 dictionary2.cmo: dictionary2.cmi 
 dictionary2.cmx: dictionary2.cmi 
 dictionary.cmo: listEx.cmi dictionary.cmi 
@@ -36,18 +38,18 @@ lexscan.cmo: listEx.cmi signatures.cmx strEx.cmi
 lexscan.cmx: listEx.cmx signatures.cmx strEx.cmx 
 parse.cmo: listEx.cmi parsetree.cmx signatures.cmx strEx.cmi 
 parse.cmx: listEx.cmx parsetree.cmx signatures.cmx strEx.cmx 
-interpret.cmo: listEx.cmi parsetree.cmx signatures.cmx strEx.cmi 
-interpret.cmx: listEx.cmx parsetree.cmx signatures.cmx strEx.cmx 
+interpret.cmo: listEx.cmi matrix.cmi parsetree.cmx signatures.cmx strEx.cmi 
+interpret.cmx: listEx.cmx matrix.cmx parsetree.cmx signatures.cmx strEx.cmx 
 interpret_debug.cmo: listEx.cmi parsetree.cmx signatures.cmx 
 interpret_debug.cmx: listEx.cmx parsetree.cmx signatures.cmx 
 brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmx \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmi lexscan.cmx \
     listEx.cmi parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmi \
-    unicode_ascii.cmi unicode_html.cmi version.cmx 
+    unicode.cmi unicode_ascii.cmi unicode_html.cmi version.cmx 
 brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmx lexscan.cmx \
     listEx.cmx parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmx \
-    unicode_ascii.cmx unicode_html.cmx version.cmx 
+    unicode.cmx unicode_ascii.cmx unicode_html.cmx version.cmx 
 dictionary.cmi: signatures.cmx 
 dictionary2.cmi: signatures.cmx 
 latex_dictionary.cmi: signatures.cmx 

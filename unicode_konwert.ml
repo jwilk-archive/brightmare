@@ -79,8 +79,8 @@ let wchar_of_char ch =
 
 let length = 
   match locale_charmap with
-    "utf8" -> Unicore.utf8string_length |
-    _ -> StrEx.length
+  | "utf8" -> Unicore.utf8string_length
+  | _ -> StrEx.length
 
 let ( ** ) = StrEx.( **! )
 let ( ++ ) = StrEx.( ++ )
