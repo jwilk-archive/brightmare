@@ -1,12 +1,9 @@
 type wstring = string and wchar = string
 type t = wstring;;
 
-let from_string s = s;; (* FIXME *)
+let (++) = (^);;
 
-let to_string s = s;; (* FIXME or not FIXME -- that is the question *)
-
-let wchar_of_char c = 
-  String.make 1 c (* FIXME *)
+let empty = "";;
 
 let string_of_int n =
   String.make 1 (char_of_int n)
@@ -20,17 +17,28 @@ let wchar_of_int n =
     string_of_int n
   else if n < 0x800
   then
-    string_of_int (0xC0 + (n lsr 6) land 0x1F) ^
+    string_of_int (0xC0 + (n lsr 6) land 0x1F) ++
     string_of_int (0x80 + n land 0x3F)
   else if n < 0x10000
   then
-    string_of_int (0xE0 + (n lsr 12) land 0x0F) ^
-    string_of_int (0x80 + (n lsr 6) land 0x3F) ^
+    string_of_int (0xE0 + (n lsr 12) land 0x0F) ++
+    string_of_int (0x80 + (n lsr 6) land 0x3F) ++
     string_of_int (0x80 + n land 0x3F)
   else
     raise(Invalid_argument "Unicode.wchar_of_int");;
 
-let empty = "";;
+let wchar_of_char c =
+  wchar_of_int (int_of_char c);;
+
+let from_string s =
+  if Locale.charmap () = "UTF-8" then
+    s
+  else
+    let s = String2.as_list s in
+    let s = List.map wchar_of_char s in
+      List.fold_left (++) empty s;;
+
+let to_string s = s;; (* FIXME or not FIXME -- that is the question *)
 
 let length s =
   let plen = String.length s in
@@ -54,7 +62,6 @@ let length s =
     else
       raise (Failure "Unicode.length");;
 
-let (++) = (^);;
 
 let make n wch =
   if n < 0 then

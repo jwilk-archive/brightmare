@@ -10,7 +10,11 @@ let argv = match Array.to_list Sys.argv with
   [] -> [] |
   _::tail -> tail;;
 
-List.iter
+Locale.initialize();;
+
+Printf.printf "Locale charmap = %s\n\n" (Locale.charmap ());;
+
+List2.iter
   ( fun s ->
     let
       tokens = aos2str (Tokenize.make s) and
@@ -20,5 +24,6 @@ List.iter
         "\x1B[12mZ\x1B[10m %s \n\x1B[12mSRR\x1B[10m> %s\n%s\n" 
         s tokens (Unicode.to_string render)
   ) argv;;
+
 
 (* vim: set tw=96 et ts=2 sw=2: *)

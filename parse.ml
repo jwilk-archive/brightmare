@@ -8,18 +8,19 @@ type t = parse_tree
 
 let empty = Operator (PO_Void, []);;
 
-(* rev: fixes up a `tree' *) (* curiously, FIXME *)
+(* rev: fixes up a `tree' *) (* curiously enough, FIXME *)
 let rec rev tree =
   match tree with
-    Element _ -> tree |
+    Element _ -> 
+      tree |
     Operator (PO_Void, []) ->
       Element (PE_Void) |
     Operator (PO_Void, [tree]) ->
       rev tree |
     Operator (op, [Operator (PO_Void, lst)]) ->
-      Operator (op, List.rev (List.map rev lst)) |
+      Operator (op, List2.rev_map rev lst) |
     Operator (op, lst) -> 
-      Operator (op, List.rev (List.map rev lst));;
+      Operator (op, List2.rev_map rev lst);;
 
 let add basetree subtree  =
   match basetree with
@@ -75,7 +76,7 @@ let rec as_rmathbox tree =
     Element (PE_Void) -> Rmath.empty 1 1 |
     Element (PE_Custom str) -> Rmath.si (Unicode.from_string str) |
     Operator (op, treelist) ->
-      let boxlist = List.map as_rmathbox treelist in
+      let boxlist = List2.map as_rmathbox treelist in
       match (op, boxlist) with
         PO_Custom opstr, [] -> 
           if Dictionary.exists opstr Latex_dictionary.allsymbols

@@ -26,7 +26,7 @@ let grow_h box diffwidth modfun =
     raise(Invalid_argument "grow_h")
   else
     { width=box.width+diffwidth; height=box.height;
-      lines=List.map modfun box.lines};;
+      lines=List2.map modfun box.lines};;
 
 (* -- HORIZONTAL GROW, part II ------------------------------------------ *)
 
@@ -128,12 +128,12 @@ let grow_middle = grow_custom 'S';;
 (* -- AUTOMATIC GROW ---------------------------------------------------- *)
 
 let grow_auto_h choice boxlist =
-  let maxwidth = List.fold_left (fun width box -> (max width box.width)) 0 boxlist in
-    List.map (fun box -> grow_custom choice box maxwidth box.height) boxlist;;
+  let maxwidth = List2.fold_left (fun width box -> (max width box.width)) 0 boxlist in
+    List2.map (fun box -> grow_custom choice box maxwidth box.height) boxlist;;
 
 let grow_auto_v choice boxlist =
-  let maxheight = List.fold_left (fun height box -> (max height box.height)) 0 boxlist in
-    List.map (fun box -> grow_custom choice box box.width maxheight) boxlist;;
+  let maxheight = List2.fold_left (fun height box -> (max height box.height)) 0 boxlist in
+    List2.map (fun box -> grow_custom choice box box.width maxheight) boxlist;;
 
 (* -- SIMPLE JOINS ------------------------------------------------------ *)
 
@@ -141,7 +141,7 @@ let join_v choice boxlist =
   match grow_auto_h choice boxlist with
     [] -> raise (Invalid_argument "join_v") |
     head::boxlist ->
-      List.fold_left 
+      List2.fold_left 
         (fun addbox box -> 
           { width = head.width; 
             height = addbox.height+box.height; 
@@ -154,11 +154,11 @@ let join_h choice boxlist =
   match grow_auto_v choice boxlist with
     [] -> raise (Invalid_argument "join_h") |
     head::boxlist ->
-      List.fold_left 
+      List2.fold_left 
         (fun addbox box -> 
           { width=addbox.width+box.width; 
             height=head.height; 
-            lines=List.map2 (++) addbox.lines box.lines}
+            lines=List2.map2 (++) addbox.lines box.lines}
         )
         head 
         boxlist;;
@@ -194,7 +194,7 @@ let render_str box =
     wstr_mid   = Unicode.from_string "\x1B[22;49m\n" and
     wstr_right = Unicode.from_string "\x1B[49m"
   in
-    List.fold_right 
+    List2.fold_right 
       (fun s1 s2 -> wstr_left ++ s1 ++ wstr_mid  ++ s2 ++ wstr_right )
       box.lines 
       Unicode.empty

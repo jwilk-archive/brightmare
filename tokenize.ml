@@ -1,16 +1,6 @@
 type token_state =
   TS_Normal | TS_SCommand | TS_Command;;
 
-let list_of_string str =
-  let len = String.length str in
-  let rec los_helper lst i =
-    if i < 0 then
-      lst
-    else
-      los_helper ((String.get str i)::lst) (i-1)
-  in
-    los_helper [] (len-1);;
-
 let rec extokenize arr state lasttok toklist =
   match arr with
     [] -> lasttok::toklist |
@@ -37,13 +27,13 @@ let rec extokenize arr state lasttok toklist =
           et_fresh TS_Normal;;
 
 let tokenize_a arr =
-  List.rev 
-    (List.filter 
+  List2.rev 
+    (List2.filter 
       (fun s -> s <> "") 
       (extokenize arr TS_Normal "" [])
     );;
 
 let make str =
-  tokenize_a (list_of_string str);;
+  tokenize_a (String2.as_list str);;
 
 (* vim: set tw=96 et ts=2 sw=2: *)

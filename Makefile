@@ -1,31 +1,32 @@
 VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
-NATIVE = no
-
 DIST_FILES = README Makefile Makefile.dep $(SOURCE_FILES)
-SOURCE_FILES = $(MLI_FILES) $(ML_FILES)
+SOURCE_FILES = $(C_FILES) $(MLI_FILES) $(ML_FILES)
+C_FILES = locale.c
+ML_FILES = \
+	version.ml \
+	list2.ml string2.ml \
+	unicode.ml \
+	dictionary.ml latex_dictionary.ml \
+	render.ml rmath.ml \
+	tokenize.ml parse.ml \
+	brightmare.ml
 MLI_FILES = \
-	version.mli \
-	list2.mli \
+	locale.mli version.mli \
+	list2.mli string2.mli \
 	unicode.mli \
 	dictionary.mli latex_dictionary.mli \
 	render.mli rmath.mli \
 	tokenize.mli parse.mli 
-ML_FILES  = $(MLI_FILES:mli=ml) brightmare.ml 
 CMI_FILES = $(ML_FILES:ml=cmi)
 CMO_FILES = $(ML_FILES:ml=cmo)
 CMX_FILES = $(ML_FILES:ml=cmx)
-O_FILES   = $(ML_FILES:ml=o)
+CO_FILES  = $(C_FILES:c=o)
+O_FILES   = $(CO_FILES) $(ML_FILES:ml=o)
 
-ifeq ($(NATIVE),yes)
-	OCAMLC = ocamlopt.opt
-	OBJ_FILES = $(CMX_FILES)
-	STRIP = strip -s
-else
-	OCAMLC = ocamlc.opt
-	OBJ_FILES = $(CMO_FILES)
-	STRIP = true
-endif
+OCAMLC = ocamlopt.opt
+OBJ_FILES = $(CMX_FILES) $(CO_FILES)
+STRIP = strip -s
 OCAMLDEP = ocamldep.opt
 
 all: brightmare
@@ -35,13 +36,11 @@ include Makefile.dep
 %.cmi: %.mli
 	$(OCAMLC) -c ${<}
 
-ifeq ($(NATIVE),yes)
 %.cmx: %.ml
 	$(OCAMLC) -c ${<}
-else
-%.cmo: %.ml
+
+%.o: %.c
 	$(OCAMLC) -c ${<}
-endif
 
 brightmare: $(OBJ_FILES)
 	$(OCAMLC) ${^} -o ${@}
@@ -59,7 +58,7 @@ stats:
 
 clean:
 	rm -f brightmare $(CMI_FILES) $(CMO_FILES) $(CMX_FILES) $(O_FILES)
-	$(OCAMLDEP) $(ML_FILES) > Makefile.dep
+	$(OCAMLDEP) $(MLI_FILES) $(ML_FILES) > Makefile.dep
 
 distclean:
 	rm -f brightmare-$(VERSION).tar.*

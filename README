@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041113
+BrightMaRe, version 0.20041114
 ------------------------------
 
 Author:
@@ -8,6 +8,10 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+14 Nov 2004, version 0.20041114
+  -- use rev_map instead of rev(map)
+  -- use List2 module insead of List
 
 13 Nov 2004, version 0.20041113
   -- rewritten dictionary support

@@ -4,14 +4,14 @@ let hline width =
   if width <= 0 then
     raise(Invalid_argument "rbm_hline")
   else
-    { rbox = Render.make width 1 (Unicode.wchar_of_char '-');
+    { rbox = Render.make width 1 (Unicode.wchar_of_int 0x2500);
       baseline = 0 };;
 
 let vline height =
   if height <= 0 then
     raise(Invalid_argument "rbm_vline")
   else
-    { rbox = Render.make 1 height (Unicode.wchar_of_char '|');
+    { rbox = Render.make 1 height (Unicode.wchar_of_int 0x2502);
       baseline = (height-1)/2 };;
 
 let width box = Render.width box.rbox;;
@@ -38,7 +38,7 @@ let join_h boxes =
   in
   let
     boxes = 
-      List.map 
+      List2.map 
         ( fun box -> 
           Render.grow_custom 
             'Q'
