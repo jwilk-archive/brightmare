@@ -63,7 +63,8 @@ struct
                 d2 = get_large_delim d2 box
               in
                 Rmath.join_h [d1;box;d2] |
-            _ -> Rmath.join_h [(make d1);box;(make d2)]
+            _ -> 
+              Rmath.join_h [(make d1);box;(make d2)]
         ) |
       Operator ("_", [sub; obj]) ->
         let subbox = make sub and objbox = make obj in
@@ -77,7 +78,10 @@ struct
                   Rmath.join_bot
                 else
                   Rmath.join_SE |
-              _ -> Rmath.join_SE )
+              Operator ("\\mathop", _) -> 
+                Rmath.join_bot |
+              _ -> 
+                Rmath.join_SE )
         in
           joinf objbox subbox |
       Operator ("^", [sup; obj]) ->
@@ -89,7 +93,10 @@ struct
                 Rmath.join_top
               else
                 Rmath.join_NE |
-            _ -> Rmath.join_NE )
+            Operator ("\\mathop", _) -> 
+              Rmath.join_top |
+            _ -> 
+              Rmath.join_NE )
         in
           joinf objbox supbox |
       Operator ("_^", [sub; sup; obj]) ->
@@ -101,7 +108,10 @@ struct
                 Rmath.join_topbot
               else
                 Rmath.join_NESE |
-            _ -> Rmath.join_NESE )
+            Operator ("\\mathop", _) -> 
+              Rmath.join_topbot |
+            _ -> 
+              Rmath.join_NESE )
         in
           joinf objbox supbox subbox |
       Operator (op, treelist) ->
@@ -123,8 +133,8 @@ struct
               Rmath.s (Uni.from_string (StrEx.str_after opstr 1))
             else
               Rmath.s (Uni.from_string opstr) |
-          "", _ | "[", _ -> Rmath.join_h boxlist |
-          ("\\frac" | "\\dfrac"), [b1; b2] -> Rmath.frac b1 b2 |
+          ("" | "[" | "\\mathop"), _ -> Rmath.join_h boxlist |
+          ("\\frac" | "\\cfrac"), [b1; b2] -> Rmath.frac b1 b2 |
           "\\sqrt", [bi; b] -> Rmath.sqrt b bi |
           "\\sqrt", [b] -> Rmath.sqrt b (Rmath.empty 1 1) |
           opstr, _ ->

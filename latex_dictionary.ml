@@ -36,7 +36,8 @@ let main_commands = make [
   "_",                (0, 1);
   "^",                (0, 1);
   "\\frac",           (0, 2);
-  "\\dfrac",          (0, 2);
+  "\\cfrac",          (0, 2);
+  "\\genfrac",        (0, 6); (* TODO: not implemented *)
   "\\binom",          (0, 2); (* TODO: not implemented *)
   "\\overbrace",      (0, 1); (* TODO: not implemented *)
   "\\overleftarrow",  (0, 1); (* TODO: not implemented *)
@@ -47,6 +48,8 @@ let main_commands = make [
   "\\underline",      (0, 1); (* TODO: not implemented *)
   "\\widehat",        (0, 1); (* TODO: not implemented *)
   "\\widetilde",      (0, 1); (* TODO: not implemented *)
+(* hmm... *)
+  "\\mathop",         (0, 1)
 ]
 
 let alphabets = make [ (* TODO: not implemented *)
