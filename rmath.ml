@@ -154,18 +154,6 @@ struct
       { rbox = Render.join_v 'Q' [c tu; (vline p).rbox; c mu; (vline q).rbox; c bu];
         baseline = sbox.baseline }
 
-(*  
- *  let sum () =
- *    let 
- *      s1 = Render.make 3 1 (Uni.wchar_of_int 0x2550) and
- *      s2 = c 0x2572 and
- *      s3 = Render.si (Uni.from_string " >") and
- *      s4 = c 0x2571
- *    in
- *      { rbox = Render.join_v 'E' [s1; s2; s3; s4; s1];
- *        baseline = 2 } 
- *)
-
   let sum () =
     let 
       s1 = Render.make 3 1 (Uni.wchar_of_int 0x2550) and
@@ -176,26 +164,81 @@ struct
 
   let prod () = 
     let
-      f1 = c 0x2550 and f2 = c 0x2564 and
-      g1 = c 0x2502 and g2 = c 0x0020
+      t = c 0x2564 and v = c 0x2502
     in let
-      p1 = Render.join_h 'Q' [f2; f1; f2] and
-      p2 = Render.join_h 'Q' [g1; g2; g1]
+      p1 = Render.join_h 'Q' [t; c 0x2550; t] and
+      p2 = Render.join_h 'Q' [v; c 0x0020; v]
     in
       { rbox = Render.join_v 'Q' [p1; p2; p2];
         baseline = 1 }
       
   let coprod () = 
     let
-      f1 = c 0x2550 and f2 = c 0x2567 and
-      g1 = c 0x2502 and g2 = c 0x0020
+      t = c 0x2567 and v = c 0x2502
     in let
-      p1 = Render.join_h 'Q' [f2; f1; f2] and
-      p2 = Render.join_h 'Q' [g1; g2; g1]
+      p1 = Render.join_h 'Q' [t; c 0x2550; t] and
+      p2 = Render.join_h 'Q' [v; c 0x0020; v]
     in
       { rbox = Render.join_v 'Q' [p2; p2; p1];
         baseline = 1 }
- 
+
+  let bigcap sq =
+    let
+      v = c 0x2502 and
+      (l, r) = match sq with
+        false -> c 0x256d, c 0x256e |
+        true  -> c 0x250c, c 0x2510
+    in let
+      p1 = Render.join_h 'Q' [l; c 0x2500; r] and
+      p2 = Render.join_h 'Q' [v; c 0x0020; v]
+    in
+      { rbox = Render.join_v 'Q' [p1; p2; p2];
+        baseline = 1 }
+
+  let bigcup sq =
+    let
+      v = c 0x2502 and
+      (l, r) = match sq with
+        false -> c 0x2570, c 0x256f |
+        true  -> c 0x2514, c 0x2518
+    in let
+      p1 = Render.join_h 'Q' [v; c 0x0020; v] and
+      p2 = Render.join_h 'Q' [l; c 0x2500; r]
+    in
+      { rbox = Render.join_v 'Q' [p1; p1; p2];
+        baseline = 1 }
+
+  let bigo ch =
+    let
+      v = c 0x2502 and h = c 0x2500
+    in let
+      p1 = Render.join_h 'Q' [c 0x256d; h; c 0x256e] and
+      p2 = Render.join_h 'Q' [v; c ch; v] and
+      p3 = Render.join_h 'Q' [c 0x2570; h; c 0x256f]
+    in
+      { rbox = Render.join_v 'Q' [p1; p2; p3];
+        baseline = 1 }
+
+  let bigvee () =
+    let 
+      l = c 0x2572 and r = c 0x2571 and s = c 0x20
+    in let
+      p1 = Render.join_h 'Q' [l; s; s;  r] and
+      p2 = Render.join_h 'Q' [l;  r]
+    in
+      { rbox = Render.join_v 'W' [Render.empty 0 1; p1; p2];
+        baseline = 1 }
+
+  let bigwedge () =
+    let 
+      l = c 0x2571 and  r = c 0x2572 and s = c 0x20
+    in let
+      p1 = Render.join_h 'Q' [l;  r] and
+      p2 = Render.join_h 'Q' [l; s; s;  r]
+    in
+      { rbox = Render.join_v 'W' [Render.empty 0 1; p1; p2];
+        baseline = 1 }
+
   let integral () =
     { rbox = Render.join_v 'Q' [c 0x256d; c 0x2502; c 0x256f];
       baseline = 1 }
@@ -203,6 +246,7 @@ struct
   let ointegral () =
     { rbox = Render.join_v 'Q' [c 0x256d; c 0x25ef; c 0x256f];
       baseline = 1 }
+
 
 end
 

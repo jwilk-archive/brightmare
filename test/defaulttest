@@ -1,6 +1,7 @@
-\Gamma
-p \oplus q
-\alpha^\beta
+\alpha, \beta, \gamma, \Gamma, \delta, \Delta, \ldots, \omega, \Omega
+(p \ominus q) \oplus r = q \ominus (p \oplus r)
+\epsilon \leq 2^{-t}
+\frac{3}{2^2} + 1 + \frac{3^2}{2} = \frac{25}{4}
 \frac{1}{2} x^2 + \frac{(2x + 3)^3}{177}
 \sqrt{1 + \frac1\sqrt{x}}
 \sqrt[\sqrt{2}]{e^x + \frac{1}{e^x}}
@@ -8,5 +9,6 @@ p \oplus q
 \left(\frac{1}{1 + \frac{1}{1 + \frac{1}{1 + \frac{1}{1 + x}}}}\right)^\sqrt{1+x}
 \vartheta \in \left[x^2; +\infty\right)
 e = \lim_{n \to \infty} \left(1 + \frac1n\right)^n
+T(n) = 2T\left(\left\lfloor\frac{n}{2}\right\rfloor\right) + O\left(\sqrt{n}\right)
 \left\|A^{-1}\right\|=\inf_{\left\|x\right\|=1} \left\|Ax\right\|
 \left\{x^{2^2^{\left(2_2_2\right)}}_{2_2_{\left(2^2^2\right)}}\right\}

@@ -81,14 +81,14 @@ let alphabet_commands =
 
 let operators = make [
 (* variable-sized math operators:: *)
-  "\\bigcap",     (); (* TODO: not implemented *)
-  "\\bigcup",     (); (* TODO: not implemented *)
-  "\\bigodot",    (); (* TODO: not implemented *)
-  "\\bigoplus",   (); (* TODO: not implemented *)
-  "\\bigotimes",  (); (* TODO: not implemented *)
-  "\\bigsqcup",   (); (* TODO: not implemented *)
-  "\\bigvee",     (); (* TODO: not implemented *)
-  "\\bigwedge",   (); (* TODO: not implemented *)
+  "\\bigcap",     ();
+  "\\bigcup",     ();
+  "\\bigodot",    ();
+  "\\bigoplus",   ();
+  "\\bigotimes",  ();
+  "\\bigsqcup",   ();
+  "\\bigvee",     ();
+  "\\bigwedge",   ();
   "\\coprod",     ();
   "\\int",        ();
   "\\oint",       ();

@@ -117,11 +117,19 @@ struct
       Operator (op, treelist) ->
         let boxlist = ListEx.map make treelist in
         match (op, boxlist) with
-          "\\sum", [] -> Rmath.sum () |
-          "\\prod", [] -> Rmath.prod () |
-          "\\coprod", [] -> Rmath.coprod () |
-          "\\int", [] -> Rmath.integral () |
-          "\\oint", [] -> Rmath.ointegral () |
+          "\\sum",       [] -> Rmath.sum () |
+          "\\prod",      [] -> Rmath.prod () |
+          "\\coprod",    [] -> Rmath.coprod () |
+          "\\bigcup",    [] -> Rmath.bigcup false |
+          "\\bigsqcup",  [] -> Rmath.bigcup true |
+          "\\bigcap",    [] -> Rmath.bigcap false |
+          "\\bigoplus",  [] -> Rmath.bigo 0x2b | 
+          "\\bigodot",   [] -> Rmath.bigo 0xb7 |
+          "\\bigotimes", [] -> Rmath.bigo 0xd7 |
+          "\\bigvee",    [] -> Rmath.bigvee () |
+          "\\bigwedge",  [] -> Rmath.bigwedge () |
+          "\\int",       [] -> Rmath.integral () |
+          "\\oint",      [] -> Rmath.ointegral () |
           "\\displaystyle", [] -> Rmath.empty 0 0 |
           opstr, [] -> 
             if LatDict.exists opstr LatDict.symbols

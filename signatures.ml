@@ -80,9 +80,13 @@ sig
   val sum : unit -> t
   val prod : unit -> t
   val coprod : unit -> t
+  val bigcap : bool -> t
+  val bigcup : bool -> t
+  val bigo : int -> t
+  val bigvee : unit -> t
+  val bigwedge : unit -> t
   val integral : unit -> t
   val ointegral : unit -> t
-(* TODO: plus wiele operacji rysowania du¿ych symboli (suma, kwantyfikatory, etc.) *)
   type bracket_t = 
     Bracket_round | 
     Bracket_square | 
