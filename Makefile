@@ -1,18 +1,17 @@
 VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
-NATIVE = yes
+NATIVE = no
 
 DIST_FILES = README Makefile Makefile.dep $(SOURCE_FILES)
 SOURCE_FILES = $(MLI_FILES) $(ML_FILES)
 MLI_FILES = \
-	dictionary_lib.mli latex_dictionary.mli unicode.mli \
-	list2.mli render.mli rmath.mli tokenize.mli version.mli \
-	parse.mli 
-ML_FILES = \
-	dictionary_lib.ml latex_dictionary.ml unicode.ml \
-	list2.ml render.ml rmath.ml tokenize.ml version.ml \
-	parse.ml \
-	brightmare.ml 
+	version.mli \
+	list2.mli \
+	unicode.mli \
+	dictionary_lib.mli latex_dictionary.mli \
+	render.mli rmath.mli \
+	tokenize.mli parse.mli 
+ML_FILES  = $(MLI_FILES:mli=ml) brightmare.ml 
 CMI_FILES = $(ML_FILES:ml=cmi)
 CMO_FILES = $(ML_FILES:ml=cmo)
 CMX_FILES = $(ML_FILES:ml=cmx)
@@ -49,7 +48,10 @@ brightmare: $(OBJ_FILES)
 	$(STRIP) ${@}
 
 test: brightmare
-	cat test/* | tr '\n' '\0' | xargs -0 printf "\"%s\"\n" | xargs ./brightmare
+	cat test/defaulttest | \
+		tr '\n' '\0' | \
+		xargs -0 printf "\"%s\"\n" | \
+		xargs ./brightmare
 
 stats:
 	@echo $(shell cat ${SOURCE_FILES} | wc -l) lines.
@@ -66,6 +68,6 @@ dist: distclean
 	fakeroot tar cf brightmare-$(VERSION).tar $(DIST_FILES)
 	bzip2 -9 brightmare-$(VERSION).tar
 
-.PHONY: all clean distclean dist
+.PHONY: all test stats clean distclean dist
 
-# vim:tw=76 ts=4
+# vim:ts=4 sw=4

@@ -10,10 +10,12 @@ type t = parse_tree
 
 let empty = Operator (PO_Void, []);;
 
-(* rev: fixes up a `tree' *)
+(* rev: fixes up a `tree' *) (* curiously, FIXME *)
 let rec rev tree =
   match tree with
     Element _ -> tree |
+    Operator (PO_Void, []) ->
+      Element (PE_Void) |
     Operator (PO_Void, [tree]) ->
       rev tree |
     Operator (op, [Operator (PO_Void, lst)]) ->
@@ -24,15 +26,23 @@ let rec rev tree =
 let add basetree subtree  =
   match basetree with
     Element _ -> Operator (PO_Void, [basetree; subtree]) |
-    Operator (op, basetree) -> Operator (op, subtree::basetree);;
+    Operator (op, basetrees) -> Operator (op, subtree::basetrees);;
 
-let backadd basetree subtree  =
-  add subtree basetree;;
-(*  match basetree with
-    Element _ -> Operator (PO_Void, [basetree; subtree]) |
-    Operator (op, basetree) -> Operator (op, subtree::basetree);; *)
+let backadd basetree subtree =
+  match subtree with
+    Operator (subop, subtrees) ->
+    ( match basetree with
+        Operator (PO_Void, baselast::basetrees) ->
+          Operator 
+          ( PO_Void, 
+            [ Operator (subop, baselast::subtrees);
+              Operator (PO_Void, basetrees) ] ) |
+        _ -> 
+          Operator (subop, basetree::subtrees)
+    ) |
+    _ -> raise(Failure "backadd");; (* FIXME *)
 
-let infty = -1;;
+let oo = -1;; (* oo + 1 == oo, hence oo = -1 *)
 
 let rec parse_a bldtree toklist limit =
   if limit = 0 then
@@ -42,18 +52,18 @@ let rec parse_a bldtree toklist limit =
     [] -> (bldtree, toklist) |
     "}"::toklist -> (bldtree, toklist) |
     "{"::toklist -> 
-      let (newbldtree, toklist) = parse_a empty toklist infty in
+      let (newbldtree, toklist) = parse_a empty toklist oo in
         parse_a (add bldtree newbldtree) toklist (limit-1) |
-   token::toklist ->
+    token::toklist ->
       try 
         let 
           (p, q) = JoinedDictionary.get Latex_dictionary.commands token 
        in
-        let (newbldtree, toklist) = parse_a (Operator (PO_Custom token, [])) toklist q in
+         let (subtree, toklist) = parse_a (Operator (PO_Custom token, [])) toklist q in
          parse_a 
             ( (if token.[0] = '\\' then add else backadd)
                 bldtree 
-                newbldtree
+                subtree
             ) 
             toklist 
             (limit - 1)
@@ -94,7 +104,7 @@ let rec as_rmathbox tree =
               Rmath.join_h (opbox::boxlist @ [opbox2]);;
 
 let from_string str =
-  let (revptree, _) = parse_a empty (Tokenize.make str) infty in
+  let (revptree, _) = parse_a empty (Tokenize.make str) oo in
     rev revptree;;
 
 let string_to_rmathbox s =

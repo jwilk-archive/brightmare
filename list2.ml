@@ -2,14 +2,14 @@ let id x = x;;
 
 let min_map f lst =
   match lst with
-    [] -> raise(Invalid_argument "List2.list_min_map") |
+    [] -> raise(Invalid_argument "List2.min_map") |
     head::tail -> 
       List.fold_left 
         (fun x y -> min (f y) x) (f head) tail;;
 
 let max_map f lst =
   match lst with
-    [] -> raise(Invalid_argument "List2.list_max_map") |
+    [] -> raise(Invalid_argument "List2.max_map") |
     head::tail -> 
       List.fold_left 
         (fun x y -> max (f y) x) (f head) tail;;

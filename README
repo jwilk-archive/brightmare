@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041107
+BrightMaRe, version 0.20041111
 ------------------------------
 
 Author:
@@ -9,14 +9,19 @@ License:
 
 ChangeLog:
 
+11 Nov 2004, version 0.20041111
+  -- better support for `_' and `^'
+
 10 Nov 2004, version 0.20041110
   -- (re)written many module interfaces
+  -- more than 1250 lines
 
 8 Nov 2004, version 0.20041107
   -- LateX dictionary is still expanding
 
 7 Nov 2004, version 0.20041107
   -- LateX dictionary is still expanding
+  -- more than 1000 lines
 
 31 Oct 2004, version 0.20041031.2
   -- LaTeX dictionary is still expanding

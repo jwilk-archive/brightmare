@@ -1,4 +1,4 @@
-open Dictionary_lib;;
+open Dictionary_lib
 
 let main_commands = Dictionary.make [
   (* -- spacing -- *)
@@ -40,7 +40,7 @@ let main_commands = Dictionary.make [
   "\\binom",      (0, 2);
   "_",            (0, 1);
   "^",            (0, 1)
-];;
+]
 
 let alphabets = Dictionary.make [
   "\\mathrm",     ();
@@ -63,9 +63,10 @@ let alphabets = Dictionary.make [
   "\\testsc",     ();
   "\\texttt",     ();
   "\\textnormal", ()
-];;
+]
 
-let alphabet_commands = Dictionary.map (fun () -> (0, 1)) alphabets;;
+let alphabet_commands = 
+  Dictionary.map (fun () -> (0, 1)) alphabets
 
 let functions = Dictionary.make [
   "\\arccos", ();
@@ -100,9 +101,10 @@ let functions = Dictionary.make [
   "\\sup",    ();
   "\\tan",    ();
   "\\tanh",   ()
-];;
+]
 
-let function_commands = Dictionary.map (fun () -> (0, 0)) functions;;
+let function_commands = 
+  Dictionary.map (fun () -> (0, 0)) functions
 
 let symbols = Dictionary.make [
  
@@ -200,41 +202,41 @@ let symbols = Dictionary.make [
   "\\daleth",     8504;
   
   "\\pm",               177;
-  "\\mp",	              8723;  
-  "\\setminus",	        2216;
-  "\\cdot",	            183;
-  "\\times",	          215;
-  "\\ast",	            8727;
-  "\\star",	            0x22C6;
-  "\\diamond",	        8900;
-  "\\circ",	            8728;
-  "\\bullet",	          8729;
-  "\\div",	            247;
-  "\\lhd",	            0;
-  "\\vee",	            8744;
-  "\\wedge",	          8743;
-  "\\oplus",	          8853;
-  "\\ominus",	          0x2296;
-  "\\otimes",	          8855;
-  "\\oslash",	          0x2298;
-  "\\cap",	            8745;
-  "\\cup",	            8746;
-  "\\uplus",	          0x228E;
-  "\\sqcap",	          0x2293;
-  "\\sqcup",	          0x2294;
+  "\\mp",               8723;  
+  "\\setminus",         2216;
+  "\\cdot",             183;
+  "\\times",            215;
+  "\\ast",              8727;
+  "\\star",             0x22C6;
+  "\\diamond",          8900;
+  "\\circ",             8728;
+  "\\bullet",           8729;
+  "\\div",              247;
+  "\\lhd",              0;
+  "\\vee",              8744;
+  "\\wedge",            8743;
+  "\\oplus",            8853;
+  "\\ominus",           0x2296;
+  "\\otimes",           8855;
+  "\\oslash",           0x2298;
+  "\\cap",              8745;
+  "\\cup",              8746;
+  "\\uplus",            0x228E;
+  "\\sqcap",            0x2293;
+  "\\sqcup",            0x2294;
   "\\triangleleft",     9667;
   "\\trangleright",     9657;
-  "\\wr",	              8768;
-  "\\bigcirc",	        0;
+  "\\wr",               8768;
+  "\\bigcirc",          0;
   "\\bigtriangleup",    0;
   "\\bigtriangledown",  0;
-  "\\rhd",	            0;
-  "\\odot",	            0;
-  "\\dagger",	          0;
-  "\\ddagger",	        0;
-  "\\amalg",	          2210;
-  "\\unlhd",	          0;
-  "\\unrhd",	          0;
+  "\\rhd",              0;
+  "\\odot",             0;
+  "\\dagger",           0;
+  "\\ddagger",          0;
+  "\\amalg",            2210;
+  "\\unlhd",            0;
+  "\\unrhd",            0;
 
   "\\dotplus",         8724;
   "\\smallsetminus",   0;
@@ -579,16 +581,16 @@ let symbols = Dictionary.make [
   "\\urcorner", 0x231D;
   "\\llcorner", 0x231E;
   "\\lrcorner", 0x231F
-];;
+]
 
-let symbol_commands = Dictionary.map (fun _ -> (0, 0)) symbols;;
+let symbol_commands = 
+  Dictionary.map (fun _ -> (0, 0)) symbols;;
 
-let commands = JoinedDictionary.make 
-[
+let commands = JoinedDictionary.make [
   main_commands; 
   alphabet_commands; 
   function_commands; 
   symbol_commands
-];;
+]
 
 (* vim: set tw=96 et ts=2 sw=2: *)
