@@ -4,15 +4,15 @@ latex_dictionary.cmo: dictionary.cmi
 latex_dictionary.cmx: dictionary.cmx 
 unicode.cmo: unicode.cmi 
 unicode.cmx: unicode.cmi 
-render.cmo: unicode.cmi 
-render.cmx: unicode.cmx 
-render_math.cmo: render.cmo 
-render_math.cmx: render.cmx 
+render.cmo: unicode.cmi render.cmi 
+render.cmx: unicode.cmx render.cmi 
+rmath.cmo: render.cmi 
+rmath.cmx: render.cmx 
 tokenize.cmo: tokenize.cmi 
 tokenize.cmx: tokenize.cmi 
-parse.cmo: dictionary.cmi latex_dictionary.cmo render.cmo render_math.cmo \
-    tokenize.cmi unicode.cmi 
-parse.cmx: dictionary.cmx latex_dictionary.cmx render.cmx render_math.cmx \
-    tokenize.cmx unicode.cmx 
-brightmare.cmo: parse.cmo render.cmo tokenize.cmi version.cmo 
-brightmare.cmx: parse.cmx render.cmx tokenize.cmx version.cmx 
+parse.cmo: dictionary.cmi latex_dictionary.cmo rmath.cmo tokenize.cmi \
+    unicode.cmi 
+parse.cmx: dictionary.cmx latex_dictionary.cmx rmath.cmx tokenize.cmx \
+    unicode.cmx 
+brightmare.cmo: parse.cmo rmath.cmo tokenize.cmi version.cmo 
+brightmare.cmx: parse.cmx rmath.cmx tokenize.cmx version.cmx 

@@ -49,4 +49,16 @@ let length s =
 
 let (++) = (^);;
 
+let make n wch =
+  if n < 0 then
+    raise(Invalid_argument "Unicode.make")
+  else
+    let rec make_a str n =
+      if n <= 0 then
+        str
+      else
+        make_a (str ++ wch) (n-1)
+    in
+      make_a "" n;;
+
 (* vim: set tw=96 et ts=2 sw=2: *)

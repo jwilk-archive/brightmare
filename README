@@ -1,0 +1,37 @@
+BrightMaRe, version 0.20041031
+------------------------------
+
+Author:
+  Jakub Wilk <ubanus@users.sf.net>
+
+License:
+  GPL v. 2
+
+ChangeLog:
+
+31 Oct 2004, version 0.20041031
+  -- LaTeX dictionary is still expanding
+
+29 Oct 2004, version 0.20041029
+  -- Unicode support (sprout)
+  -- more than 500 lines
+
+28 Oct 2004, version 0.20041028.2
+  -- dictionary support
+  -- slightly improved LaTeX parser
+
+24 Oct 2004, version 0.20041024
+  -- can finally render `\\frac{3}{4}'
+
+23 Oct 2004, version 0.20041023
+  -- began to write simple renderer
+  -- more than 250 lines
+
+21 Oct 2004, version 0.20041021.2
+  -- LaTeX-tokenizer almost works
+  -- began to write simple LaTeX-parser
+
+20 Oct 2004, version 0.20041020
+  -- first lines of code
+
+# vim:tw=76

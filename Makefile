@@ -1,11 +1,11 @@
 VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
-DIST_FILES = Makefile Makefile.dep $(SOURCE_FILES)
+DIST_FILES = README Makefile Makefile.dep $(SOURCE_FILES)
 SOURCE_FILES = $(MLI_FILES) $(ML_FILES)
-MLI_FILES = unicode.mli dictionary.mli tokenize.mli
+MLI_FILES = unicode.mli render.mli dictionary.mli tokenize.mli
 ML_FILES = \
 	dictionary.ml latex_dictionary.ml unicode.ml \
-	render.ml render_math.ml tokenize.ml version.ml \
+	render.ml rmath.ml tokenize.ml version.ml \
 	parse.ml brightmare.ml 
 CMI_FILES = $(ML_FILES:ml=cmi)
 CMO_FILES = $(ML_FILES:ml=cmo)
@@ -42,8 +42,8 @@ brightmare: $(OBJ_FILES)
 	$(OCAMLC) ${^} -o ${@}
 	$(STRIP) ${@}
 
-test: brightmare devel/tests
-	< devel/tests tr '\n' '\0' | xargs -0 printf "\"%s\"\n" | xargs ./brightmare
+test: brightmare
+	cat devel/test[0-9]* | tr '\n' '\0' | xargs -0 printf "\"%s\"\n" | xargs ./brightmare
 
 stats:
 	@echo $(shell cat ${SOURCE_FILES} | wc -l) lines.

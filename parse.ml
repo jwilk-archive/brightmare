@@ -1,7 +1,3 @@
-open List;;
-open Render;;
-open Render_math;;
-
 type parse_operator = PO_Void | PO_Custom of string;;
 type parse_element = PE_Void | PE_Custom of string;;
 type parse_tree = 
@@ -45,6 +41,9 @@ let rec parse_a bldtree toklist limit =
             if Dictionary.exist Latex_dictionary.symbols token 
             then
               (0, 0)
+            else if Dictionary.exist Latex_dictionary.alphabets token 
+            then
+              (0, 1)
             else
               Dictionary.get Latex_dictionary.commands token 
         in
@@ -57,32 +56,39 @@ let rec parse_a bldtree toklist limit =
 
 let rec parsetree_to_renderbox tree =
   match tree with
-    PT_Element (PE_Void) -> rbx_empty 1 1 |
-    PT_Element (PE_Custom str) -> rbx_si str |
-    PT_Operator (PO_Custom str, []) -> 
-      if Dictionary.exist Latex_dictionary.symbols str 
+    PT_Element (PE_Void) -> Rmath.empty 1 1 |
+    PT_Element (PE_Custom str) -> Rmath.si str |
+    PT_Operator (PO_Custom op, []) -> 
+      if Dictionary.exist Latex_dictionary.symbols op
       then
-        rbx_si (Unicode.wchar_of_int (Dictionary.get Latex_dictionary.symbols str))
+        Rmath.si (Unicode.wchar_of_int (Dictionary.get Latex_dictionary.symbols op))
       else
-        rbx_empty 1 1 |
+        Rmath.si ("<["^op^"]>") (* FIXME *) |
     PT_Operator (PO_Void, treelist) ->
-      let boxlist = map parsetree_to_renderbox treelist in
-        rbx_join_h 'S' boxlist |
+      let boxlist = List.map parsetree_to_renderbox treelist in
+        Rmath.join_h 'S' boxlist |
     PT_Operator (PO_Custom "\\frac", [t1;t2]) ->
       let 
         b1 = parsetree_to_renderbox t1 and
         b2 = parsetree_to_renderbox t2
       in
-        rbm_frac b1 b2 |
+        Rmath.frac b1 b2 |
     PT_Operator (PO_Custom op, treelist) ->
-      let 
-        boxlist = map parsetree_to_renderbox treelist and
-        opbox = rbx_si (op^": ")
-      in
-        rbx_join_h 'S' (opbox::boxlist);;
+      let boxlist = List.map parsetree_to_renderbox treelist in
+        if Dictionary.exist Latex_dictionary.alphabets op 
+        then
+          Rmath.join_h 'S' boxlist (* FIXME *)
+        else
+          let
+            opbox = Rmath.si (op^": ")
+          in
+            Rmath.join_h 'S' (opbox::boxlist);;
 
-let parse str=
+let parse str =
   let (revptree, _) = parse_a parsetree_empty (Tokenize.make str) infty in
     parsetree_rev revptree;;
+
+let string_to_renderbox s =
+  parsetree_to_renderbox (parse s);;
 
 (* vim: set tw=96 et ts=2 sw=2: *)
