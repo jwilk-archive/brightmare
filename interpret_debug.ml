@@ -1,5 +1,5 @@
 module type T = 
-  Zz_signatures.INTERPRET with type t = Parsetree.t
+  Signatures.INTERPRET with type t = Parsetree.t
 
 module Make 
   (SubInterpret : T) : 

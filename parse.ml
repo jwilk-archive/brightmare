@@ -1,5 +1,5 @@
-module type PARSE = Zz_signatures.PARSE
-module type LATDICT = Zz_signatures.LATDICT
+module type PARSE = Signatures.PARSE
+module type LATDICT = Signatures.LATDICT
 
 module Make 
   (LatDict : LATDICT) : 

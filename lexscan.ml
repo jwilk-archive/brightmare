@@ -1,5 +1,5 @@
-module type LEX_AUTOMATON = Zz_signatures.LEX_AUTOMATON
-module type T = Zz_signatures.LEXSCAN
+module type LEX_AUTOMATON = Signatures.LEX_AUTOMATON
+module type T = Signatures.LEXSCAN
 
 module Make(Aut : LEX_AUTOMATON) : T =
 struct

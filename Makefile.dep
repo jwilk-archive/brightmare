@@ -18,36 +18,36 @@ decoration.cmo: decoration.cmi
 decoration.cmx: decoration.cmi 
 decoration_html.cmo: decoration_html.cmi 
 decoration_html.cmx: decoration_html.cmi 
-render.cmo: listEx.cmi zz_signatures.cmx 
-render.cmx: listEx.cmx zz_signatures.cmx 
-rmath.cmo: listEx.cmi zz_signatures.cmx 
-rmath.cmx: listEx.cmx zz_signatures.cmx 
+render.cmo: listEx.cmi signatures.cmx 
+render.cmx: listEx.cmx signatures.cmx 
+rmath.cmo: listEx.cmi signatures.cmx 
+rmath.cmx: listEx.cmx signatures.cmx 
 automaton.cmo: automaton.cmi 
 automaton.cmx: automaton.cmi 
 automaton2.cmo: automaton2.cmi 
 automaton2.cmx: automaton2.cmi 
-lexscan.cmo: listEx.cmi strEx.cmi zz_signatures.cmx 
-lexscan.cmx: listEx.cmx strEx.cmx zz_signatures.cmx 
-parse.cmo: listEx.cmi parsetree.cmx zz_signatures.cmx 
-parse.cmx: listEx.cmx parsetree.cmx zz_signatures.cmx 
-interpret.cmo: listEx.cmi parsetree.cmx strEx.cmi zz_signatures.cmx 
-interpret.cmx: listEx.cmx parsetree.cmx strEx.cmx zz_signatures.cmx 
-interpret_debug.cmo: listEx.cmi parsetree.cmx zz_signatures.cmx 
-interpret_debug.cmx: listEx.cmx parsetree.cmx zz_signatures.cmx 
+lexscan.cmo: listEx.cmi signatures.cmx strEx.cmi 
+lexscan.cmx: listEx.cmx signatures.cmx strEx.cmx 
+parse.cmo: listEx.cmi parsetree.cmx signatures.cmx 
+parse.cmx: listEx.cmx parsetree.cmx signatures.cmx 
+interpret.cmo: listEx.cmi parsetree.cmx signatures.cmx strEx.cmi 
+interpret.cmx: listEx.cmx parsetree.cmx signatures.cmx strEx.cmx 
+interpret_debug.cmo: listEx.cmi parsetree.cmx signatures.cmx 
+interpret_debug.cmx: listEx.cmx parsetree.cmx signatures.cmx 
 brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmi \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmi lexscan.cmx \
-    listEx.cmi parse.cmx render.cmx rmath.cmx strEx.cmi unicode_html.cmi \
-    unicode_konwert.cmi version.cmx zz_signatures.cmx 
+    listEx.cmi parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmi \
+    unicode_html.cmi unicode_konwert.cmi version.cmx 
 brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmx lexscan.cmx \
-    listEx.cmx parse.cmx render.cmx rmath.cmx strEx.cmx unicode_html.cmx \
-    unicode_konwert.cmx version.cmx zz_signatures.cmx 
-unicode.cmi: zz_signatures.cmx 
-unicode_html.cmi: zz_signatures.cmx 
-unicode_konwert.cmi: zz_signatures.cmx 
-decoration.cmi: zz_signatures.cmx 
-decoration_html.cmi: zz_signatures.cmx 
-dictionary.cmi: zz_signatures.cmx 
-latex_dictionary.cmi: zz_signatures.cmx 
-automaton.cmi: zz_signatures.cmx 
-automaton2.cmi: zz_signatures.cmx 
+    listEx.cmx parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmx \
+    unicode_html.cmx unicode_konwert.cmx version.cmx 
+unicode.cmi: signatures.cmx 
+unicode_html.cmi: signatures.cmx 
+unicode_konwert.cmi: signatures.cmx 
+decoration.cmi: signatures.cmx 
+decoration_html.cmi: signatures.cmx 
+dictionary.cmi: signatures.cmx 
+latex_dictionary.cmi: signatures.cmx 
+automaton.cmi: signatures.cmx 
+automaton2.cmi: signatures.cmx 

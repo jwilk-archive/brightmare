@@ -126,6 +126,16 @@ sig
   val integral : unit -> t
   val ointegral : unit -> t
 (* TODO: plus wiele operacji rysowania du¿ych symboli (suma, kwantyfikatory, etc.) *)
+  type bracket_t = 
+    Bracket_round | 
+    Bracket_square | 
+    Bracket_brace | 
+    Bracket_angle
+  type delimiter_t = 
+    Delim_bracket of bool * bracket_t | 
+    Delim_floor of bool | 
+    Delim_ceil of bool
+  val largedelimiter : t -> delimiter_t -> t
 (* TODO: plus jeszcze kilka innych operacji... *)
 end
 

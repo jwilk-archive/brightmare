@@ -1,6 +1,6 @@
-module type UNICODE = Zz_signatures.UNICODE
-module type DECORATION = Zz_signatures.DECORATION
-module type T = Zz_signatures.RENDER
+module type UNICODE = Signatures.UNICODE
+module type DECORATION = Signatures.DECORATION
+module type T = Signatures.RENDER
 
 module Make 
   (Uni : UNICODE) 

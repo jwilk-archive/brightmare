@@ -1,6 +1,6 @@
 (* Program g³ówny *)
 
-include Zz_signatures
+include Signatures
 
 module type BRIGHTMARE =
 sig

@@ -4,7 +4,7 @@ DIST_FILES = README README.dep Makefile Makefile.dep $(SOURCE_FILES)
 SOURCE_FILES = $(C_FILES) $(ML_FILES) $(MLI_FILES)
 C_FILES = locale.c
 ML_FILES = \
-	zz_signatures.ml \
+	signatures.ml \
 	version.ml \
 	listEx.ml strEx.ml \
 	unicore.ml unicode.ml unicode_html.ml unicode_konwert.ml \

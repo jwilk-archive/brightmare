@@ -1,6 +1,6 @@
-module type UNICODE = Zz_signatures.UNICODE
-module type RENDER = Zz_signatures.RENDER
-module type T = Zz_signatures.RMATH
+module type UNICODE = Signatures.UNICODE
+module type RENDER = Signatures.RENDER
+module type T = Signatures.RMATH
 
 module Make
   (Uni : UNICODE) 
@@ -13,14 +13,14 @@ struct
   module Uni = Uni
 
   let hline width =
-    if width <= 0 then
+    if width < 0 then
       raise(Invalid_argument "Rmath.rbm_hline")
     else
       { rbox = Render.make width 1 (Uni.wchar_of_int 0x2500);
         baseline = 0 }
 
   let vline height =
-    if height <= 0 then
+    if height < 0 then
       raise(Invalid_argument "Rmath.rbm_vline")
     else
       { rbox = Render.make 1 height (Uni.wchar_of_int 0x2502);
@@ -93,7 +93,54 @@ struct
     in
       { rbox = Render.join_h 'Q' [hook; rbox];
         baseline = box.baseline + 1 }
- 
+
+  type bracket_t = 
+    Bracket_round | 
+    Bracket_square | 
+    Bracket_brace | 
+    Bracket_angle
+  type delimiter_t = 
+    Delim_bracket of bool * bracket_t | 
+    Delim_floor of bool | 
+    Delim_ceil of bool
+
+  let largedelimiter sbox kind =
+    let n = height sbox in
+    let n = 
+      ( if n<=1 then 
+          raise(Invalid_argument "Rmath.delimiter")
+        else if n<3 then 
+          3 
+        else 
+          n
+      ) 
+    in let
+      p = (n-3)/2 and
+      q = -(3-n)/2
+    in let (tu, mu, bu) =
+      match kind with
+        Delim_bracket (true,  Bracket_round) -> (0x256D, 0x2502, 0x2570) |
+        Delim_bracket (false, Bracket_round) -> (0x256E, 0x2502, 0x256F) |
+        Delim_bracket (true,  Bracket_square) -> (0x250C, 0x2502, 0x2514) |
+        Delim_bracket (false, Bracket_square) -> (0x2510, 0x2502, 0x2518) |
+        Delim_bracket (true,  Bracket_brace) -> (0x256D, 0x7B, 0x2570) |
+        Delim_bracket (false, Bracket_brace) -> (0x256E, 0x7D, 0x256F) |
+        Delim_bracket (true,  Bracket_angle) -> (0x2571, 0x3C, 0x2572) |
+        Delim_bracket (false, Bracket_angle) -> (0x2572, 0x3E, 0x2571) |
+        Delim_floor true  -> (0x2502, 0x2502, 0x2514) |
+        Delim_floor false -> (0x2502, 0x2502, 0x2518) |
+        Delim_ceil true  -> (0x250C, 0x2502, 0x2502) |
+        Delim_ceil false -> (0x2510, 0x2502, 0x2502)
+    in let
+      tbox = Render.make 1 1 (Uni.wchar_of_int tu) and
+      mbox = Render.make 1 1 (Uni.wchar_of_int mu) and
+      bbox = Render.make 1 1 (Uni.wchar_of_int bu) and
+      pbox = (vline p).rbox and
+      qbox = (vline q).rbox
+    in
+      { rbox = Render.join_v 'Q' [tbox; pbox; mbox; qbox; bbox];
+        baseline = sbox.baseline }
+
   let integral () =
     let 
       i1 = Render.make 1 1 (Uni.wchar_of_int 0x256d) and 
