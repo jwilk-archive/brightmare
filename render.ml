@@ -38,7 +38,7 @@ struct
 
   let grow_h box diffwidth modfun =
     if diffwidth < 0 then
-      raise(Invalid_argument "grow_h")
+      raise(Invalid_argument "Render.grow_h")
     else
       { width=box.width+diffwidth; height=box.height;
         lines=ListEx.map modfun box.lines}
@@ -48,7 +48,7 @@ struct
   let grow_leftright box width modfun =
     let diffwidth = width-box.width in
     if diffwidth < 0 then
-      raise(Invalid_argument "grow_leftright")
+      raise(Invalid_argument "Render.grow_leftright")
     else
       let spacer = diffwidth ** wspace in
         grow_h box diffwidth (modfun spacer)
@@ -64,7 +64,7 @@ struct
   let grow_center box width =
     let diffwidth = width-box.width in
     if diffwidth < 0 then
-      raise(Invalid_argument "grow_center")
+      raise(Invalid_argument "Render.grow_center")
     else
       let lspace = diffwidth/2 in
       let rspace = diffwidth-lspace in
@@ -80,7 +80,7 @@ struct
 
   let grow_v box diffheight modfun =
     if diffheight < 0 then
-      raise(Invalid_argument "grow_h")
+      raise(Invalid_argument "Render.grow_h")
     else
       { width=box.width; height=box.height+diffheight;
         lines=modfun box.lines}
@@ -90,7 +90,7 @@ struct
   let grow_topbottom box height modfun =
     let diffheight = height-box.height in
     if diffheight < 0 then
-      raise(Invalid_argument "grow_topbottom")
+      raise(Invalid_argument "Render.grow_topbottom")
     else
       let spacer = ListEx.make diffheight (box.width ** wspace) in
         grow_v box diffheight (modfun spacer)
@@ -106,7 +106,7 @@ struct
   let grow_vmiddle box height =
     let diffheight = height-box.height in
     if diffheight < 0 then
-      raise(Invalid_argument "grow_vmiddle")
+      raise(Invalid_argument "Render.grow_vmiddle")
     else
       let tspace = diffheight/2 in
       let bspace = diffheight-tspace in
@@ -119,13 +119,13 @@ struct
 
 (* -- UNIVERSAL GROW ---------------------------------------------------- *)
 
-  let grow_Universal box width height wgrow hgrow =
+  let grow_universal box width height wgrow hgrow =
     let box = wgrow box width in
     let box = hgrow box height in
       box
 
   let grow_custom choice box width height =
-    let grow = grow_Universal box width height in
+    let grow = grow_universal box width height in
     match choice with
       'Q' -> grow grow_left   grow_top |
       'W' -> grow grow_center grow_top |
@@ -136,7 +136,7 @@ struct
       'Z' -> grow grow_left   grow_bottom |
       'X' -> grow grow_center grow_bottom |
       'C' -> grow grow_right  grow_bottom |
-      _ -> raise(Invalid_argument "grow_Universal9")
+      _ -> raise(Invalid_argument "Render.grow_universal9")
 
   let grow_middle = grow_custom 'S'
 

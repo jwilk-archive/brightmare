@@ -20,7 +20,7 @@ struct
   let rec debug_rmathbox tree =
     match tree with
       Element str -> 
-        str |
+        "\x1B[1m" ^ str ^ "\x1B[0m" |
       Operator (op, treelist) ->
         let treelist = ListEx.map debug_rmathbox treelist in
         let argstr = implode treelist in

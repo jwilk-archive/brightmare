@@ -652,6 +652,7 @@ let symbol_commands =
   map (fun _ -> (0, 0)) symbols
 
 let delimiters = make [
+  ".",              46;
   "(",              40;
   ")",              41;
   "[",              91;

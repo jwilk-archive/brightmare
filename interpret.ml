@@ -42,9 +42,13 @@ struct
               Rmath.si (Uni.from_string (StrEx.str_after opstr 1))
             else
               Rmath.si (Uni.from_string opstr) (* FIXME *) |
-          "", _ -> Rmath.join_h boxlist |
+          "", _ | "[", _ -> Rmath.join_h boxlist |
+          "\\left\\right", d1::d2::boxlist ->
+            let b = Rmath.join_h boxlist in
+              Rmath.join_h [d1;b;d2] |
           "\\frac", [b1; b2] -> Rmath.frac b1 b2 |
-          "\\sqrt", b1::_ -> Rmath.sqrt b1 |
+          "\\sqrt", [bi; b] -> Rmath.sqrt b bi |
+          "\\sqrt", [b] -> Rmath.sqrt b (Rmath.empty 1 1) |
           "_", [b1; b2] -> Rmath.crossjoin_SE b2 b1 |
           "^", [b1; b2] -> Rmath.crossjoin_NE b2 b1 |
           opstr, _ ->

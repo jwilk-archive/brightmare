@@ -14,14 +14,14 @@ struct
 
   let hline width =
     if width <= 0 then
-      raise(Invalid_argument "rbm_hline")
+      raise(Invalid_argument "Rmath.rbm_hline")
     else
       { rbox = Render.make width 1 (Uni.wchar_of_int 0x2500);
         baseline = 0 }
 
   let vline height =
     if height <= 0 then
-      raise(Invalid_argument "rbm_vline")
+      raise(Invalid_argument "Rmath.rbm_vline")
     else
       { rbox = Render.make 1 height (Uni.wchar_of_int 0x2502);
         baseline = (height-1)/2 }
@@ -81,14 +81,15 @@ struct
       { rbox = Render.join_v 'S' [box1.rbox; separator.rbox; box2.rbox];
         baseline = height box1 }
 
-  let sqrt box =
+  let sqrt box upbox =
     let 
       vline = vline (height box) and
       hline = hline (width box) and
       joint = Render.make 1 1 (Uni.wchar_of_int 0x250C) and
       hook = Render.make 1 1 (Uni.wchar_of_int 0x2572)
     in let 
-      rbox = Render.join4 joint vline.rbox hline.rbox box.rbox
+      rbox = Render.join4 joint vline.rbox hline.rbox box.rbox and
+      hook = Render.join_v 'Q' [upbox.rbox; hook]
     in
       { rbox = Render.join_h 'Q' [hook; rbox];
         baseline = box.baseline + 1 }

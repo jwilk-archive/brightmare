@@ -1,4 +1,4 @@
-let version = "0.20041119"
+let version = "0.20041122"
 
 let product_name = 
   "BrightMaRe v. " ^ 

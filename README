@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041119
+BrightMaRe, version 0.20041122
 ------------------------------
 
 Author:
@@ -8,6 +8,11 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+22 Nov 2004, version 0.20041122
+  -- support for optional arguments
+  -- `\left' and `\right' are almost supported
+  -- more than 2000 lines... :-/
 
 19 Nov 2004, version 0.20041119
   -- attached module dependency information (`README.dep')

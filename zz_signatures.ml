@@ -1,4 +1,6 @@
 module type AUTOMATON =
+(* Automat skończony typu [t], o początkowym stanie [default], udostępniający publicznie
+ * ([pubstate]) swój stan typu [s], akceptujący ([execute]) polecenia typu [command]. *)
 sig
   type t
   type s
@@ -9,11 +11,11 @@ sig
 end
 
 module type TOK_AUTOMATON =
-sig
-  include AUTOMATON with 
+(* Automat rozpoznający koniec tokenu. Karmiony znakami, odpowiada [true], jeśli poprzednio
+ * wczytany znak kończy token. *)
+  AUTOMATON with 
     type command = char and 
     type s = bool
-end
 
 module type TOKENIZE =
 sig
@@ -77,7 +79,7 @@ sig
   val crossjoin_NE : t -> t -> t
   val crossjoin_NW : t -> t -> t
   val frac : t -> t -> t
-  val sqrt : t -> t
+  val sqrt : t -> t-> t
   val integral : t
   val ointegral : t
  end
@@ -99,6 +101,7 @@ sig
   val alphabets : unit t
   val operators : unit t
   val loglikes : unit t
+  val delimiters : int t
   val allsymbols : int t
   val commands : (int * int) t
 end
