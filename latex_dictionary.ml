@@ -166,10 +166,10 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\AA", 0x00c5;
   "\\ae", 0x00e6;
   "\\AE", 0x00c6;
-  "\\DH", 0;
-  "\\dh", 0;
-  "\\DJ", 0;
-  "\\dj", 0;
+  "\\DH", 0x00d0;
+  "\\dh", 0x00f0;
+  "\\DJ", 0x0110;
+  "\\dj", 0x0111;
   "\\l",  0x0142;
   "\\L",  0x0141;
   "\\o",  0x00f8;
@@ -178,8 +178,8 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\OE", 0x0152;
   "\\ss", 0x00df;
   "\\SS", 0;
-  "\\TH", 0;
-  "\\th", 0;
+  "\\TH", 0x00de;
+  "\\th", 0x00f0;
 
 (* predefined LaTeX text-mode commands --- TODO *)
 
@@ -198,7 +198,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\ddagger",          0x2021;
   "\\diamond",          0x22c4;
   "\\div",              0x00f7;
-  "\\lhd",              0;
+  "\\lhd",              0x25c1;
   "\\mp",               0x2213;  
   "\\odot",             0x2299;
   "\\ominus",           0x2296;
@@ -206,7 +206,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\oslash",           0x2298;
   "\\otimes",           0x2297;
   "\\pm",               0x00b1;
-  "\\rhd",              0;
+  "\\rhd",              0x25b7;
   "\\setminus",         0x08a8;
   "\\sqcap",            0x2293;
   "\\sqcup",            0x2294;
@@ -234,7 +234,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\geq",        0x2265;
   "\\gg",         0x226b;
   "\\in",         0x2208;
-  "\\Join",       0;
+  "\\Join",       0x27d7; (* FIXME - number? *)
   "\\le",         0x2264;
   "\\leq",        0x2264;
   "\\ll",         0x226a;
@@ -267,13 +267,13 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
 (* punctuation marks --- TODO *)
 (* punctuation symbols:: *)
   "\\colon",  0x003a;
-  "\\ldotp",  0;
+  "\\ldotp",  0x002e; (* FIXME - number? *)
   "\\cdotp",  0x00b7;
 
 (* arrow symbols:: *)
   "\\hookleftarrow",      0x21a9;
   "\\hookrightarrow",     0x21a0;
-  "\\leadsto",            0;
+  "\\leadsto",            0x219d;
   "\\leftarrow",          0x2190;
   "\\Leftarrow",          0x21d0;
   "\\leftharpoondown",    0x21bd;
@@ -304,7 +304,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
 (* miscellaneous LaTeX symbols:: *)
   "\\angle",        0x2220;
   "\\bot",          0x22a5;
-  "\\Box",          0;
+  "\\Box",          0x25a1;
   "\\cdots",        0x22ef;
   "\\clubsuit",     0x2663;
   "\\ddots",        0x22f1;
@@ -333,8 +333,8 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\spadesuit",    0x2660;
   "\\surd",         0x221a;
   "\\top",          0x22a4;
-  "\\triangle",     0;
-  "\\vdots",        0;
+  "\\triangle",     0x21fd;
+  "\\vdots",        0x22ee;
   "\\wp",           0x2118;
 
 (* small Greek letters:: *)
@@ -390,45 +390,45 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\daleth",     0x2138;
  
 (* AMS arrows:: *)
-  "\\circlearrowleft",      0;
-  "\\circlearrowright",     0;
-  "\\curvearrowleft",       0;
-  "\\curvearrowright",      0;
+  "\\circlearrowleft",      0x21ba;
+  "\\circlearrowright",     0x21bb;
+  "\\curvearrowleft",       0x21b6;
+  "\\curvearrowright",      0x21b7;
   "\\dashleftarrow",        0;
   "\\dashrightarrow",       0;
-  "\\downdownarrows",       0;
-  "\\downharpoonleft",      0;
-  "\\downharpoonright",     0;
+  "\\downdownarrows",       0x21ca;
+  "\\downharpoonleft",      0x21c3;
+  "\\downharpoonright",     0x21c2;
   "\\leftwarrowtail",       0;
-  "\\leftleftarrows",       0;
-  "\\leftrightarrows",      0;
-  "\\leftrightharpoons",    0;
-  "\\leftrightsquigarrow",  0;
-  "\\Lleftarrow",           0;
-  "\\looparrowleft",        0;
-  "\\looparrowright",       0;
-  "\\Lsh",                  0;
-  "\\multimap",             0;
-  "\\rightarrowtail",       0;
-  "\\rightleftarrows",      0;
-  "\\rightleftharpoons",    0;
-  "\\rightrightarrows",     0;
-  "\\rightsquigarrow",      0;
-  "\\Rrightarrow",          0;
-  "\\Rsh",                  0;
-  "\\twoheadleftarrow",     0;
-  "\\twoheadrightarrow",    0;
-  "\\uphapoonleft",         0;
-  "\\upharpoonright",       0;
-  "\\upuparrows",           0;
+  "\\leftleftarrows",       0x21c7;
+  "\\leftrightarrows",      0x21c6;
+  "\\leftrightharpoons",    0x21cb;
+  "\\leftrightsquigarrow",  0x21ad;
+  "\\Lleftarrow",           0x21da;
+  "\\looparrowleft",        0x21ab;
+  "\\looparrowright",       0x21ac;
+  "\\Lsh",                  0x21b0;
+  "\\multimap",             0x22b8;
+  "\\rightarrowtail",       0x21a3;
+  "\\rightleftarrows",      0x21c4;
+  "\\rightleftharpoons",    0x21cc;
+  "\\rightrightarrows",     0x21c9;
+  "\\rightsquigarrow",      0x219d;
+  "\\Rrightarrow",          0x21db;
+  "\\Rsh",                  0x21b1;
+  "\\twoheadleftarrow",     0x219e;
+  "\\twoheadrightarrow",    0x21a0;
+  "\\upharpoonleft",        0x21bf;
+  "\\upharpoonright",       0x21be;
+  "\\upuparrows",           0x21c8;
 
 (* AMS negated arrows:: *)
-  "\\nLeftarrow",       0;
-  "\\nleftarrow",       0;
-  "\\nLeftrightarrow",  0;
-  "\\nleftrightarrow",  0;
-  "\\nRightarrow",      0;
-  "\\nrightarrow",      0;
+  "\\nLeftarrow",       0x21cd;
+  "\\nleftarrow",       0x219a;
+  "\\nLeftrightarrow",  0x21ce;
+  "\\nleftrightarrow",  0x21ae;
+  "\\nRightarrow",      0x21cf;
+  "\\nrightarrow",      0x219b;
 
 (* miscellaneous AMS symbols:: *)
   "\\backprime",          0x2035;
@@ -445,17 +445,17 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\diagdown",           0x2572;
   "\\diagup",             0x2571;
   "\\eth",                0x00f0;
-  "\\Finv",               0;
+  "\\Finv",               0x2132;
   "\\Game",               0x2141;
-  "\\hbar",               0x210f; (* FIXME - number? *)
-  "\\hslash",             0x210f; (* FIXME - number? *)
+  "\\hbar",               0x0126;
+  "\\hslash",             0x210f;
   "\\lozenge",            0x25ca;
   "\\maltese",            0x2720;
   "\\measuredangle",      0x2221;
   "\\nexists",            0x2204;
-  "\\restriction",        0;
+  "\\restriction",        0x21be;
   "\\sphericalangle",     0x2222;
-  "\\squeak",             0;
+  "\\square",             0x25a1;
   "\\triangledown",       0x25bf;
   "\\varnothing",         0x2205;
   "\\vartriangle",        0x25b5;
@@ -468,7 +468,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\boxtimes",        0x22a0;
   "\\Cap",             0x22d2;
   "\\doublecap",       0x22d2;
-  "\\centerdot",       0;
+  "\\centerdot",       0x00b7;
   "\\circledast",      0x229b;
   "\\circledcirc",     0x229a;
   "\\circleddash",     0x229d;
@@ -503,6 +503,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\curlyeqsucc",        0x22df;
   "\\Doteq",              0x2251;
   "\\doteqdot",           0x2251;
+  "\\eqcirc",             0x2256;
   "\\eqlslantgtr",        0x2a96;
   "\\eqsim",              0x2242;
   "\\eqslantless",        0x2a95;
@@ -528,126 +529,89 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\lll",                0x22d8;
   "\\llless",             0x22d8;
   "\\pitchfork",          0x22d4;
-  "\\precapprox",         0;
-  "\\preccurlyeq",        0;
-  "\\precsim",            0;
-  "\\qcirc",              0x2256; (* FIXME - what's that? *)
+  "\\precapprox",         0x2ab7;
+  "\\preccurlyeq",        0x227c;
+  "\\precsim",            0x227e;
   "\\risingdotseq",       0x2253;
-  "\\shartparallel",      0;
-  "\\shortmid",           0;
-  "\\smallfrown",         0;
-  "\\smallsmile",         0;
-  "\\Subset",             0;
-  "\\subseteqq",          0;
-  "\\succapprox",         0;
-  "\\succcurlyeq",        0;
-  "\\succsim",            0;
-  "\\Supset",             0;
-  "\\supseteqq",          0;
+  "\\shortparallel",      0x2225;
+  "\\shortmid",           0x2223;
+  "\\smallfrown",         0x2322;
+  "\\smallsmile",         0x2323;
+  "\\Subset",             0x22d0;
+  "\\subseteqq",          0x2ac5;
+  "\\succapprox",         0x2ab8;
+  "\\succcurlyeq",        0x227d;
+  "\\succsim",            0x227f;
+  "\\Supset",             0x22d1;
+  "\\supseteqq",          0x2ac6;
   "\\therefore",          0x2234;
-  "\\thickapprox",        0;
-  "\\thicksim",           0;
-  "\\triangleeq",         0;
-  "\\trianglelefteq",     0;
-  "\\trianglerighteq",    0;
+  "\\thickapprox",        0x2248;
+  "\\thicksim",           0x22c3;
+  "\\triangleq",          0x225c;
+  "\\trianglelefteq",     0x22b4;
+  "\\trianglerighteq",    0x22b5;
   "\\varpropto",          0x221d;
-  "\\vartriangleleft",    0;
-  "\\vartriangleright",   0;
-  "\\vDash",              0;
-  "\\Vdash",              0;
-  "\\Vvdash",             0;
+  "\\vartriangleleft",    0x22b2;
+  "\\vartriangleright",   0x22b3;
+  "\\vDash",              0x22a8;
+  "\\Vdash",              0x22a9;
+  "\\Vvdash",             0x22aa;
 
 (* AMS negated binary relations:: *)
-  "\\gnapprox",         0;
-  "\\gneq",             0;
-  "\\gneqq",            0;
-  "\\gnsim",            0;
+  "\\gnapprox",         0x2a8a;
+  "\\gneq",             0x2a88;
+  "\\gneqq",            0x2269;
+  "\\gnsim",            0x22e7;
   "\\gvertneqq",        0;
-  "\\lnapprox",         0;
-  "\\lneq",             0;
-  "\\lneqq",            0;
-  "\\lnsim",            0;
+  "\\lnapprox",         0x2a89;
+  "\\lneq",             0x2a87;
+  "\\lneqq",            0x2268;
+  "\\lnsim",            0x22e6;
   "\\lvertneqq",        0;
-  "\\ncong",            0;
+  "\\ncong",            0x2247;
   "\\newnapprox",       0; (* FIXME - what's that? *)
-  "\\ngeq",             0;
+  "\\ngeq",             0x2271;
   "\\ngeqslant",        0;
-  "\\ngtr",             0;
-  "\\nleq",             0;
+  "\\ngtr",             0x226f;
+  "\\nleq",             0x2270;
   "\\nleqslant",        0;
-  "\\nless",            0;
-  "\\nmid",             0;
+  "\\nless",            0x226e;
+  "\\nmid",             0x2224;
   "\\nparallel",        0x2226;
-  "\\nprec",            0;
+  "\\nprec",            0x2280;
   "\\npreceq",          0;
   "\\nshortmid",        0;
   "\\nshortparallel",   0;
-  "\\nsim",             0;
-  "\\nsubseteq",        0;
+  "\\nsim",             0x2241;
+  "\\nsubseteq",        0x2288;
   "\\nsubseteqq",       0; (* FIXME - what? *)
-  "\\nsucc",            0;
+  "\\nsucc",            0x2281;
   "\\nsucceq",          0;
-  "\\nsupseteq",        0;
+  "\\nsupseteq",        0x2289;
   "\\nsupseteqq",       0;
-  "\\ntriangleleft",    0;
-  "\\ntrianglelefteq",  0;
-  "\\ntriangleright",   0;
-  "\\ntrianglerighteq", 0;
-  "\\nvdash",           0;
-  "\\nvDash",           0;
-  "\\nVdash",           0;
-  "\\nVDash",           0;
-  "\\precnapprox",      0;
-  "\\precnsim",         0;
-  "\\precneqq",         0;
-  "\\precnsim",         0;
-  "\\subsetneq",        0;
-  "\\subsetneqq",       0;
-  "\\succnapprox",      0;
-  "\\succneqq",         0;
-  "\\succnsim",         0;
-  "\\supsetneq",        0;
-  "\\supsetneqq",       0;
+  "\\ntriangleleft",    0x22ea;
+  "\\ntrianglelefteq",  0x22ec;
+  "\\ntriangleright",   0x22eb;
+  "\\ntrianglerighteq", 0x22ed;
+  "\\nvdash",           0x22ac;
+  "\\nvDash",           0x22ad;
+  "\\nVdash",           0x22ae;
+  "\\nVDash",           0x22af;
+  "\\precnapprox",      0x2ab9;
+  "\\precnsim",         0x22e8;
+  "\\precneqq",         0x2ab5;
+  "\\precnsim",         0x22e8;
+  "\\subsetneq",        0x228a;
+  "\\subsetneqq",       0x2acb;
+  "\\succnapprox",      0x2aba;
+  "\\succneqq",         0x2ab6;
+  "\\succnsim",         0x22e9;
+  "\\supsetneq",        0x228b;
+  "\\supsetneqq",       0x2acc;
   "\\varsubsetneq",     0;
   "\\varsubsetneqq",    0;
   "\\varsupsetneq",     0;
-  "\\varsupsetneqq",    0;
-
-(* Uhmm... *)
-  "\\arcdeg",        0;
-  "\\arcmin",        0;
-  "\\arcsec",        0;
-  "\\bv",            0;
-  "\\dbond",         0;
-  "\\degr",          0x00b0;
-  "\\diameter",      0;
-  "\\earth",         0;
-  "\\farcm",         0;
-  "\\farcs",         0;
-  "\\fd",            0;
-  "\\fdg",           0;
-  "\\fh",            0;
-  "\\fm",            0;
-  "\\fp",            0;
-  "\\fs",            0;
-  "\\ga",            0x2273;
-  "\\gtrsim",        0x2273;
-  "\\la",            0x2272;
-  "\\lesssim",       0x2272;
-  "\\micron",        0;
-  "\\onehalf",       0x00bc;
-  "\\onequarter",    0x00bc;
-  "\\onethird",      0x2153;
-  "\\sbond",         0;
-  "\\sq",            0;
-  "\\sun",           0;
-  "\\tbond",         0;
-  "\\threequarters", 0x00be;
-  "\\twothirds",     0x2154;
-  "\\ub",            0;
-  "\\ubvr",          0;
-  "\\ur",            0;
-  "\\vr",            0;
+  "\\varsupsetneqq",    0
 ]
 
 let symbol_commands = 
