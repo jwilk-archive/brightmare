@@ -34,9 +34,12 @@ let main_commands = make [
   "\\vec",        (0, 1);
   "\\widehat",    (0, 1);
   "\\widetilde",  (0, 1);
-(* some other constructions:: *)
+(* infix commands:: *)
   "_",                (0, 1);
   "^",                (0, 1);
+  "&",                (0, 1);
+  "\\\\",             (0, 1);
+(* some other constructions:: *)
   "\\frac",           (0, 2);
   "\\cfrac",          (0, 2);
   "\\genfrac",        (0, 6); (* TODO: not implemented *)
@@ -44,7 +47,9 @@ let main_commands = make [
   "\\sqrt",           (1, 1);
 (* hmm... *)
   "\\mathop",         (0, 1);
-  "\\displaystyle",   (0, 0)
+  "\\displaystyle",   (0, 0);
+  "\\begin",          (0, 1);
+  "\\end",            (0, 1);
 ]
 
 let ornaments = make [
@@ -693,5 +698,31 @@ let commands = union [
 ]
 
 let symbols = union [almostallsymbols; delimiters]
+
+let environments = make [
+  "align",        (0, 0);
+  "align*",       (0, 0);
+  "array",        (1, 1);
+  "cases",        (0, 0);
+  "CD",           (0, 0);
+  "center",       (0, 0);
+  "displaymath",  (0, 0);
+  "enumerate",    (0, 0);
+  "eqnarray",     (0, 0);
+  "eqnarray*",    (0, 0);
+  "equation",     (0, 0);
+  "flalign",      (0, 0);
+  "flalign*",     (0, 0);
+  "flushleft",    (0, 0);
+  "flushright",   (0, 0);
+  "gather",       (0, 0);
+  "gather*",      (0, 0);
+  "math",         (0, 0);
+  "tabbing",      (0, 0);
+  "table",        (0, 0);
+  "table*",       (0, 0);
+  "tabular",      (1, 1);
+  "tabular*",     (1, 1)
+]
 
 (* vim: set tw=96 et ts=2 sw=2: *)

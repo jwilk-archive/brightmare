@@ -6,9 +6,11 @@ module Make
   PARSE with type t = Parsetree.t =
 struct
 
+  let ( ++ ) = StrEx.( ++ )
+
   type t = Parsetree.t
   module LatDict = LatDict
- 
+
   exception Parse_error
   exception Internal_error
  
@@ -36,7 +38,25 @@ struct
       Element _ -> Operator ("", [basetree; subtree]) |
       Operator (op, basetrees) -> Operator (op, subtree::basetrees)
 
-  let backadd basetree subtree =
+ let add_nl basetree subtree =
+    match subtree with
+      Operator ("\\\\", subtrees) ->
+      ( match basetree with
+          Operator ("\\\\", basetrees) -> Operator ("\\\\", subtrees@basetrees) |
+          _ -> Operator("\\\\", subtrees@[basetree]) ) |
+      _ -> raise(Internal_error)
+
+  let rec add_amp basetree subtree =
+    match subtree with
+      Operator ("&", subtrees) ->
+      ( match basetree with
+          Operator ("&", basetrees) -> Operator ("&", subtrees@basetrees) |
+          Operator ("\\\\", baselast::basetrees) ->
+            Operator ("\\\\", (add_amp baselast subtree)::basetrees) |
+          _ -> Operator("&", subtrees@[basetree]) ) |
+      _ -> raise(Internal_error)
+
+  let add_infix basetree subtree =
     match subtree with
       Operator (subop, subtrees) ->
       ( match basetree with
@@ -46,8 +66,7 @@ struct
               [ Operator (subop, baselast::subtrees);
                 Operator ("", basetrees) ] ) |
           _ -> 
-            Operator (subop, basetree::subtrees)
-      ) |
+            Operator (subop, basetree::subtrees) ) |
       _ -> raise(Internal_error)
 
   let oo = -1 (* oo + 1 == oo, thus oo = -1 *)
@@ -61,22 +80,53 @@ struct
         else
           ".", lexlist
 
+  let rec flatten_lexems lexems =
+    ListEx.fold
+      ( fun accum lexem ->
+          match lexem with
+            Operator (opstr, lexems) -> opstr ^ (flatten_lexems lexems) ^ accum |
+            Element b -> b ^ accum )
+      ""
+      lexems
+
+  let extract_envname lex =
+    flatten_lexems [lex]
+
   let rec parse_a accum lexlist limit brlimit br =
     if limit = 0 then
       (accum, lexlist)
     else
     match lexlist with
       [] -> (accum, lexlist) |
-
-      "}"::lexlist -> (accum, lexlist) |
-      "{"::lexlist -> 
+      lexem::lexlist -> 
+    match lexem with
+      "}" -> (accum, lexlist) |
+      "{" -> 
         let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
           parse_a (add accum newaccum) lexlist (limit-1) 0 br  |
 
-      "\\right"::lexlist ->
+      "\\end" ->
+        let (_, lexlist) = parse_a empty lexlist 1 0 false in
+          (accum, lexlist) |
+      "\\begin" ->
+        let (envnamelex, lexlist) = parse_a empty lexlist 1 0 false in
+        let envname = extract_envname envnamelex in
+        let (params, lexlist) =
+          if not (LatDict.exists envname LatDict.environments) then
+            Operator ("", []), lexlist
+          else
+            let (p, q) = LatDict.get envname LatDict.environments in
+              parse_a empty lexlist q p false in
+        let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
+          parse_a 
+            (add accum (Operator ("#"^envname, [newaccum; params])))
+            lexlist 
+            (limit-1) 0 br |
+
+      "\\right" ->
         let (delim, lexlist) = extract_delim lexlist in
           Operator ("\\right", [Operator (delim, []); accum]), lexlist |
-      "\\left"::lexlist ->
+      "\\left" ->
         let (delim, lexlist) = extract_delim lexlist in
         let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
         let newaccum =
@@ -84,44 +134,59 @@ struct
             Operator ("\\right", trees) ->
               Operator 
                 ( "\\left\\right", 
-                  (Operator (delim, []))::trees
-                ) |
+                  (Operator (delim, []))::trees ) |
             _ -> 
               Operator 
                 ( "\\left\\right", 
-                  [Operator (delim, []); Operator (".", []); newaccum]
-                )
+                  [Operator (delim, []); Operator (".", []); newaccum] )
         ) in          
-          parse_a (add accum newaccum) lexlist (limit-1) 0 br |
-      "["::lexlist ->
+          parse_a 
+            (add accum newaccum) 
+            lexlist 
+            (limit-1) 0 br |
+
+      "[" ->
         if brlimit = 0 then
-          parse_a (add accum (Element "[")) lexlist (limit-1) 0 br
+          parse_a 
+            (add accum (Element "[")) 
+            lexlist 
+            (limit-1) 0 br
         else
           let (newaccum, lexlist) = parse_a (Operator ("[", [])) lexlist oo 0 true in
-            parse_a (add accum newaccum) lexlist limit (brlimit-1) false |
-      "]"::lexlist -> 
+            parse_a 
+              (add accum newaccum) 
+              lexlist 
+              limit (brlimit-1) false |
+      "]" -> 
         if br then 
           (accum, lexlist) 
         else
-          parse_a (add accum (Element "]")) lexlist (limit-1) brlimit false |
+          parse_a 
+            (add accum (Element "]")) 
+            lexlist 
+            (limit-1) brlimit false |
 
-      lexem::lexlist ->
+      _ ->
         try 
-          let 
-            (p, q) = LatDict.get lexem LatDict.commands
-          in
-            let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
-              parse_a
-                ( (match lexem with "^" | "_" -> backadd | _ -> add)
-                    accum 
-                    subtree
-                 ) 
-                lexlist 
-                (limit-1) 0 br
+          let (p, q) = LatDict.get lexem LatDict.commands in
+          let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
+            parse_a
+              ( ( match lexem with 
+                    "^" | "_" -> add_infix |
+                    "&"       -> add_amp |
+                    "\\\\"    -> add_nl  | 
+                    _         -> add )
+                  accum 
+                  subtree
+               ) 
+              lexlist 
+              (limit-1) 0 br
         with 
           Not_found ->
             parse_a 
-              (add accum (Element lexem)) lexlist (limit-1) 0 br
+              (add accum (Element lexem)) 
+              lexlist 
+              (limit-1) 0 br
 
   let from_lexems lexems =
     let (revptree, _) = parse_a empty lexems oo 0 false in

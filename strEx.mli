@@ -1,9 +1,10 @@
 type t = string
 
-val as_list : t -> char list
 val ( ++ ) : t -> t -> t
 val ( ** ) : int -> char -> t
 val ( **! ) : int -> t -> t
+val as_list : t -> char list
+val of_list : char list -> t
 
 val length : t -> int
 val get : t -> int -> char

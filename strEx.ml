@@ -1,16 +1,6 @@
 include String
 include Str
 
-let as_list str =
-  let len = length str in
-  let rec los_helper lst i =
-    if i < 0 then
-      lst
-    else
-      los_helper ((get str i)::lst) (i-1)
-  in
-    los_helper [] (len-1)
-
 let ( ++ ) = ( ^ )
 
 let ( ** ) = make
@@ -26,6 +16,21 @@ let ( **! ) n str =
         multi (accum ++ str) (n-1)
     in
       multi "" n
+
+let as_list str =
+  let len = length str in
+  let rec los_helper lst i =
+    if i < 0 then
+      lst
+    else
+      los_helper ((get str i)::lst) (i-1)
+  in
+    los_helper [] (len-1)
+
+let of_list =
+  ListEx.fold 
+    (fun acc ch -> acc ^ (1 ** ch))
+    ""
 
 let substitute = global_substitute
 let replace = global_replace

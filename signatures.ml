@@ -55,6 +55,8 @@ end
 module type RENDER =
 sig
   include SIMPLE_RENDER
+  val width : t -> int
+  val height : t -> int
   val make : int -> int -> Uni.wchar -> t
   val grow : char -> t -> int -> int -> t
   val join_v : char -> t list -> t
@@ -128,6 +130,7 @@ sig
   val ornaments : (string, unit) t
   val symbols : (string, int) t
   val commands : (string, int * int) t
+  val environments : (string, int * int) t
   val is_alphabet : string -> bool
   val is_ornament : string -> bool
 end

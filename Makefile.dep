@@ -1,7 +1,7 @@
 listEx.cmo: listEx.cmi 
 listEx.cmx: listEx.cmi 
-strEx.cmo: strEx.cmi 
-strEx.cmx: strEx.cmi 
+strEx.cmo: listEx.cmi strEx.cmi 
+strEx.cmx: listEx.cmx strEx.cmi 
 dictionary2.cmo: dictionary2.cmi 
 dictionary2.cmx: dictionary2.cmi 
 dictionary.cmo: listEx.cmi dictionary.cmi 
@@ -34,8 +34,8 @@ automaton2.cmo: automaton2.cmi
 automaton2.cmx: automaton2.cmi 
 lexscan.cmo: listEx.cmi signatures.cmx strEx.cmi 
 lexscan.cmx: listEx.cmx signatures.cmx strEx.cmx 
-parse.cmo: listEx.cmi parsetree.cmx signatures.cmx 
-parse.cmx: listEx.cmx parsetree.cmx signatures.cmx 
+parse.cmo: listEx.cmi parsetree.cmx signatures.cmx strEx.cmi 
+parse.cmx: listEx.cmx parsetree.cmx signatures.cmx strEx.cmx 
 interpret.cmo: listEx.cmi parsetree.cmx signatures.cmx strEx.cmi 
 interpret.cmx: listEx.cmx parsetree.cmx signatures.cmx strEx.cmx 
 interpret_debug.cmo: listEx.cmi parsetree.cmx signatures.cmx 
