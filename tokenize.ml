@@ -40,7 +40,7 @@ let tokenize_a arr =
       (extokenize arr TS_Normal "" [])
     );;
 
-let tokenize str =
+let make str =
   tokenize_a (list_of_string str);;
 
 (* vim: set tw=96 et ts=2 sw=2: *)

@@ -1,5 +1,3 @@
-open Printf;;
-open Tokenize;;
 open Parse;;
 open Render;;
 open Version;;
@@ -18,10 +16,10 @@ let argv = match Array.to_list Sys.argv with
 
 List.iter
   ( fun s -> 
-    printf 
+    Printf.printf 
       "\x1B[12mZ\x1B[10m %s \n\x1B[12mSRR\x1B[10m> %s\n%s\n" 
       s 
-      (aos2str (tokenize s)) 
+      (aos2str (Tokenize.make s)) 
       (rbx_render_str (parsetree_to_renderbox (parse s)))
   ) argv;;
 

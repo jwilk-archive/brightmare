@@ -9,7 +9,7 @@ ML_FILES = \
 	version.ml \
 	tokenize.ml \
 	render.ml render_math.ml \
-	parse.ml \
+	latex_dictionary.ml parse.ml \
 	brightmare.ml
 CMI_FILES = $(ML_FILES:ml=cmi)
 CMO_FILES = $(ML_FILES:ml=cmo)

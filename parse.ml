@@ -1,5 +1,4 @@
 open List;;
-open Tokenize;;
 open Render;;
 open Render_math;;
 
@@ -27,20 +26,27 @@ let parsetree_add basetree subtree  =
     PT_Element _ -> PT_Operator (PO_Void, [basetree; subtree]) |
     PT_Operator (op, basetree) -> PT_Operator (op, subtree::basetree);;
 
-let rec parse_a bldtree toklist =
+let infty = -1;;
+
+let rec parse_a bldtree toklist limit =
+  if limit = 0 then
+    (bldtree, toklist)
+  else
   match toklist with
     [] -> (bldtree, toklist) |
     "}"::toklist -> (bldtree, toklist) |
     "{"::toklist -> 
-      let (newbldtree, toklist) = parse_a parsetree_empty toklist in
-        parse_a (parsetree_add bldtree newbldtree) toklist |
+      let (newbldtree, toklist) = parse_a parsetree_empty toklist infty in
+        parse_a (parsetree_add bldtree newbldtree) toklist (limit-1) |
     token::toklist ->
-      if token.[0] = '\\' then
-        let (newbldtree, toklist) = parse_a (PT_Operator (PO_Custom token, [])) toklist in
-          parse_a (parsetree_add bldtree newbldtree) toklist
-      else
-        parse_a 
-          (parsetree_add bldtree (PT_Element (PE_Custom token))) toklist;;
+      try 
+        let (p, q) = Dictionary.get Latex_dictionary.self token in
+        let (newbldtree, toklist) = parse_a (PT_Operator (PO_Custom token, [])) toklist q in
+          parse_a (parsetree_add bldtree newbldtree) toklist (limit-1)
+      with 
+        Not_found ->
+          parse_a 
+            (parsetree_add bldtree (PT_Element (PE_Custom token))) toklist (limit-1);;
 
 let rec parsetree_to_renderbox tree =
   match tree with
@@ -64,7 +70,7 @@ let rec parsetree_to_renderbox tree =
         rbx_join_h 'S' (opbox::boxlist);;
 
 let parse str=
-  let (revptree, _) = parse_a parsetree_empty (tokenize str) in
+  let (revptree, _) = parse_a parsetree_empty (Tokenize.make str) infty in
     parsetree_rev revptree;;
 
 (* vim: set tw=96 et ts=2 sw=2: *)
