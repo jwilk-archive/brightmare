@@ -122,6 +122,7 @@ struct
           "\\coprod", [] -> Rmath.coprod () |
           "\\int", [] -> Rmath.integral () |
           "\\oint", [] -> Rmath.ointegral () |
+          "\\displaystyle", [] -> Rmath.empty 0 0 |
           opstr, [] -> 
             if LatDict.exists opstr LatDict.symbols
             then

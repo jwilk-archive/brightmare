@@ -49,7 +49,8 @@ let main_commands = make [
   "\\widehat",        (0, 1); (* TODO: not implemented *)
   "\\widetilde",      (0, 1); (* TODO: not implemented *)
 (* hmm... *)
-  "\\mathop",         (0, 1)
+  "\\mathop",         (0, 1);
+  "\\displaystyle",   (0, 0)
 ]
 
 let alphabets = make [ (* TODO: not implemented *)
