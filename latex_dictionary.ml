@@ -650,55 +650,55 @@ let symbol_commands =
   map (fun _ -> (0, 0)) symbols
 
 let delimiters1 = make [
-  ".",              0;
   "(",              40;
   ")",              41;
+  ".",              0;
+  "/",              47;
   "<",              9001;
   ">",              9002;
   "[",              91;
   "]",              93;
-  "|",              124;
-  "/",              47
+  "|",              124
 ]
 
 let delimiters2 = make [
-  "\\langle",       9001;
-  "\\rangle",       9002;
-  "\\backslash",    92;
-  "\\|",            8741;
-  "\\{",            123;
-  "\\}",            125;
+  "\\Arrowvert",    0;
   "\\Downarrow",    0x21D3;
-  "\\downarrow",    8595;
-  "\\lceil",        8968;
-  "\\lfloor",       8970;
-  "\\llcorner",     0x231E;
-  "\\lrcorner",     0x231F;
-  "\\rceil",        8969;
-  "\\rfloor",       8971;
-  "\\ulcorner",     0x231C;
-  "\\uparrow",      8539;
   "\\Uparrow",      8657;
   "\\Updownarrow",  0x21D1;
+  "\\Vert",         8214;
+  "\\arrowvert",    0;
+  "\\backslash",    92;
+  "\\bracevert",    0;
+  "\\downarrow",    8595;
+  "\\langle",       9001;
+  "\\lceil",        8968;
+  "\\lfloor",       8970;
+  "\\lgroup",       0;
+  "\\llcorner",     0x231E;
+  "\\lmoustache",   0;
+  "\\lrcorner",     0x231F;
+  "\\rangle",       9002;
+  "\\rceil",        8969;
+  "\\rfloor",       8971;
+  "\\rgroup",       0;
+  "\\rmoustache",   0;
+  "\\ulcorner",     0x231C;
+  "\\uparrow",      8539;
   "\\updownarrow",  8597;
   "\\urcorner",     0x231D;
   "\\vert",         124;
-  "\\Vert",         8214;
-  "\\rmoustache",   0;
-  "\\lmoustache",   0;
-  "\\lgroup",       0;
-  "\\rgroup",       0;
-  "\\arrowvert",    0;
-  "\\Arrowvert",    0;
-  "\\bracevert",    0;
+  "\\{",            123;
+  "\\|",            8741;
+  "\\}",            125;
 ]
 
-let delimiters = merge [delimiters1; delimiters2]
+let delimiters = union [delimiters1; delimiters2]
 
 let delimiter_commands =
   map (fun _ -> (0, 0)) delimiters2
 
-let commands = merge [
+let commands = union [
   main_commands; 
   alphabet_commands; 
   operator_commands;
@@ -707,9 +707,6 @@ let commands = merge [
   delimiter_commands
 ]
 
-let allsymbols = merge [
-  symbols;
-  delimiters
-]
+let allsymbols = union [symbols; delimiters]
 
 (* vim: set tw=96 et ts=2 sw=2: *)

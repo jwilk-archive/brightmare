@@ -146,26 +146,25 @@ end
 module type DICTIONARY =
 (* S³ownik z³±czalny. *)
 sig
-  type 'a t
-  type kt
-  val get : kt -> 'a t -> 'a
-  val exists : kt -> 'a t -> bool
-  val make : (kt * 'a) list -> 'a t
-  val map : ('a -> 'b) -> 'a t -> 'b t
-  val merge : 'a t list -> 'a t
+  type ('a, 'b) t
+  val get : 'a -> ('a, 'b) t -> 'b
+  val exists : 'a -> ('a, 'b) t -> bool
+  val make : ('a * 'b) list -> ('a, 'b) t
+  val map : ('b -> 'c) -> ('a, 'b) t -> ('a, 'c) t
+  val union : ('a, 'b) t list -> ('a, 'b) t
 end
 
 module type LATDICT =
 (* S³owniki symboli, poleceñ, ograniczników, whatever, LaTeX-a *)
 sig
-  include DICTIONARY with type kt = string
-  val main_commands : (int * int) t
-  val alphabets : unit t
-  val operators : unit t
-  val loglikes : unit t
-  val delimiters : int t
-  val allsymbols : int t
-  val commands : (int * int) t
+  include DICTIONARY
+  val main_commands : (string, int * int) t
+  val alphabets : (string, unit) t
+  val operators : (string, unit) t
+  val loglikes : (string, unit) t
+  val delimiters : (string, int) t
+  val allsymbols : (string, int) t
+  val commands : (string, int * int) t
 end
 
 module type PARSE =

@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041128
+BrightMaRe, version 0.20041129
 ------------------------------
 
 Author:
@@ -8,6 +8,9 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+29 Nov 2004, version 0.20041129
+  -- rewritten `dictionary.ml'
 
 28 Nov 2004, version 0.20041128
   -- quicker conversion to ascii

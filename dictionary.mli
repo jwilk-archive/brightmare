@@ -1,3 +1,3 @@
-include Signatures.DICTIONARY with type kt = string
+include Signatures.DICTIONARY
 
 (* vim: set tw=96 et ts=2 sw=2: *)

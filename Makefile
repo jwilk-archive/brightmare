@@ -8,9 +8,9 @@ ML_FILES = \
 	signatures.ml \
 	version.ml \
 	listEx.ml strEx.ml \
+	dictionary.ml latex_dictionary.ml \
 	unicore.ml unicore_convert.ml \
 	unicode.ml unicode_html.ml unicode_convert.ml unicode_konwert.ml \
-	dictionary.ml latex_dictionary.ml \
 	decoration.ml decoration_html.ml \
 	render.ml rmath.ml \
 	automaton.ml automaton2.ml \
@@ -20,10 +20,10 @@ ML_FILES = \
 MLI_FILES = \
 	locale.mli \
 	listEx.mli strEx.mli \
+	dictionary.mli latex_dictionary.mli \
 	unicore.mli unicore_convert.mli \
 	unicode.mli unicode_html.mli unicode_convert.mli unicode_konwert.mli \
 	decoration.mli decoration_html.mli \
-	dictionary.mli latex_dictionary.mli \
 	automaton.mli automaton2.mli
 
 CMI_FILES = $(MLI_FILES:mli=cmi)

@@ -5,6 +5,7 @@ val max : 'a list -> 'a
 val make : int -> 'a -> 'a list
 val seek : ('a -> 'b) -> 'a list -> 'b
 
+val length : 'a list -> int
 val rev : 'a list -> 'a list
 val flatten : 'a list list -> 'a list
 val iter : ('a -> unit) -> 'a list -> unit
