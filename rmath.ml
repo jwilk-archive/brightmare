@@ -29,26 +29,19 @@ struct
   let width box = Render.width box.rbox
   let height box = Render.height box.rbox
 
-  let frac box1 box2 =
-    let width = max (width box1) (width box2) in
-    let separator = hline (width+2) in
-      { rbox = Render.join_v 'S' [box1.rbox; separator.rbox; box2.rbox];
-        baseline = height box1 }
+  let si str = 
+    { rbox = Render.si str;
+      baseline = 0 }
 
   let empty width height = 
     { rbox = Render.empty width height;
-      baseline = 0 }
-
-  let si str = 
-    { rbox = Render.si str;
       baseline = 0 }
 
   let join_h boxes =
     let 
       maxbaseline = ListEx.max_map (fun box -> box.baseline) boxes and
       maxheight = ListEx.max_map (fun box -> height box) boxes
-    in
-    let
+    in let
       boxes = 
         ListEx.map 
           ( fun box -> 
@@ -81,6 +74,44 @@ struct
 
   let render_str box =
     Render.render_str box.rbox
+
+  let frac box1 box2 =
+    let width = max (width box1) (width box2) in
+    let separator = hline (width+2) in
+      { rbox = Render.join_v 'S' [box1.rbox; separator.rbox; box2.rbox];
+        baseline = height box1 }
+
+  let sqrt box =
+    let 
+      vline = vline (height box) and
+      hline = hline (width box) and
+      joint = Render.make 1 1 (Uni.wchar_of_int 0x250C) and
+      hook = Render.make 1 1 (Uni.wchar_of_int 0x2572)
+    in let 
+      rbox = Render.join4 joint vline.rbox hline.rbox box.rbox
+    in
+      { rbox = Render.join_h 'Q' [hook; rbox];
+        baseline = box.baseline + 1 }
+ 
+  let integral =
+    let 
+      i1 = Render.make 1 1 (Uni.wchar_of_int 0x256d) and 
+      i2 = Render.make 1 1 (Uni.wchar_of_int 0x2502) and
+      i3 = Render.make 1 1 (Uni.wchar_of_int 0x256f) 
+    in let
+      rbox = Render.join_v 'Q' [i1; i2; i3] 
+    in
+      { rbox = rbox; baseline = 1 }
+
+  let ointegral =
+    let 
+      i1 = Render.make 1 1 (Uni.wchar_of_int 0x256d) and 
+      i2 = Render.make 1 1 (Uni.wchar_of_int 0x25ef) and
+      i3 = Render.make 1 1 (Uni.wchar_of_int 0x256f) 
+    in let
+      rbox = Render.join_v 'Q' [i1; i2; i3] 
+    in
+      { rbox = rbox; baseline = 1 }
 
 end
 

@@ -12,7 +12,8 @@ ML_FILES = \
 	decoration.ml decoration_html.ml \
 	render.ml rmath.ml \
 	automaton.ml automaton2.ml \
-	tokenize.ml parse.ml \
+	tokenize.ml \
+	parsetree.ml parse.ml interpret.ml interpret_debug.ml \
 	brightmare.ml
 MLI_FILES = \
 	locale.mli version.mli \
@@ -21,16 +22,17 @@ MLI_FILES = \
 	decoration.mli decoration_html.mli \
 	dictionary.mli latex_dictionary.mli \
 	automaton.mli automaton2.mli
+
 CMI_FILES = $(MLI_FILES:mli=cmi)
 CMX_FILES = $(ML_FILES:ml=cmx)
 CMXA_FILES = unix.cmxa str.cmxa
 O_FILES = $(C_FILES:c=o)
 
 OCAMLOPT = ocamlopt.opt
-STRIP = strip -s
 OCAMLDEP = ocamldep.opt -native
+STRIP = strip -s
 
-all: brightmare
+all: brightmare brightmare-html
 
 Makefile.dep: $(ML_FILES) $(MLI_FILES)
 	$(OCAMLDEP) ${^} > Makefile.dep
@@ -50,6 +52,9 @@ brightmare: $(CMX_FILES) $(O_FILES)
 	$(OCAMLOPT) $(CMXA_FILES) ${^} -o ${@}
 	$(STRIP) ${@}
 
+brightmare-html: brightmare
+	ln -sf ${<} ${@}
+
 test: brightmare
 	cat test/defaulttest | \
 		tr '\n' '\0' | \
@@ -61,7 +66,7 @@ stats:
 	@echo $(shell cat ${SOURCE_FILES} | wc -c) bytes.
 
 clean: Makefile.dep
-	rm -f brightmare *.cmi *.cmo *.cmx *.o *~
+	rm -f brightmare{,-html} *.cmi *.cmo *.cmx *.o *~
 
 distclean:
 	rm -f brightmare-$(VERSION).tar.*

@@ -71,21 +71,50 @@ sig
   include SIMPLE_RENDER
   val hline : int -> t
   val vline : int -> t
-  val frac : t -> t -> t
   val join_h : t list -> t
   val crossjoin_SE : t -> t -> t
   val crossjoin_SW : t -> t -> t
   val crossjoin_NE : t -> t -> t
   val crossjoin_NW : t -> t -> t
+  val frac : t -> t -> t
+  val sqrt : t -> t
+  val integral : t
+  val ointegral : t
+ end
+
+module type DICTIONARY =
+sig
+  type 'a t
+  val get : string -> 'a t -> 'a
+  val exists : string -> 'a t -> bool
+  val make : (string * 'a) list -> 'a t
+  val map : ('a -> 'b) -> 'a t -> 'b t
+  val join : 'a t list -> 'a t
+end
+
+module type LATDICT =
+sig
+  include DICTIONARY
+  val main_commands : (int * int) t
+  val alphabets : unit t
+  val operators : unit t
+  val loglikes : unit t
+  val allsymbols : int t
+  val commands : (int * int) t
 end
 
 module type PARSE =
 sig
   type t
+  module LatDict : LATDICT
+  val from_tokens : string list -> t
+end
+
+module type INTERPRET =
+sig
+  type t
   type rmath_t
-  val empty : t
   val as_rmathbox : t -> rmath_t
-  val tokens_to_rmathbox : string list -> rmath_t
 end
 
 (* vim: set tw=96 et ts=2 sw=2: *)

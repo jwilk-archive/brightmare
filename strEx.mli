@@ -25,6 +25,8 @@ val compare: t -> t -> int
 type regexp
 val regexp : string -> regexp
 
+val search_forward : regexp -> string -> int -> int
+
 val replace : regexp -> string -> string -> string
 val replace_first : regexp -> string -> string -> string
 val substitute : regexp -> (string -> string) -> string -> string

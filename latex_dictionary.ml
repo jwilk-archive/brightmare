@@ -1,9 +1,11 @@
-let main_commands = Dictionary.make [
+include Dictionary
+
+let main_commands = make [
 (* -- spacing -- *)
   "\\!",  (0, 0);
   "\\+",  (0, 0);
   "\\,",  (0, 0);
-   "\\;",  (0, 0);
+  "\\;",  (0, 0);
 (* -- spacing, part II -- *)
   "\\hfill",      (0, 0);
   "\\vfill",      (0, 0);
@@ -35,7 +37,7 @@ let main_commands = Dictionary.make [
   "\\hat",    (0, 1);
   "\\tilde",  (0, 1);
   "\\vec",    (0, 1);
-(* some other construcitons:: *)
+(* some other constructions:: *)
   "\\frac",           (0, 2);
   "\\overbrace",      (0, 1);
   "\\overleftarrow",  (0, 1);
@@ -48,7 +50,7 @@ let main_commands = Dictionary.make [
   "\\widetilde",      (0, 1);
 ]
 
-let alphabets = Dictionary.make [
+let alphabets = make [
   "\\mathrm",     ();
   "\\mathbf",     ();
   "\\mathsf",     ();
@@ -72,9 +74,9 @@ let alphabets = Dictionary.make [
 ]
 
 let alphabet_commands = 
-  Dictionary.map (fun () -> (0, 1)) alphabets
+  map (fun () -> (0, 1)) alphabets
 
-let operators = Dictionary.make [
+let operators = make [
 (* variable-sized math operators:: *)
   "\\bigcap",     ();
   "\\bigcup",     ();
@@ -92,9 +94,9 @@ let operators = Dictionary.make [
 ]
 
 let operator_commands = 
-  Dictionary.map (fun () -> (0, 0)) operators
+  map (fun () -> (0, 0)) operators
 
-let loglikes = Dictionary.make [
+let loglikes = make [
 (* log-like symbols:: *) 
   "\\Pr",         ();
   "\\arccos",     ();
@@ -137,9 +139,9 @@ let loglikes = Dictionary.make [
 ]
 
 let loglike_commands = 
-  Dictionary.map (fun () -> (0, 0)) loglikes
+  map (fun () -> (0, 0)) loglikes
 
-let symbols = Dictionary.make [
+let symbols = make [
 (* LaTeX escapable special characters:: *)
   "\\$",  37;
   "\\%",  38;
@@ -317,7 +319,7 @@ let symbols = Dictionary.make [
   "\\imath",        0x0131;
   "\\infty",        8734;
   "\\jmath",        0;
-  "\\ldots",        0;
+  "\\ldots",        8230;
   "\\mho",          8487;
   "\\nabla",        8711;
   "\\natural",      9838;
@@ -647,9 +649,9 @@ let symbols = Dictionary.make [
 ]
 
 let symbol_commands = 
-  Dictionary.map (fun _ -> (0, 0)) symbols
+  map (fun _ -> (0, 0)) symbols
 
-let delimiters = Dictionary.make [
+let delimiters = make [
   "(",              40;
   ")",              41;
   "[",              91;
@@ -684,9 +686,9 @@ let delimiters = Dictionary.make [
 ]
 
 let delimiter_commands =
-  Dictionary.map (fun _ -> (0, 0)) delimiters
+  map (fun _ -> (0, 0)) delimiters
 
-let commands = Dictionary.join [
+let commands = join [
   main_commands; 
   alphabet_commands; 
   operator_commands;
@@ -695,7 +697,7 @@ let commands = Dictionary.join [
   delimiter_commands
 ]
 
-let allsymbols = Dictionary.join [
+let allsymbols = join [
   symbols;
   delimiters
 ]

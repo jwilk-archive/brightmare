@@ -1,0 +1,62 @@
+module type UNICODE = 
+  Zz_signatures.UNICODE
+module type RMATH = 
+  Zz_signatures.RMATH
+module type PARSE = 
+  Zz_signatures.PARSE with type t = Parsetree.t
+module type T = 
+  Zz_signatures.INTERPRET with type t = Parsetree.t
+
+module Make 
+  (Uni : UNICODE) 
+  (Parse : PARSE)
+  (Rmath : RMATH with module Uni = Uni) :
+  T with type rmath_t = Rmath.t =
+struct
+  
+  let ( ** ) = Uni.( ** )
+
+  type rmath_t = Rmath.t
+  type t = Parsetree.t
+  module LatDict = Parse.LatDict
+
+  open Parsetree
+
+  let rec as_rmathbox tree =
+    match tree with
+      Element "" -> Rmath.empty 1 1 |
+      Element str -> Rmath.si (Uni.from_string str) |
+      Operator (op, treelist) ->
+        let boxlist = ListEx.map as_rmathbox treelist in
+        match (op, boxlist) with
+          "\\int", [] -> Rmath.integral |
+          "\\oint", [] -> Rmath.ointegral |
+          opstr, [] -> 
+            if LatDict.exists opstr LatDict.allsymbols
+            then
+              let symbol = LatDict.get opstr LatDict.allsymbols in
+              let symbol = Uni.wchar_of_int symbol in
+              let symbol = 1 ** symbol in
+                Rmath.si symbol 
+            else if LatDict.exists opstr LatDict.loglikes then 
+              Rmath.si (Uni.from_string (StrEx.str_after opstr 1))
+            else
+              Rmath.si (Uni.from_string opstr) (* FIXME *) |
+          "", _ -> Rmath.join_h boxlist |
+          "\\frac", [b1; b2] -> Rmath.frac b1 b2 |
+          "\\sqrt", b1::_ -> Rmath.sqrt b1 |
+          "_", [b1; b2] -> Rmath.crossjoin_SE b2 b1 |
+          "^", [b1; b2] -> Rmath.crossjoin_NE b2 b1 |
+          opstr, _ ->
+            if LatDict.exists opstr LatDict.alphabets
+            then
+              Rmath.join_h boxlist (* FIXME *)
+            else 
+              let
+                opbox = Rmath.si (Uni.from_string opstr)
+              in
+                Rmath.join_h (opbox::boxlist)
+
+end
+
+(* vim: set tw=96 et ts=2 sw=2: *)

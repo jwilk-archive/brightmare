@@ -30,19 +30,26 @@ automaton2.cmo: automaton2.cmi
 automaton2.cmx: automaton2.cmi 
 tokenize.cmo: listEx.cmi strEx.cmi zz_signatures.cmx 
 tokenize.cmx: listEx.cmx strEx.cmx zz_signatures.cmx 
-parse.cmo: dictionary.cmi latex_dictionary.cmi listEx.cmi strEx.cmi \
-    zz_signatures.cmx 
-parse.cmx: dictionary.cmx latex_dictionary.cmx listEx.cmx strEx.cmx \
-    zz_signatures.cmx 
-brightmare.cmo: automaton.cmi decoration_html.cmi listEx.cmi locale.cmi \
-    parse.cmx render.cmx rmath.cmx tokenize.cmx unicode_html.cmi 
-brightmare.cmx: automaton.cmx decoration_html.cmx listEx.cmx locale.cmi \
-    parse.cmx render.cmx rmath.cmx tokenize.cmx unicode_html.cmx 
+parse.cmo: listEx.cmi parsetree.cmx zz_signatures.cmx 
+parse.cmx: listEx.cmx parsetree.cmx zz_signatures.cmx 
+interpret.cmo: listEx.cmi parsetree.cmx strEx.cmi zz_signatures.cmx 
+interpret.cmx: listEx.cmx parsetree.cmx strEx.cmx zz_signatures.cmx 
+interpret_debug.cmo: listEx.cmi parsetree.cmx zz_signatures.cmx 
+interpret_debug.cmx: listEx.cmx parsetree.cmx zz_signatures.cmx 
+brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmi \
+    interpret.cmx interpret_debug.cmx latex_dictionary.cmi listEx.cmi \
+    locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmi tokenize.cmx \
+    unicode_html.cmi unicode_konwert.cmi version.cmi zz_signatures.cmx 
+brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
+    interpret.cmx interpret_debug.cmx latex_dictionary.cmx listEx.cmx \
+    locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmx tokenize.cmx \
+    unicode_html.cmx unicode_konwert.cmx version.cmx zz_signatures.cmx 
 unicode.cmi: zz_signatures.cmx 
 unicode_html.cmi: zz_signatures.cmx 
 unicode_konwert.cmi: zz_signatures.cmx 
 decoration.cmi: zz_signatures.cmx 
 decoration_html.cmi: zz_signatures.cmx 
-latex_dictionary.cmi: dictionary.cmi 
+dictionary.cmi: zz_signatures.cmx 
+latex_dictionary.cmi: zz_signatures.cmx 
 automaton.cmi: zz_signatures.cmx 
 automaton2.cmi: zz_signatures.cmx 
