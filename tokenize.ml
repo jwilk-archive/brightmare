@@ -1,39 +1,45 @@
-type token_state =
-  TS_Normal | TS_SCommand | TS_Command;;
+module type AUTOMATON =
+sig
+  type t
+  type s
+  type command
+  val default : t
+  val pubstate : t -> s
+  val execute : command -> t -> t
+end
 
-let rec extokenize arr state lasttok toklist =
-  match arr with
-    [] -> lasttok::toklist |
-    head::arr ->
-      let 
-        et = extokenize arr and
-        hd = String.make 1 head and
-        nstate = (if state = TS_SCommand then TS_Command else state)
-      in let
-        et_append () = et nstate (lasttok^hd) toklist and
-        et_fresh state = et state "" (hd::lasttok::toklist)
-      in 
-      match head, state with
-        ('^' | '_'), _ -> 
-          et_fresh TS_Normal |
-        ('\\' | '{' | '}' | '|' | '#' | '&' | '!' | ',' | ':' | ';'), TS_SCommand -> 
-        (* FIXME *) 
-          et TS_Normal "" (("\\"^hd)::toklist) |
-        '\\', _ -> 
-          et TS_SCommand "\\" (lasttok::toklist) |
-        ('a'..'z' | 'A'..'Z'), (TS_SCommand | TS_Command) -> 
-          et_append () |
-        _, _ -> 
-          et_fresh TS_Normal;;
+module type TOK_AUTOMATON =
+sig
+  include AUTOMATON with 
+    type command = char and 
+    type s = bool
+end
 
-let tokenize_a arr =
-  List2.rev 
-    (List2.filter 
-      (fun s -> s <> "") 
-      (extokenize arr TS_Normal "" [])
-    );;
+module type T =
+sig
+  val make : string -> string list
+end
 
-let make str =
-  tokenize_a (String2.as_list str);;
+module Make(Aut : TOK_AUTOMATON) =
+struct
+  let rec extokenize lasttok toklist chars state =
+    match chars with
+      [] -> lasttok::toklist |
+      head::chars ->
+        let state = Aut.execute head state in
+        let head = String.make 1 head in
+          if Aut.pubstate state then
+            extokenize head (lasttok::toklist) chars state
+          else
+            extokenize (lasttok^head) toklist chars state
+
+  let make str =
+    let chars = (String2.as_list str) in
+      List2.rev 
+        ( List2.filter
+            (fun s -> s <> "")
+            (extokenize "" [] chars Aut.default)
+        )
+  end
 
 (* vim: set tw=96 et ts=2 sw=2: *)

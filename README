@@ -9,16 +9,19 @@ License:
 
 ChangeLog:
 
-14 Nov 2004, version 0.20041114
+14 Nov 2004, version 0.20041114.2
   -- use rev_map instead of rev(map)
   -- use List2 module insead of List
+  -- locale support (sprout)
+  -- rewritten the tokenizer (now we have 2 flavours)
+  -- more than 1500 lines
 
 13 Nov 2004, version 0.20041113
   -- rewritten dictionary support
   -- LateX di... blah
 
 12 Nov 2004, version 0.20041112
-  -- fixed tokenizer a bit
+  -- fixed the tokenizer a bit
   -- LateX dictionary is still expanding
 
 11 Nov 2004, version 0.20041111

@@ -101,11 +101,11 @@ let rec as_rmathbox tree =
             in
               Rmath.join_h (opbox::boxlist);;
 
-let from_string str =
-  let (revptree, _) = parse_a empty (Tokenize.make str) oo in
+let from_tokens tokens =
+  let (revptree, _) = parse_a empty tokens oo in
     rev revptree;;
 
-let string_to_rmathbox s =
-  as_rmathbox (from_string s);;
+let tokens_to_rmathbox s =
+  as_rmathbox (from_tokens s);;
 
 (* vim: set tw=96 et ts=2 sw=2: *)

@@ -1,6 +1,8 @@
 latex_dictionary.cmi: dictionary.cmi 
 render.cmi: unicode.cmi 
 rmath.cmi: unicode.cmi 
+automaton2.cmo: automaton2.cmi 
+automaton2.cmx: automaton2.cmi 
 parse.cmi: rmath.cmi 
 version.cmo: version.cmi 
 version.cmx: version.cmi 
@@ -18,13 +20,17 @@ render.cmo: list2.cmi unicode.cmi render.cmi
 render.cmx: list2.cmx unicode.cmx render.cmi 
 rmath.cmo: list2.cmi render.cmi unicode.cmi rmath.cmi 
 rmath.cmx: list2.cmx render.cmx unicode.cmx rmath.cmi 
+automaton.cmo: automaton.cmi 
+automaton.cmx: automaton.cmi 
+automaton2.cmo: automaton2.cmi 
+automaton2.cmx: automaton2.cmi 
 tokenize.cmo: list2.cmi string2.cmi tokenize.cmi 
 tokenize.cmx: list2.cmx string2.cmx tokenize.cmi 
 parse.cmo: dictionary.cmi latex_dictionary.cmi list2.cmi rmath.cmi \
-    tokenize.cmi unicode.cmi parse.cmi 
+    unicode.cmi parse.cmi 
 parse.cmx: dictionary.cmx latex_dictionary.cmx list2.cmx rmath.cmx \
-    tokenize.cmx unicode.cmx parse.cmi 
-brightmare.cmo: list2.cmi locale.cmi parse.cmi rmath.cmi tokenize.cmi \
-    unicode.cmi version.cmi 
-brightmare.cmx: list2.cmx locale.cmi parse.cmx rmath.cmx tokenize.cmx \
-    unicode.cmx version.cmx 
+    unicode.cmx parse.cmi 
+brightmare.cmo: automaton2.cmi list2.cmi locale.cmi parse.cmi rmath.cmi \
+    tokenize.cmi unicode.cmi version.cmi 
+brightmare.cmx: automaton2.cmx list2.cmx locale.cmi parse.cmx rmath.cmx \
+    tokenize.cmx unicode.cmx version.cmx 
