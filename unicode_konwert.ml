@@ -1,7 +1,8 @@
-type wstring = string and wchar = string
-type t = wstring
+type 
+  wstring = string and 
+  wchar = string and
+  t = string
 
-let ( ++ ) = StrEx.( ++ )
 let ( ** ) = StrEx.( ** )
 
 let empty = ""
@@ -13,7 +14,7 @@ let locale_charmap =
     else
     try 
       let ison = Scanf.sscanf s "ISO-8859-%d" (fun n -> n) in
-      if (ison < 1) or (ison > 16) then 
+      if (ison < 1) || (ison > 16) then 
         "ascii" 
       else
         Printf.sprintf "iso%d" ison
@@ -73,14 +74,15 @@ let wchar_of_int n =
   else
     from_utf8 (Unicore.utf8char_of_int n)
 
-let wchar_of_char ch = wchar_of_int (int_of_char ch)
+let wchar_of_char ch = 
+  wchar_of_int (int_of_char ch)
 
 let length = 
-  if locale_charmap = "utf8" then
-    Unicore.utf8string_length
-  else
-    StrEx.length
+  match locale_charmap with
+    "utf8" -> Unicore.utf8string_length |
+    _ -> StrEx.length
 
 let ( ** ) = StrEx.( **! )
+let ( ++ ) = StrEx.( ++ )
 
 (* vim: set tw=96 et ts=2 sw=2: *)

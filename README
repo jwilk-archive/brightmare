@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041127
+BrightMaRe, version 0.20041128
 ------------------------------
 
 Author:
@@ -9,13 +9,21 @@ License:
 
 ChangeLog:
 
+28 Nov 2004, version 0.20041128
+  -- quicker conversion to ascii
+  -- more than 2500 lines... :-\
+
 27 Nov 2004, version 0.20041127
+  -- support for large delimiters (sprout)
 
 25 Nov 2004, version 0.20041125
+  -- *
 
 24 Nov 2004, version 0.20041124
+  -- *
 
 23 Nov 2004, version 0.20041123
+  -- *
 
 22 Nov 2004, version 0.20041122
   -- support for optional arguments

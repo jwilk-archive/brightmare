@@ -181,7 +181,6 @@ let symbols = make [
 
 (* predefined LaTeX text-mode commands --- TODO *)
 
-(* punctuation marks --- TODO *)
 
 (* binary operators:: *)
   "\\amalg",            2210;
@@ -262,8 +261,9 @@ let symbols = make [
   "\\supseteq",   8839;
   "\\vdash",      8866;
 
+(* punctuation marks --- TODO *)
 (* punctuation symbols:: *)
-  "\\colon",  0;
+  "\\colon",  58;
   "\\ldotp",  0;
   "\\cdotp",  0;
 

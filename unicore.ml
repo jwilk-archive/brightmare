@@ -44,6 +44,6 @@ let utf8string_length s =
     if len >= 0 then
       len
     else
-      raise (Failure "Unicore_konwert.length")
+      raise (Failure "Unicore.length")
 
 (* vim: set tw=96 et ts=2 sw=2: *)

@@ -40,7 +40,7 @@ end
 module Brightmare_html = 
   Brightmare(Unicode_html)(Decoration_html)(Automaton)(Latex_dictionary)
 module Brightmare_plain =
-  Brightmare(Unicode_konwert)(Decoration)(Automaton)(Latex_dictionary)
+  Brightmare(Unicode_convert)(Decoration)(Automaton)(Latex_dictionary)
 
 type options_t = 
   { argv : string list; 

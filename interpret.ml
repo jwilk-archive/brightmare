@@ -25,8 +25,8 @@ struct
     try
       let d =
         match d with
-          "(" -> Rmath.Delim_bracket (true,  Rmath.Bracket_round) |
-          ")" -> Rmath.Delim_bracket (false, Rmath.Bracket_round) |
+          "(" | "\\lgroup" -> Rmath.Delim_bracket (true,  Rmath.Bracket_round) |
+          ")" | "\\rgroup" -> Rmath.Delim_bracket (false, Rmath.Bracket_round) |
           "[" -> Rmath.Delim_bracket (true,  Rmath.Bracket_square) |
           "]" -> Rmath.Delim_bracket (false, Rmath.Bracket_square) |
           "\\{" -> Rmath.Delim_bracket (true,  Rmath.Bracket_brace) |
@@ -37,6 +37,8 @@ struct
           "\\rfloor" -> Rmath.Delim_floor false |
           "\\lceil" -> Rmath.Delim_ceil true  | 
           "\\rceil" -> Rmath.Delim_ceil false |
+          "|" -> Rmath.Delim_vert |
+          "\\|" -> Rmath.Delim_doublevert |
           _ -> raise(Failure "")
       in
         Rmath.largedelimiter box d
@@ -63,6 +65,46 @@ struct
                 Rmath.join_h [d1;box;d2] |
             _ -> Rmath.join_h [(make d1);box;(make d2)]
         ) |
+      Operator ("_", [sub; obj]) ->
+        let subbox = make sub and objbox = make obj
+        in
+          let joinf =
+          ( match obj with
+              Operator (opstr, []) ->
+                if 
+                  LatDict.exists opstr LatDict.loglikes ||
+                  LatDict.exists opstr LatDict.operators
+                then
+                  Rmath.join_bot
+                else
+                  Rmath.join_SE |
+              _ -> Rmath.join_SE )
+        in
+          joinf objbox subbox |
+      Operator ("^", [sup; obj]) ->
+        let supbox = make sup and objbox = make obj in
+        let joinf =
+        ( match obj with
+            Operator (opstr, []) ->
+              if LatDict.exists opstr LatDict.operators then
+                Rmath.join_top
+              else
+                Rmath.join_NE |
+            _ -> Rmath.join_NE )
+        in
+          joinf objbox supbox |
+      Operator ("_^", [sub; sup; obj]) ->
+        let supbox = make sup and subbox = make sub and objbox = make obj in
+        let joinf =
+        ( match obj with
+            Operator (opstr, []) ->
+              if LatDict.exists opstr LatDict.operators then
+                Rmath.join_topbot
+              else
+                Rmath.join_NESE |
+            _ -> Rmath.join_NESE )
+        in
+          joinf objbox supbox subbox |
       Operator (op, treelist) ->
         let boxlist = ListEx.map make treelist in
         match (op, boxlist) with
@@ -83,8 +125,6 @@ struct
           "\\frac", [b1; b2] -> Rmath.frac b1 b2 |
           "\\sqrt", [bi; b] -> Rmath.sqrt b bi |
           "\\sqrt", [b] -> Rmath.sqrt b (Rmath.empty 1 1) |
-          "_", [b1; b2] -> Rmath.crossjoin_SE b2 b1 |
-          "^", [b1; b2] -> Rmath.crossjoin_NE b2 b1 |
           opstr, _ ->
             if LatDict.exists opstr LatDict.alphabets
             then

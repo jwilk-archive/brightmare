@@ -1,13 +1,15 @@
 VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
-DIST_FILES = README README.dep Makefile Makefile.dep $(SOURCE_FILES)
+DIST_FILES = README Makefile Makefile.dep $(SOURCE_FILES)
+TEST_FILE = test/defaulttest
 SOURCE_FILES = $(C_FILES) $(ML_FILES) $(MLI_FILES)
 C_FILES = locale.c
 ML_FILES = \
 	signatures.ml \
 	version.ml \
 	listEx.ml strEx.ml \
-	unicore.ml unicode.ml unicode_html.ml unicode_konwert.ml \
+	unicore.ml unicore_convert.ml \
+	unicode.ml unicode_html.ml unicode_convert.ml unicode_konwert.ml \
 	dictionary.ml latex_dictionary.ml \
 	decoration.ml decoration_html.ml \
 	render.ml rmath.ml \
@@ -18,7 +20,8 @@ ML_FILES = \
 MLI_FILES = \
 	locale.mli \
 	listEx.mli strEx.mli \
-	unicore.mli unicode.mli unicode_html.mli unicode_konwert.mli \
+	unicore.mli unicore_convert.mli \
+	unicode.mli unicode_html.mli unicode_convert.mli unicode_konwert.mli \
 	decoration.mli decoration_html.mli \
 	dictionary.mli latex_dictionary.mli \
 	automaton.mli automaton2.mli
@@ -57,7 +60,7 @@ brightmare-html: brightmare
 	ln -sf ${<} ${@}
 
 test: all
-	cat test/defaulttest | \
+	cat $(TEST_FILE) | \
 		tr '\n' '\0' | \
 		xargs -0 printf "\"%s\"\n" | \
 		xargs ./brightmare
@@ -74,6 +77,7 @@ distclean:
 
 dist: distclean
 	fakeroot tar cf brightmare-$(VERSION).tar $(DIST_FILES)
+	fakeroot tar rhf brightmare-$(VERSION).tar $(TEST_FILE)
 	bzip2 -9 brightmare-$(VERSION).tar
 
 .PHONY: all test stats clean distclean dist

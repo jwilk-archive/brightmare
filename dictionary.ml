@@ -1,5 +1,6 @@
 module AsocString = Map.Make(StrEx)
 
+type kt = string
 type 'a t = 'a AsocString.t list
 
 let asoc_multi_put kv_list dict =

@@ -27,7 +27,7 @@ let from_string s =
 let to_string (_, s) = s
 
 let wchar_of_int n = 
-  if n < 127 then
+  if (n<127) && (n!=38) && (n!=60) && (n!=62) then
     1 ** (char_of_int n)
   else
     Printf.sprintf "&#%d;" n

@@ -4,10 +4,16 @@ strEx.cmo: strEx.cmi
 strEx.cmx: strEx.cmi 
 unicore.cmo: strEx.cmi unicore.cmi 
 unicore.cmx: strEx.cmx unicore.cmi 
+unicore_convert.cmo: listEx.cmi strEx.cmi unicore_convert.cmi 
+unicore_convert.cmx: listEx.cmx strEx.cmx unicore_convert.cmi 
 unicode.cmo: locale.cmi strEx.cmi unicore.cmi unicode.cmi 
 unicode.cmx: locale.cmi strEx.cmx unicore.cmx unicode.cmi 
 unicode_html.cmo: listEx.cmi strEx.cmi unicode_html.cmi 
 unicode_html.cmx: listEx.cmx strEx.cmx unicode_html.cmi 
+unicode_convert.cmo: locale.cmi strEx.cmi unicore.cmi unicore_convert.cmi \
+    unicode_convert.cmi 
+unicode_convert.cmx: locale.cmi strEx.cmx unicore.cmx unicore_convert.cmx \
+    unicode_convert.cmi 
 unicode_konwert.cmo: locale.cmi strEx.cmi unicore.cmi unicode_konwert.cmi 
 unicode_konwert.cmx: locale.cmi strEx.cmx unicore.cmx unicode_konwert.cmi 
 dictionary.cmo: listEx.cmi strEx.cmi dictionary.cmi 
@@ -37,13 +43,14 @@ interpret_debug.cmx: listEx.cmx parsetree.cmx signatures.cmx
 brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmi \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmi lexscan.cmx \
     listEx.cmi parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmi \
-    unicode_html.cmi unicode_konwert.cmi version.cmx 
+    unicode_convert.cmi unicode_html.cmi version.cmx 
 brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmx lexscan.cmx \
     listEx.cmx parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmx \
-    unicode_html.cmx unicode_konwert.cmx version.cmx 
+    unicode_convert.cmx unicode_html.cmx version.cmx 
 unicode.cmi: signatures.cmx 
 unicode_html.cmi: signatures.cmx 
+unicode_convert.cmi: signatures.cmx 
 unicode_konwert.cmi: signatures.cmx 
 decoration.cmi: signatures.cmx 
 decoration_html.cmi: signatures.cmx 

@@ -1,1 +1,1 @@
-include Signatures.DECORATION
+decoration.mli

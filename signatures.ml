@@ -113,14 +113,16 @@ module type RMATH =
 (* Renderer obrazów matematycznych. *)
 sig
   include SIMPLE_RENDER
-  val hline : int -> t
-  val vline : int -> t
+(*  val hline : int -> t
+  val vline : int -> t *)
 (* TODO: plus wiele operacji rysowania ograniczników (nawiasów) o dowolnych rozmiarach *)
   val join_h : t list -> t
-  val crossjoin_SE : t -> t -> t
-  val crossjoin_SW : t -> t -> t
-  val crossjoin_NE : t -> t -> t
-  val crossjoin_NW : t -> t -> t
+  val join_top : t -> t -> t
+  val join_bot : t -> t -> t
+  val join_topbot : t -> t -> t -> t
+  val join_NE : t -> t -> t
+  val join_SE : t -> t -> t
+  val join_NESE : t -> t -> t -> t
   val frac : t -> t -> t
   val sqrt : t -> t-> t
   val integral : unit -> t
@@ -134,7 +136,9 @@ sig
   type delimiter_t = 
     Delim_bracket of bool * bracket_t | 
     Delim_floor of bool | 
-    Delim_ceil of bool
+    Delim_ceil of bool |
+    Delim_vert |
+    Delim_doublevert
   val largedelimiter : t -> delimiter_t -> t
 (* TODO: plus jeszcze kilka innych operacji... *)
 end
@@ -143,9 +147,10 @@ module type DICTIONARY =
 (* S³ownik z³±czalny. *)
 sig
   type 'a t
-  val get : string -> 'a t -> 'a
-  val exists : string -> 'a t -> bool
-  val make : (string * 'a) list -> 'a t
+  type kt
+  val get : kt -> 'a t -> 'a
+  val exists : kt -> 'a t -> bool
+  val make : (kt * 'a) list -> 'a t
   val map : ('a -> 'b) -> 'a t -> 'b t
   val merge : 'a t list -> 'a t
 end
@@ -153,7 +158,7 @@ end
 module type LATDICT =
 (* S³owniki symboli, poleceñ, ograniczników, whatever, LaTeX-a *)
 sig
-  include DICTIONARY
+  include DICTIONARY with type kt = string
   val main_commands : (int * int) t
   val alphabets : unit t
   val operators : unit t

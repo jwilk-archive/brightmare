@@ -10,6 +10,7 @@ struct
   module LatDict = LatDict
  
   exception Parse_error
+  exception Internal_error
  
   open Parsetree
 
@@ -19,12 +20,14 @@ struct
     match tree with
       Element _ -> 
         tree |
-      Operator ("", []) ->
-        Element "" |
       Operator ("", [tree]) ->
         fix tree |
       Operator ("\\left\\right", d1::d2::trees) ->
         Operator ("\\left\\right", d1::d2::(ListEx.rev_map fix trees)) |
+      Operator ("_", [Operator ("^", [tree;b]); a]) ->
+        Operator ("_^", [fix a; fix b; fix tree]) |
+      Operator ("^", [Operator ("_", [tree;b]); a]) ->
+        Operator ("_^", [fix b; fix a; fix tree]) |
       Operator (op, trees) -> 
         Operator (op, ListEx.rev_map fix trees)
 
@@ -45,7 +48,7 @@ struct
           _ -> 
             Operator (subop, basetree::subtrees)
       ) |
-      _ -> raise(Parse_error) (* FIXME *)
+      _ -> raise(Internal_error)
 
   let oo = -1 (* oo + 1 == oo, thus oo = -1 *)
 
@@ -73,7 +76,7 @@ struct
       "\\right"::lexlist ->
         let (delim, lexlist) = extract_delim lexlist in
           Operator ("\\right", [Operator (delim, []); accum]), lexlist |
-     "\\left"::lexlist ->
+      "\\left"::lexlist ->
         let (delim, lexlist) = extract_delim lexlist in
         let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
         let newaccum =
@@ -101,8 +104,8 @@ struct
             (p, q) = LatDict.get lexem LatDict.commands
           in
             let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
-              parse_a 
-                ( (if lexem.[0] = '^' || lexem.[0] = '_' then backadd else add)
+              parse_a
+                ( (match lexem with "^" | "_" -> backadd | _ -> add)
                     accum 
                     subtree
                  ) 
