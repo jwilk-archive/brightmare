@@ -27,8 +27,10 @@ struct
           "\x1B[35m" ^ op ^ "\x1B[0m(" ^ argstr ^ ")"
 
   let make tree =
-    print_string ((debug_rmathbox tree) ^ "\n");
-    SubInterpret.make tree
+    begin
+      print_string ((debug_rmathbox tree) ^ "\n");
+      SubInterpret.make tree
+    end
 
 end
 

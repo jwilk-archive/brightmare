@@ -39,15 +39,15 @@ let perform_filter cmdline str =
     (chin, chout) = Unix.open_process cmdline and
     forget _ = () 
   in
-    (
+    begin
       output_string chout str;
       close_out chout;
       let s = fetch_contents chin in
-      (
+      begin
         forget (Unix.close_process (chin, chout));
         s
-      )
-    )
+      end
+    end
 
 let perform_convert encfrom encto str =
     let cmdline = 

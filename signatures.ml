@@ -1,6 +1,4 @@
 module type AUTOMATON =
-(* Automat skoñczony typu [t], o pocz±tkowym stanie [default], udostêpniaj±cy publicznie
- * ([pubstate]) swój stan typu [s], akceptuj±cy ([execute]) polecenia typu [command]. *)
 sig
   type t
   type s
@@ -11,102 +9,59 @@ sig
 end
 
 module type LEX_AUTOMATON =
-(* Automat rozpoznaj±cy koniec leksemu. Karmiony znakami, odpowiada [true], je¶li poprzednio
- * wczytany znak koñczy leksem. *)
   AUTOMATON with 
     type command = char and 
     type s = bool
 
 module type LEXSCAN =
-(* Analizator leksykalny. Rozbija napis na listê napisów-leksemów. *)
 sig
   val make : string -> string list
 end
 
 module type UNICODE =
-(* Biuro obs³ugi Unikodu. *)
 sig
   type wstring
   type wchar
   type t = wstring
-  val wchar_of_int : int -> wchar
-      (* Uni-znak o zdanym kodzie *)
-  val wchar_of_char : char -> wchar
-      (* Konwersja znak -> uniznak *)
-  val from_string : string -> wstring
-      (* Konwersja napis -> uninapis *)
-  val to_string : wstring -> string
-      (* Konwersja uninapis -> napis *)
   val empty : wstring
   val length : wstring -> int
   val ( ++ ) : wstring -> wstring -> wstring
-      (* Konkatenacja uninapisów *)
   val ( ** ) : int -> wchar -> wstring
-      (* Utworzenie uninapisu z zadanej ilo¶ci uniznaków. *)
+  val wchar_of_int : int -> wchar
+  val wchar_of_char : char -> wchar
+  val from_string : string -> wstring
+  val to_string : wstring -> string
 end
 
 module type DECORATION =
 sig
   val line_begin : string
   val line_end : string
-  val equation_begin : string
-  val equation_end : string
+  val formula_begin : string
+  val formula_end : string
 end
 
 module type SIMPLE_RENDER =
-(* Ogólny renderer obrazów o typie [t] z unistringów obs³ugiwanych przez [Uni]. *)
 sig
   type t
   module Uni : UNICODE
   val width : t -> int
   val height : t -> int
   val empty : int -> int -> t
-  val si : Uni.wstring -> t
-  (* Obraz zadanego napisu *)
-  val render_str : t -> string
-  (* Konwersja obraz -> napis *)
+  val s : Uni.wstring -> t
+  val render : t -> string
 end
 
 module type RENDER =
-(* Renderer obrazów *)
 sig
   include SIMPLE_RENDER
   val make : int -> int -> Uni.wchar -> t
-  (* Obraz o zadanych rozmiarach, wype³niony du¿± ilo¶ci± pojedynczych znaków *)
-  val grow_custom : char -> t -> int -> int -> t
-  (* [grow_custom dir w h]:
-   * Rozszerza obraz do zadanych wymiarów [w]×[h], zostawiaj±c w kierunku [dir] puste miejsce.
-   * Kierunek mo¿e byæ jedn± z liter:
-   *   Q W E
-   *   A S D
-   *   Z X C
-   *)
+  val grow : char -> t -> int -> int -> t
   val join_v : char -> t list -> t
-  (* [join_v dir boxes]:
-   * £±czy, ustawiaj±c w pionie, obrazy z listy [boxes], przy rozszerzaniu zostawiaj±c puste
-   * miejsce w kierunku [dir]
-   *)
   val join_h : char -> t list -> t
-  (* [join_v dir boxes]:
-   * £±czy, ustawiaj±c w poziomie, obrazy z listy [boxes], przy rozszerzaniu zostawiaj±c puste
-   * miejsce w kierunku [dir]
-   *)
   val join4 : t -> t -> t -> t -> t
-  (* [join4 tl bl tr br]:
-   * £±czy obrazy w nastêpuj±cy sposób:
-   *  -- -- 
-   * |tl|tr|
-   *  -- -- 
-   * |bl|br|
-   *  -- --
-   * Aby uzyskaæ odpowiedni efekt, rozmiary obrazów musz± do siebie pasowaæ.
-   *)
-  val crossjoin_tr : t -> t -> t
-  (* [crossjoin_tr bl tr]:
-   * Podobnie jak [join4], zostawiaj±c puste miejsca. *)
-  val crossjoin_br : t -> t -> t
-  (* [crossjoin_br tl br]:
-   * Podobnie jak [join4], zostawiaj±c puste miejsca. *)
+  val join_tr : t -> t -> t
+  val join_br : t -> t -> t
 end
 
 module type RMATH =
@@ -144,7 +99,6 @@ sig
 end
 
 module type DICTIONARY =
-(* S³ownik z³±czalny. *)
 sig
   type ('a, 'b) t
   val get : 'a -> ('a, 'b) t -> 'b
@@ -155,28 +109,24 @@ sig
 end
 
 module type LATDICT =
-(* S³owniki symboli, poleceñ, ograniczników, whatever, LaTeX-a *)
 sig
   include DICTIONARY
-  val main_commands : (string, int * int) t
   val alphabets : (string, unit) t
   val operators : (string, unit) t
   val loglikes : (string, unit) t
   val delimiters : (string, int) t
-  val allsymbols : (string, int) t
+  val symbols : (string, int) t
   val commands : (string, int * int) t
 end
 
 module type PARSE =
-(* Analizator sk³adni. Analiza daje w wyniku drzewko typu [t]. *)
 sig
   type t
+  exception Parse_error
   val from_lexems : string list -> t
 end
 
 module type INTERPRET =
-(* Interpreter uzyskanego przez analizator drzewka [t]. 
- * Interpretacja daje w wyniku cokolwiek typu [s]. *)
 sig
   type t
   type s

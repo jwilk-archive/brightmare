@@ -1,117 +1,295 @@
-BrightMaRe, version 0.20041130
-------------------------------
+ ____       _       _     _
+| __ ) _ __(_) __ _| |__ | |_ _ __ ___   __ _ _ __ ___
+|  _ \| '__| |/ _` | '_ \| __| '_ ` _ \ / _` | '__/ _ \
+| |_) | |  | | (_| | | | | |_| | | | | | (_| | | |  __/
+|____/|_|  |_|\__, |_| |_|\__|_| |_| |_|\__,_|_|  \___|
+Przewodnik    |___/           po sygnaturach i modu³ach
 
-Author:
-  Jakub Wilk <ubanus@users.sf.net>
+1. Modu³y pomocnicze
 
-License:
-  GPL v. 2
+  1.1. Modu³ *ListEx* -- <listEx.ml>, <listEx.mli>
+    Udostêpnia funkcje:
+      -- znajduj±ce minimum/maksimum na li¶cie: 
+         [min], [max], [min_map], [max_map]
+      -- tworz±c± listê o zadanej d³ugo¶ci: [make]
+      -- inne funkcje zaimportowane ze standardowego modu³u List
 
-ChangeLog:
+  1.2. Modu³ *StrEx* <strEx.ml>, <strEx.mli>
+    Udostêpnia funkcje:
+      -- zamieniaj±c± napis na listê znaków, z których siê sk³ada: [as_list]
+      -- ³±cz±c± dwa napisy: [( ++ )]
+      -- zwielokratniaj±c± znak: [( ** )]
+      -- zwielokratniaj±c± napis: [( **! )]
+      -- inne funkcje zaimportowane ze standardowych modu³ów *String* 
+         oraz *Str*
 
-30 Nov 2004, version 0.20041130
-  -- *
+  1.3. Modu³y *Unicore* i *Unicore_convert* -- <unicore.ml>, <unicore.mli>,
+       <unicore_convert.ml>, <unicore_convert.mli>
+    Udostêpniaj± funkcje:
+      -- daj±c± napis sk³adaj±cy siê z jednego znaku zakodowanego w UTF-8 
+         o zadanym kodzie: [utf8char_of_int]
+      -- zamieniaj±ca znak zakodowany w ISO-8859-1 na jednoznakowy napis
+         zakodowany w UTF-8: [utf8char_of_char]
+      -- daj±c± ilo¶æ znaków napisu zakodowanego w UTF-8:
+         [utf8string_length]
+      -- daj±c± reprezentacjê znaku o zadanym kodzie w napisach ASCII:
+         [ascii_of_int]
+    Modu³ *Unicore_convert* zale¿y od modu³u *Dictionary*.
 
-29 Nov 2004, version 0.20041129
-  -- rewritten `dictionary.ml'
+  1.4. Modu³ *Locale* -- <locale.c>, <locale.mli>
+    Modu³ udostêpnia funkcjê [charmap], która zwraca nazwê systemu kodowania
+    znaków odpowiedniego dla aktualnego locale.
+    
+2. Unikod
 
-28 Nov 2004, version 0.20041128
-  -- quicker conversion to ascii
-  -- more than 2500 lines... :-\
+  2.1. Sygatura UNICODE -- <signatures.ml>
+    Modu³ o takiej sygnaturze udostêpnia:
+      -- typ [wchar] i [t] = [wstring]: znak i napis unikodowy
+      -- funkcje konwersji do znaków unikodowych: [wchar_of_int] oraz
+         [wchar_of_char]
+      -- funkcjê konwertuj±ce do/z zwyk³ych napisów: [from_string] oraz
+         [to_string] 
+      -- pusty napis unikodowy: [empty]
+      -- funkcjê daj±c± d³ugo¶æ napisu: [length]
+      -- funkcje [( ++ )] oraz [( ** )] analogiczne do tych z modu³u *StrEx*
 
-27 Nov 2004, version 0.20041127
-  -- support for large delimiters (sprout)
+    To jak powinny byæ zakodowane napisy wej¶ciowe, jak równie¿ to jak s±
+    zakodowane napisy wyj¶ciowe zale¿y od implementacji.
 
-25 Nov 2004, version 0.20041125
-  -- *
+  2.2. Modu³ *Unicode* : *UNICODE* -- <unicode.ml>
+    Najprotsza implementacja sygnatury *UNICODE*:
+      -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zale¿no¶ci
+         od locale),
+      -- zwraca napisay zakodowane w UTF-8.
+    Zale¿y od modu³ów: *Locale*, *Unicore*
 
-24 Nov 2004, version 0.20041124
-  -- *
+  2.3. Modu³ *Unicode_ascii* : *UNICODE* -- <unicode_ascii.ml>
+    Implementacja standardowa:
+      -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zale¿no¶ci
+         od locale),
+      -- zwraca napisay zakodowane w ASCII.
+    Konwersjê obs³uguje modu³ *Unicore_convert*.
+    Zale¿y od modu³ów: *Locale*, *Unicore*, *Unicore_convert*.
 
-23 Nov 2004, version 0.20041123
-  -- *
+  2.4. Modu³ *Unicode_konwert* : *UNICODE* -- <unicode_konwert.ml>
+    Implementacja za pomoc± zewnêtrznego konwertera:
+      -- oczekuje i zwraca napisy zakodowane w ISO-8859-n lub UTF-8 
+         (w zale¿no¶ci od locale).
+    Konwersjê przeprowadza zewnêtrzny program `konwert'
+    (<http://qrczak.ids.net.pl/programy/linux/konwert/>).
+    Zale¿y od modu³ów: *Locale*, *Unicore*.
 
-22 Nov 2004, version 0.20041122
-  -- support for optional arguments
-  -- `\left' and `\right' are almost supported
-  -- more than 2000 lines... :-/
+  2.5. Modu³ *Unicode_html* : *UNICODE* -- <unicode_html.ml>
+    Implementacja na potrzeby HTML-a:
+      -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zale¿no¶ci
+         od locale),
+      -- zwraca napisy zakodowane w ASCII, ze znakami spoza ASCII i
+         specjalnymi jako encje HTML-owe.
+    Zale¿y od modu³ów: *Locale*, *Unicore*.
 
-19 Nov 2004, version 0.20041119
-  -- attached module dependency information (`README.dep')
+3. S³owniki
 
-18 Nov 2004, version 0.20041117
-  -- emerged `interpret.ml' from `parse.ml'
-  -- automatic choice of modules set
-  -- at last fixed parsetree-fixing routine
-  -- written `interpret_debug.ml' (now it pretty helps!)
-  -- written *really* simple command options parser
+  3.1. Sygnatura *DICTIONARY* -- <signatures.ml>
+    Sygnatura statycznych, z³±czalnych s³owników, polimorficznych ze zwglêdu
+    na typ klucza i typ skojarzonej warto¶ci.
+    Modu³ o takiej sygnaturze udostêpnia:
+      -- typ [('a, 'b) t] s³ownika;
+      -- funkcje dostêpu: [get] (mo¿e zg³osiæ wyj±tek Not_found), [exists];
+      -- konstruktor z listy par klucz-warto¶æ: [make];
+      -- konstruktor z listy s³owników: [union];
+      -- funkcjê odwzorowuj±c± jeden s³ownik na inny: [map].
 
-17 Nov 2004, version 0.20041116
-  -- continued the major cleanup
-  -- `unicode_konwert.ml' works!
-  -- written `decoration.ml' and `decoration_html.ml'
-  -- List2 is today ListEx, String2 is StrEx
+  3.2. Modu³ *Dictionary* : *DICTIONARY* -- <signatures.ml>
+    Implementacja oparta o drzewa BST.
+    Je¿eli lista par klucz-warto¶æ bêdzie posortowana, konstruktor utworzy
+    drzewo idealnie zrównowa¿one.
 
-15 Nov 2004, version 0.20041115
-  -- put all those nasty, scattered signatures into `zz_signatures.ml'
-     (yuck! that was hard!)
-  -- written `unicode_konwert.ml' (although it doesn't work)
-  -- more than 1750 lines
+  3.2. Sygnatura *LATDICT* -- <signatures.ml>
+    Sygnatura zestawu s³owników symboli i poleceñ LaTeXa.
+    Modu³ o takiej sygnaturze udostêpnia:
+      -- wszysto to, co modu³ o sygnaturze *DICTIONARY*
+      -- s³ownik alfabetów (np. `\mathtt', `\mathbf'): [alphabets]
+      -- s³ownik operatorów o zmiennej wielko¶ci (np. `\sum', `bigcup'):
+         [operators]
+      -- s³ownik symboli typu log (np. `\sin', `\sup'): [loglikes]
+      -- s³ownik symboli ograniczników (warto¶ci± jest kod Unicode):
+         [delimiters]
+      -- s³ownik wszystkich symboli (warto¶ci± jest kod Unicode):
+         [symbols]
+      -- s³ownik wszystkich poleceñ (w tym symboli o nazwach zaczynaj±cych
+         siê od '\'; warto¶ci± jest para:
+         ile_argumentów_opcjonalnych-ile_argumentów_obowi±zkowych):
+         [commands].
 
-14 Nov 2004, version 0.20041114.2
-  -- use rev_map instead of rev(map)
-  -- use List2 module instead of List
-  -- locale support (sprout)
-  -- rewritten the lexical analyser (now we have 2 flavours)
-  -- more than 1500 lines
+    TODO: Prawdopodobnie sensowne by³oby drobniejsze rozbicie symboli 
+    na kilka s³owników wg pe³nionych funkcji -- to umo¿liwi³oby automatyczne
+    wstawianie odpowiednich odstêpów miêdzy symbole, czego na razie brak.
 
-13 Nov 2004, version 0.20041113
-  -- rewritten dictionary support
-  -- LateX di... blah
+  3.3. Modu³ *Latex_dictionary* : *LATDICT* -- <latex_dictionary.ml>
+    TODO: Wymaga wielu uzupe³nieñ.
+    Zale¿y od modu³u *Dictionary*.
 
-12 Nov 2004, version 0.20041112
-  -- fixed the lexical analyser a bit
-  -- LateX dictionary is still expanding
+3. Analiza i interpretacja danych wej¶ciowych
 
-11 Nov 2004, version 0.20041111
-  -- better support for `_' and `^'
+  4.1. Analiza leksykalna
 
-10 Nov 2004, version 0.20041110
-  -- (re)written many module interfaces
-  -- more than 1250 lines
+    4.1.1. Sygnatury *AUTOMATON* i *LEX_AUTOMATON* -- <signatures.ml>
+      Sygnatura *AUTOMATON* to sygnatura automatów skoñczonych.
+      Modu³ o takiej sygnaturze udostêpnia:
+        -- typ automatu [t] (z za³o¿enia abstrakcyjny),
+        -- typ publicznie widocznego stanu [s],
+        -- typ poleceñ [command],
+        -- stan domy¶lny: [default],
+        -- funkcjê daj±c± publicznie widoczny stan: [pubstate]
+        -- funkcjê ,,karmi±c±'' automat poleceniem: [execute]
+      Sygnatura *LEX_AUTOMATON* to sygnatura *AUTOMATON* z ukonkretnionymi
+      typami: [command = char] oraz [s = bool].
+      Automat o takiej sygnaturze ma s³u¿yæ do rozpoznawania koñca leksemu 
+      w ci±gu znaków, którymi jest ,,karmiony''. 
+      Publiczny stan [true] oznacza, ¿e poprzednio wczytany znak koñczy³
+      leksem.
 
-8 Nov 2004, version 0.20041107
-  -- LateX dictionary is still expanding
+    4.1.2. Modu³ *Automaton* : *LEX_AUTOMATON* -- <automaton.ml>
+      Automat rozpoznaj±cy leksemy TeX-owe.
 
-7 Nov 2004, version 0.20041107
-  -- LateX dictionary is still expanding
-  -- more than 1000 lines
+    4.1.3. Modu³ *Automaton2* : *LEX_AUTOMATON* -- <automaton2.ml>
+      Automat rozpoznaj±cy leksemy TeX-opodobne. Zasadniczym odstêpstwem
+      jest traktowanie zawsze ci±gu cyfr jako ca³o¶ci. Zastosowanie tego
+      modu³u zamiast modu³u *Automaton* daje niepoprawne, 
+      ale za to intuicyjne wyniki, takie jak ten:
+      |          32                    3
+      | x^32 -> x      --zamiast--    x 2
 
-31 Oct 2004, version 0.20041031.2
-  -- LaTeX dictionary is still expanding
-  -- a baseline is considered when joining boxes
-  -- more than 750 lines
+    4.1.4. Sygnatura *LEXSCAN* -- <signatures.ml>
+      Prosta sygnatura modu³u przeprowadzaj±cego analizê leksykaln±: 
+      jedyn± udostêpnion± funkcj± jest [make], która przekszta³ca napis 
+      na listê napisów (leksemów).
 
-29 Oct 2004, version 0.20041029
-  -- Unicode support (sprout)
-  -- more than 500 lines
+    4.1.5. Funktor Lexscan.Make() : *LEXSCAN* -- <lexscan.ml>
+      Naturalna implementacja analizy leksykalnej przy pomocy automatu
+      skoñczonego o sygnaturze *LEX_AUTOMATON* (parametr).
 
-28 Oct 2004, version 0.20041028.2
-  -- dictionary support
-  -- slightly improved LaTeX parser
+  4.2. Analiza sk³adniowa
 
-24 Oct 2004, version 0.20041024
-  -- can finally render `\\frac{3}{4}'
+    4.2.1. Modu³ *Parsetree* -- <parsetree.ml>
+      Zawiera jedynie implementacjê typu [t] drzewa analizy sk³adniowej.
+      Na potrzeby modu³ów *Parse* i *Interpret*.  
 
-23 Oct 2004, version 0.20041023
-  -- began to write simple renderer
-  -- more than 250 lines
+    4.2.2. Sygnatura *PARSE* -- <signatures.ml>
+      Prosta sygnatyra modu³u doknuj±cego analizy sk³adniowej.
+      Modu³ o takiej sygnaturze udostêpnia:
+        -- typ [t] drzewa analizy sk³adniowej,
+        -- wyj±tek [Parse_error],
+        -- funkcjê [from_lexems] tej analizy dokonuj±cej.
 
-21 Oct 2004, version 0.20041021.2
-  -- LaTeX lexical analyser almost works
-  -- began to write simple LaTeX-parser
+    4.2.3. Funktor *Parse.Make()* : *PARSE'* -- <parse.ml>
+      Implementacja analizy leksykalnej przeprowadzonej przy pomocy s³owników
+      LaTeX-owych o sygnaturze *LATDICT* (parametr), o typie [t = Parsetree.t].
+      Wyj±tek [Parse_error] nie jest nigdy zg³aszany.
 
-20 Oct 2004, version 0.20041020
-  -- first lines of code
+  4.3. Interpretacja
 
-# vim:tw=76
+    4.3.1. Sygnatura *INTERPRET* -- <signatures.ml>
+      Sygnatura interpretera wyniku, jaki uzyska³ analizator sk³adniowy.
+      Modu³ o takiej sygnaturze udostêpnia:
+        -- typ [t] drzewa analizy sk³adniowej,
+        -- typ wynikowy [s],
+        -- funkcjê przeprowadzaj±c± konwersjê: [make].
+      To czym jest wynik zale¿y tylko od implementacji.
+
+    4.3.2. Funktor *Interpret.Make()()()* : *INTERPRET'* -- <interpret.ml>
+      Interpreter wyniku analizy sk³adniowej. Dokonuje siê jej z pomoc±:
+        -- modu³u obs³ugi Unikodu (parametr) o sygnaturze *UNICODE*,
+        -- s³owników LaTeX-owych (parametr) o sygnaturze *LATDICT*.
+      Wynikiem jest obraz utworzony przy pomocy modu³u wizualizacji wzorów
+      (parametr) o sygnaturze RMATH'.
+
+    4.3.3. Funktor *Interpret_debug.Make()* : *INTERPRET'* --
+           <interpret_debug.ml>
+      Funkcjonalno¶æ modu³ o sygnaturze *INTERPRET* (parametr) zostaje
+      rozszerzona o wypisywanie na standardowe wyj¶cie samego drzewa analizy
+      sk³adniowej.
+
+5. Wizualizacja
+
+  5.1. Wizualizacja abstrakcyjna
+    5.1.1. Sygnatura *DECORATION* -- <signatures.ml>
+      Modu³ o takiej sygnaturze udostêpnia:
+        -- napis wstawiany na pocz±tku/koñcu linii: [line_begin], [line_end]
+        -- napis wstawiany na pocz±tku/koñcu wzoru: 
+           [formula_begin], [formula_end]
+
+    5.1.2. Modu³y *Decoration*, *Decoration_ansi* i *Decoration_html* --
+           <decoration.ml>, <decoration_ansi.ml>, <decoration_html.ml>
+
+    5.1.3. Sygnatura *SIMPLE_RENDER* -- <signatures.ml>
+      Sygnatura prostego wizualizatora.
+      Modu³ o takiej sygnaturze udostêpnia:
+        -- modu³ [Uni] o sygnaturze *UNICODE*, z którego korzysta;
+        -- typ obrazu [t];
+        -- pusty obraz [empty];
+        -- funkcje daj±ce wysoko¶æ i szeroko¶æ obrazu: [width], [height];
+        -- funkcjê przekszta³caj±c± napis unikodowy (typu [Uni.t]) na obraz:
+           [s]
+        -- funkcjê dokonuj±c± wizualizacji: [render]
+        
+    5.1.4. Sygnatura *RENDER* -- <signatures.ml>
+      Sygnatura wizualizatora opartego na ,,rachunku pude³kowym'': 
+      nowe obrazy (pude³ka) uzyskujemy przez odpowiednie sk³adanie innych
+      obrazów (pude³ek).
+      Modu³ o takiej sygnaturze udostêpnia:
+        -- wszystko to, co modu³ o sygnaturze *SIMPLE_RENDER*;
+        -- funkcjê daj±c± pude³ko o ustalonym rozmiarze, wype³nione zadanym
+           znakiem unikodowym: [make]
+        -- funkcjê zwiêkszaj±c± rozmiar pude³ka poprzez rozszerzenie go 
+           w zadanym kierunku (kierunkach): [grow]
+        -- funkcje ³±cz±ce pude³ka w pionie i w poziomie: [join_v], [join_v]
+        -- funkcje ³±cz±ce pude³ka na ukos: [join_tr], [join_br]
+        -- funkcjê ³±cz±ca 4 pude³ka w jedno (ka¿de z pude³ek w jednym
+           rogu): [join4]
+
+    5.1.5. Funktor *Render.Make()()* : *RENDER'* -- <render.ml>
+      Implementacja jest dokonywana z pomoc± modu³ów:
+        -- o sygnaturze UNICODE (parametr);
+        -- o sygnaturze DECORATION (parametr).
+
+  5.2. Wizualizacja wzorów
+
+    5.2.1. Syngatura *RMATH* -- <signatures.ml>
+      Sygnatura wizualizatora wzorów matematycznych.
+      Docelowo powinna pozwoliæ skonstruowaæ obraz dowolnie wyszukany wzoru.
+      Modu³ o takiej sygnaturze udostêpnia:
+        -- wszystko to, co modu³ o sygnaturze *SIMPLE_RENDER*;
+        -- funkcjê ³±cz±c± w poziomie wiele pude³ek: [join_h];
+        -- funkcjê dostawiaj±c± pude³ko nad/pod/nad-i-pod pude³ko bazowe:
+           [join_top], [join_bot], [join_topbot]
+           [join_topbot];
+        -- funkcjê dostawiaj±c± do pude³ka bazowego indeks górny/dolny/oba
+           indeksy: [join_NE], [join_SE], [join_NESE];
+        -- funkcje tworz±ce u³amek: [frac];
+        -- funkcjê tworz±c± pierwiastek: [sqrt];
+        -- TODO: oraz kilka innych operacji;
+        -- funkcje tworz±ce du¿e symbole: [sum], [prod], [coprod],
+           [intergral], [ointegral] (oraz wiele innych -- TODO)
+        -- typy i funkcje umo¿liwiaj±ce tworzenie ograniczników
+           dopasowanych do rozmiaru pude³ka bazowego: typy [bracket_t] i
+           [delimiter_t], funkcja [largedelimiter]
+      Istotne jest, by w strukturze obrazu pamiêtana by³a tzw. linia bazowa
+      wzoru, dziêki czemu nie powstan± takie potworki w rodzaju:
+      |  y       2
+      | ---- +  y
+      |   2    ----
+      |  x      x
+              
+    5.2.2. Funktor *Rmath.Make()()* : *RMATH'* -- <rmath.ml>
+      Implementacja wizualizatora wzorów korzystaj±ca z modu³u obs³ugi
+      Unikodu o sygnaturze UNICODE (parametr), a do sk³adania pude³ek
+      u¿ywaj±cego modu³u ogólnego wizualizatora o sygnaturze RENDER'.
+
+6. Program g³ówny -- <brightmare.ml>
+  Program mo¿na (w sposób organiczony) sk³oniæ do wybrania odpowiedniego
+  zestawu modu³ów poprzez podanie parametrów `--html', `--nohtml',
+  `--debug'.
+  Pozosta³e parametry s± traktowane jako wzory, które nale¿y zwizualizowaæ.
+
+# vim:tw=76 et ts=2 sw=2 fenc=iso-8859-2

@@ -1,32 +1,27 @@
 include Dictionary
 
 let main_commands = make [
-(* -- spacing -- *)
-  "\\!",  (0, 0);
-  "\\+",  (0, 0);
-  "\\,",  (0, 0);
-  "\\;",  (0, 0);
-(* -- spacing, part II -- *)
+(* spacing:: *)               (* TODO: not implemented *)
+  "\\!",          (0, 0);
+  "\\+",          (0, 0);
+  "\\,",          (0, 0);
+  "\\;",          (0, 0);
+  "\\bigskip",    (0, 0);
   "\\hfill",      (0, 0);
-  "\\vfill",      (0, 0);
   "\\hspace",     (0, 1);
   "\\hspace*",    (0, 1);
-  "\\vspace",     (0, 1);
-  "\\vspace*",    (0, 1);
   "\\medskip",    (0, 0);
   "\\smallskip",  (0, 0);
-  "\\bigskip",    (0, 0);
-(* -- math miscellany -- *)
-  "\\ddots",      (0, 0);
+  "\\vfill",      (0, 0);
+  "\\vspace",     (0, 1);
+  "\\vspace*",    (0, 1);
+(* math miscellany:: *)       (* TODO: not implemented *)
   "\\dotfill",    (0, 0);
-(* -- other things -- *)
+(* some other commands:: *)   (* TODO: not implemented *)
   "\\hrulefill",  (0, 0);
   "\\fbox",       (0, 1);
   "\\mbox",       (0, 1);
-  "\\binom",      (0, 2);
-  "_",            (0, 1);
-  "^",            (0, 1);
-(* math-mode accents:: *)
+(* math-mode accents:: *)     (* TODO: not implemented *)
   "\\acute",  (0, 0);
   "\\bar",    (0, 1);
   "\\breve",  (0, 1);
@@ -38,19 +33,23 @@ let main_commands = make [
   "\\tilde",  (0, 1);
   "\\vec",    (0, 1);
 (* some other constructions:: *)
+  "_",                (0, 1);
+  "^",                (0, 1);
   "\\frac",           (0, 2);
-  "\\overbrace",      (0, 1);
-  "\\overleftarrow",  (0, 1);
-  "\\overline",       (0, 1);
-  "\\overrightarrow", (0, 1);
+  "\\dfrac",          (0, 2);
+  "\\binom",          (0, 2); (* TODO: not implemented *)
+  "\\overbrace",      (0, 1); (* TODO: not implemented *)
+  "\\overleftarrow",  (0, 1); (* TODO: not implemented *)
+  "\\overline",       (0, 1); (* TODO: not implemented *)
+  "\\overrightarrow", (0, 1); (* TODO: not implemented *)
   "\\sqrt",           (1, 1);
-  "\\underbrace",     (0, 1);
-  "\\underline",      (0, 1);
-  "\\widehat",        (0, 1);
-  "\\widetilde",      (0, 1);
+  "\\underbrace",     (0, 1); (* TODO: not implemented *)
+  "\\underline",      (0, 1); (* TODO: not implemented *)
+  "\\widehat",        (0, 1); (* TODO: not implemented *)
+  "\\widetilde",      (0, 1); (* TODO: not implemented *)
 ]
 
-let alphabets = make [
+let alphabets = make [ (* TODO: not implemented *)
   "\\mathrm",     ();
   "\\mathbf",     ();
   "\\mathsf",     ();
@@ -141,7 +140,7 @@ let loglikes = make [
 let loglike_commands = 
   map (fun () -> (0, 0)) loglikes
 
-let symbols = make [
+let almostallsymbols = make [ (* FIXME: lots of 0s *)
 (* LaTeX escapable special characters:: *)
   "\\#",  0x0024;
   "\\$",  0x0025;
@@ -156,7 +155,6 @@ let symbols = make [
   "\\copyright",  0x00a9;
   "\\dag",        0x2020;
   "\\ddag",       0x2021;
-  "\\dots",       0;
   "\\pounds",     0x00a3;
 
 (* non-ASCII letters:: *)
@@ -180,7 +178,6 @@ let symbols = make [
   "\\th", 0;
 
 (* predefined LaTeX text-mode commands --- TODO *)
-
 
 (* binary operators:: *)
   "\\amalg",            0x08a2;
@@ -229,11 +226,13 @@ let symbols = make [
   "\\doteq",      0x2250;
   "\\equiv",      0x2261;
   "\\frown",      0x22be;
-  "\\geq",        0;
+  "\\ge",         0x2265;
+  "\\geq",        0x2265;
   "\\gg",         0x226b;
   "\\in",         0x2208;
   "\\Join",       0;
-  "\\leq",        0;
+  "\\le",         0x2264;
+  "\\leq",        0x2264;
   "\\ll",         0x226a;
   "\\mid",        0x2223;
   "\\models",     0x22a7;
@@ -242,7 +241,7 @@ let symbols = make [
   "\\ni",         0x220b;
   "\\nin",        0x2209; (* FIXME - place? *)
   "\\parallel",   0x2225;
-  "\\perp",       0;
+  "\\perp",       0x22a5;
   "\\prec",       0x227a;
   "\\preceq",     0x2aaf;
   "\\propto",     0x221d;
@@ -265,7 +264,7 @@ let symbols = make [
 (* punctuation symbols:: *)
   "\\colon",  0x003a;
   "\\ldotp",  0;
-  "\\cdotp",  0;
+  "\\cdotp",  0x00b7;
 
 (* arrow symbols:: *)
   "\\hookleftarrow",      0x21a9;
@@ -302,9 +301,9 @@ let symbols = make [
   "\\angle",        0x2220;
   "\\bot",          0x22a5;
   "\\Box",          0;
-  "\\cdots",        0;
+  "\\cdots",        0x22ef;
   "\\clubsuit",     0x2663;
-  "\\ddots",        0;
+  "\\ddots",        0x22f1;
   "\\Diamond",      0x22c4;
   "\\diamondsuit",  0x2666;
   "\\ell",          0x2113;
@@ -317,6 +316,7 @@ let symbols = make [
   "\\imath",        0x0131;
   "\\infty",        0x221e;
   "\\jmath",        0;
+  "\\dots",         0x2026;
   "\\ldots",        0x2026;
   "\\mho",          0x2127;
   "\\nabla",        0x2207;
@@ -353,7 +353,7 @@ let symbols = make [
   "\\nu",         0x03bd;
   "\\xi",         0x03be;
   "\\pi",         0x03c0;
-  "\\varpi",      0;
+  "\\varpi",      0x03d6;
   "\\rho",        0x03c1;
   "\\varrho",     0x03f1;
   "\\sigma",      0x03c3;
@@ -434,8 +434,8 @@ let symbols = make [
   "\\blacksquare",        0x25a0;
   "\\blacktriangle",      0x25b4;
   "\\blacktriangledown",  0x25be;
-  "\\checkmark",          0;
-  "\\circledR",           0;
+  "\\checkmark",          0x2713;
+  "\\circledR",           0x00ae;
   "\\circledS",           0x24c8;
   "\\complement",         0x2201;
   "\\diagdown",           0x2572;
@@ -446,7 +446,7 @@ let symbols = make [
   "\\hbar",               0x210f; (* FIXME - number? *)
   "\\hslash",             0x210f; (* FIXME - number? *)
   "\\lozenge",            0x25ca;
-  "\\maltese",            0;
+  "\\maltese",            0x2720;
   "\\measuredangle",      0x2221;
   "\\nexists",            0x2204;
   "\\restriction",        0;
@@ -486,23 +486,23 @@ let symbols = make [
 (* AMS binary relations:: *)
   "\\approxeq",           0x224a;
   "\\backepsilon",        0x03f6;
-  "\\backsim",            0;
-  "\\backsimeq",          0;
+  "\\backsim",            0x223d;
+  "\\backsimeq",          0x22cd;
   "\\because",            0x2235;
   "\\between",            0x226c;
   "\\blacktriangleleft",  0x25c2;
   "\\blacktriangleright", 0x25b8;
-  "\\bumpeq",             0;
-  "\\Bumpeq",             0;
+  "\\bumpeq",             0x224f;
+  "\\Bumpeq",             0x224e;
   "\\circeq",             0x2257;
-  "\\curlyeqprec",        0;
-  "\\curlyeqsucc",        0;
-  "\\Doteq",              0; (* FIXME - what's that? *)
-  "\\doteqdot",           0;
+  "\\curlyeqprec",        0x22de;
+  "\\curlyeqsucc",        0x22df;
+  "\\Doteq",              0x2251;
+  "\\doteqdot",           0x2251;
   "\\eqlslantgtr",        0x2a96;
-  "\\eqsim",              0x2242; (* FIXME - what's that? *)
+  "\\eqsim",              0x2242;
   "\\eqslantless",        0x2a95;
-  "\\fallingdotseq",      0;
+  "\\fallingdotseq",      0x2252;
   "\\geqq",               0x2267;
   "\\geqslant",           0x2a7e;
   "\\ggg",                0x22d9;
@@ -528,7 +528,7 @@ let symbols = make [
   "\\preccurlyeq",        0;
   "\\precsim",            0;
   "\\qcirc",              0x2256; (* FIXME - what's that? *)
-  "\\risingdotseq",       0;
+  "\\risingdotseq",       0x2253;
   "\\shartparallel",      0;
   "\\shortmid",           0;
   "\\smallfrown",         0;
@@ -647,42 +647,42 @@ let symbols = make [
 ]
 
 let symbol_commands = 
-  map (fun _ -> (0, 0)) symbols
+  map (fun _ -> (0, 0)) almostallsymbols
 
 let delimiters1 = make [
   "(",              0x0028;
   ")",              0x0029;
-  ".",              0;
+  ".",              0x0000;
   "/",              0x002f;
   "<",              0x2329;
   ">",              0x232a;
   "[",              0x005b;
   "]",              0x005d;
-  "|",              124
+  "|",              0x007c;
 ]
 
-let delimiters2 = make [
-  "\\Arrowvert",    0; (* TODO: not implemented *)
+let delimiters2 = make [ (* FIXME: lots of 0s *)
+  "\\Arrowvert",    0;      (* TODO: not implemented *)
   "\\Downarrow",    0x21d3; (* TODO: not implemented *)
   "\\Uparrow",      0x21d1; (* TODO: not implemented *)
   "\\Updownarrow",  0x21d1; (* TODO: not implemented *)
   "\\Vert",         0x2016;
-  "\\arrowvert",    0; (* TODO: not implemented *)
+  "\\arrowvert",    0;      (* TODO: not implemented *)
   "\\backslash",    0x005c; (* TODO: not implemented *)
-  "\\bracevert",    0; (* TODO: not implemented *)
+  "\\bracevert",    0;      (* TODO: not implemented *)
   "\\downarrow",    0x2193; (* TODO: not implemented *)
   "\\langle",       0x2329;
   "\\lceil",        0x2308;
   "\\lfloor",       0x230a;
   "\\lgroup",       0;
   "\\llcorner",     0x231e; (* TODO: not implemented *)
-  "\\lmoustache",   0;
+  "\\lmoustache",   0x23b0; (* TODO: not implemented *)
   "\\lrcorner",     0x231f; (* TODO: not implemented *)
   "\\rangle",       0x232a;
   "\\rceil",        0x2309;
   "\\rfloor",       0x230b;
   "\\rgroup",       0;
-  "\\rmoustache",   0;
+  "\\rmoustache",   0x23b1; (* TODO: not implemented *)
   "\\ulcorner",     0x231c; (* TODO: not implemented *)
   "\\uparrow",      0x215b; (* TODO: not implemented *)
   "\\updownarrow",  0x2195; (* TODO: not implemented *)
@@ -707,6 +707,6 @@ let commands = union [
   delimiter_commands
 ]
 
-let allsymbols = union [symbols; delimiters]
+let symbols = union [almostallsymbols; delimiters]
 
 (* vim: set tw=96 et ts=2 sw=2: *)

@@ -48,7 +48,7 @@ struct
   let rec make tree =
     match tree with
       Element "" -> Rmath.empty 1 1 |
-      Element str -> Rmath.si (Uni.from_string str) |
+      Element str -> Rmath.s (Uni.from_string str) |
       Operator ("\\left\\right", d1::d2::treelist) ->
         let boxlist = ListEx.map make treelist in
         let box = Rmath.join_h boxlist in
@@ -113,18 +113,18 @@ struct
           "\\int", [] -> Rmath.integral () |
           "\\oint", [] -> Rmath.ointegral () |
           opstr, [] -> 
-            if LatDict.exists opstr LatDict.allsymbols
+            if LatDict.exists opstr LatDict.symbols
             then
-              let symbol = LatDict.get opstr LatDict.allsymbols in
+              let symbol = LatDict.get opstr LatDict.symbols in
               let symbol = Uni.wchar_of_int symbol in
               let symbol = 1 ** symbol in
-                Rmath.si symbol 
+                Rmath.s symbol 
             else if LatDict.exists opstr LatDict.loglikes then 
-              Rmath.si (Uni.from_string (StrEx.str_after opstr 1))
+              Rmath.s (Uni.from_string (StrEx.str_after opstr 1))
             else
-              Rmath.si (Uni.from_string opstr) |
+              Rmath.s (Uni.from_string opstr) |
           "", _ | "[", _ -> Rmath.join_h boxlist |
-          "\\frac", [b1; b2] -> Rmath.frac b1 b2 |
+          ("\\frac" | "\\dfrac"), [b1; b2] -> Rmath.frac b1 b2 |
           "\\sqrt", [bi; b] -> Rmath.sqrt b bi |
           "\\sqrt", [b] -> Rmath.sqrt b (Rmath.empty 1 1) |
           opstr, _ ->
@@ -132,7 +132,7 @@ struct
             then
               Rmath.join_h boxlist (* FIXME *)
             else 
-              let opbox = Rmath.si (Uni.from_string opstr) in
+              let opbox = Rmath.s (Uni.from_string opstr) in
                 Rmath.join_h (opbox::boxlist)
 
 end

@@ -15,7 +15,7 @@ struct
           if Aut.pubstate state then
             scan head (lastlex::lexlist) chars state
           else
-            scan (lastlex^head) lexlist chars state
+            scan (lastlex ^ head) lexlist chars state
 
   let make str =
     let result =

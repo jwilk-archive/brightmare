@@ -13,6 +13,7 @@ let as_list str =
 
 let ( ++ ) = ( ^ )
 
+let ( ** ) = make
 
 let ( **! ) n str =
   if n < 0 then
@@ -31,7 +32,5 @@ let replace = global_replace
 
 let str_after = string_after
 let str_before = string_before
-
-let ( ** ) = make
 
 (* vim: set tw=96 et ts=2 sw=2: *)

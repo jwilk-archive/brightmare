@@ -14,16 +14,14 @@ unicode.cmo: locale.cmi strEx.cmi unicore.cmi unicode.cmi
 unicode.cmx: locale.cmi strEx.cmx unicore.cmx unicode.cmi 
 unicode_html.cmo: listEx.cmi strEx.cmi unicode_html.cmi 
 unicode_html.cmx: listEx.cmx strEx.cmx unicode_html.cmi 
-unicode_convert.cmo: locale.cmi strEx.cmi unicore.cmi unicore_convert.cmi \
-    unicode_convert.cmi 
-unicode_convert.cmx: locale.cmi strEx.cmx unicore.cmx unicore_convert.cmx \
-    unicode_convert.cmi 
+unicode_ascii.cmo: locale.cmi strEx.cmi unicore.cmi unicore_convert.cmi \
+    unicode_ascii.cmi 
+unicode_ascii.cmx: locale.cmi strEx.cmx unicore.cmx unicore_convert.cmx \
+    unicode_ascii.cmi 
 unicode_konwert.cmo: locale.cmi strEx.cmi unicore.cmi unicode_konwert.cmi 
 unicode_konwert.cmx: locale.cmi strEx.cmx unicore.cmx unicode_konwert.cmi 
 decoration.cmo: decoration.cmi 
 decoration.cmx: decoration.cmi 
-decoration_html.cmo: decoration_html.cmi 
-decoration_html.cmx: decoration_html.cmi 
 render.cmo: listEx.cmi signatures.cmx 
 render.cmx: listEx.cmx signatures.cmx 
 rmath.cmo: listEx.cmi signatures.cmx 
@@ -40,21 +38,19 @@ interpret.cmo: listEx.cmi parsetree.cmx signatures.cmx strEx.cmi
 interpret.cmx: listEx.cmx parsetree.cmx signatures.cmx strEx.cmx 
 interpret_debug.cmo: listEx.cmi parsetree.cmx signatures.cmx 
 interpret_debug.cmx: listEx.cmx parsetree.cmx signatures.cmx 
-brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmi \
+brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmx \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmi lexscan.cmx \
     listEx.cmi parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmi \
-    unicode_convert.cmi unicode_html.cmi version.cmx 
+    unicode_ascii.cmi unicode_html.cmi version.cmx 
 brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmx lexscan.cmx \
     listEx.cmx parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmx \
-    unicode_convert.cmx unicode_html.cmx version.cmx 
+    unicode_ascii.cmx unicode_html.cmx version.cmx 
 dictionary.cmi: signatures.cmx 
 latex_dictionary.cmi: signatures.cmx 
 unicode.cmi: signatures.cmx 
 unicode_html.cmi: signatures.cmx 
-unicode_convert.cmi: signatures.cmx 
+unicode_ascii.cmi: signatures.cmx 
 unicode_konwert.cmi: signatures.cmx 
-decoration.cmi: signatures.cmx 
-decoration_html.cmi: signatures.cmx 
 automaton.cmi: signatures.cmx 
 automaton2.cmi: signatures.cmx 

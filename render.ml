@@ -18,7 +18,7 @@ struct
   let ( ++ ) = Uni.( ++ )
   let ( ** ) = Uni.( ** )
 
-  let si str =
+  let s str =
     { width = Uni.length str; height=1; lines = [str] }
 
   let make width height chr =
@@ -124,31 +124,31 @@ struct
     let box = hgrow box height in
       box
 
-  let grow_custom choice box width height =
-    let grow = grow_universal box width height in
+  let grow choice box width height =
+    let g = grow_universal box width height in
     match choice with
-      'Q' -> grow grow_left   grow_top |
-      'W' -> grow grow_center grow_top |
-      'E' -> grow grow_right  grow_top |
-      'A' -> grow grow_left   grow_vmiddle |
-      'S' -> grow grow_center grow_vmiddle |
-      'D' -> grow grow_right  grow_vmiddle |
-      'Z' -> grow grow_left   grow_bottom |
-      'X' -> grow grow_center grow_bottom |
-      'C' -> grow grow_right  grow_bottom |
+      'Q' -> g grow_left   grow_top |
+      'W' -> g grow_center grow_top |
+      'E' -> g grow_right  grow_top |
+      'A' -> g grow_left   grow_vmiddle |
+      'S' -> g grow_center grow_vmiddle |
+      'D' -> g grow_right  grow_vmiddle |
+      'Z' -> g grow_left   grow_bottom |
+      'X' -> g grow_center grow_bottom |
+      'C' -> g grow_right  grow_bottom |
       _ -> raise(Invalid_argument "Render.Make()().grow_universal9")
 
-  let grow_middle = grow_custom 'S'
+  let grow_middle = grow 'S'
 
 (* ---------------------------------------------------------------------- *)
 
   let grow_auto_h choice boxlist =
     let maxwidth = ListEx.fold (fun width box -> (max width box.width)) 0 boxlist in
-      ListEx.map (fun box -> grow_custom choice box maxwidth box.height) boxlist
+      ListEx.map (fun box -> grow choice box maxwidth box.height) boxlist
 
   let grow_auto_v choice boxlist =
     let maxheight = ListEx.fold (fun height box -> (max height box.height)) 0 boxlist in
-      ListEx.map (fun box -> grow_custom choice box box.width maxheight) boxlist
+      ListEx.map (fun box -> grow choice box box.width maxheight) boxlist
 
 (* ---------------------------------------------------------------------- *)
 
@@ -187,14 +187,14 @@ struct
     in
       join_h 'Z' [left; right]
 
-  let crossjoin_tr botleft topright =
+  let join_tr botleft topright =
     let 
       topleft  = empty  botleft.width topright.height and
       botright = empty topright.width  botleft.height 
     in
       join4 topleft botleft topright botright
 
-  let crossjoin_br topleft botright =
+  let join_br topleft botright =
     let 
       topright = empty botright.width  topleft.height and
       botleft  = empty  topleft.width botright.height 
@@ -203,7 +203,7 @@ struct
 
 (* ---------------------------------------------------------------------- *)
 
-  let render_str box = (* FIXME *)
+  let render box =
     let lines = ListEx.map Uni.to_string box.lines in 
     let contents = 
       ListEx.rfold 
@@ -213,7 +213,7 @@ struct
         lines 
         ""
     in 
-      Decoration.equation_begin ^ contents ^ Decoration.equation_end
+      Decoration.formula_begin ^ contents ^ Decoration.formula_end
 
 end
 

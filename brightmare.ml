@@ -32,7 +32,7 @@ struct
           let lexems = LexScan.make s in
           let parsetree = Parse.from_lexems lexems in
           let rmbox = as_rmathbox parsetree in
-          let render = Rmath.render_str rmbox in
+          let render = Rmath.render rmbox in
             print_string render
         )
 end
@@ -40,7 +40,7 @@ end
 module Brightmare_html = 
   Brightmare(Unicode_html)(Decoration_html)(Automaton)(Latex_dictionary)
 module Brightmare_plain =
-  Brightmare(Unicode_convert)(Decoration)(Automaton)(Latex_dictionary)
+  Brightmare(Unicode_ascii)(Decoration)(Automaton)(Latex_dictionary)
 
 type options_t = 
   { argv : string list; 

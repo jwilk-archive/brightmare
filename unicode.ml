@@ -17,7 +17,7 @@ let from_string s =
     let s = List.map wchar_of_char s in
       List.fold_left (++) empty s
 
-let to_string s = s (* FIXME or not FIXME -- that is the question *)
+let to_string s = s
 
 let length = Unicore.utf8string_length
 

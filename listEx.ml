@@ -36,13 +36,4 @@ let make count elem =
   in
     make_helper [] count elem
 
-let rec seek f lst =
-  match lst with
-    [] -> raise(Not_found) |
-    head::tail ->
-      try
-        f head
-      with
-        Not_found -> seek f tail
-
 (* vim: set tw=96 et ts=2 sw=2: *)

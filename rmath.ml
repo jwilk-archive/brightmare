@@ -29,8 +29,8 @@ struct
   let width box = Render.width box.rbox
   let height box = Render.height box.rbox
 
-  let si str = 
-    { rbox = Render.si str;
+  let s str = 
+    { rbox = Render.s str;
       baseline = 0 }
 
   let empty width height = 
@@ -45,7 +45,7 @@ struct
       boxes = 
         ListEx.map 
           ( fun box -> 
-            Render.grow_custom 
+            Render.grow 
               'Q'
               box.rbox
               (width box) 
@@ -69,27 +69,27 @@ struct
       baseline = (height top) + box.baseline }
 
   let join_NE box top =
-    { rbox = Render.crossjoin_tr box.rbox top.rbox;
+    { rbox = Render.join_tr box.rbox top.rbox;
       baseline = (height top) + box.baseline }
 
   let join_SE box bot =
-    { rbox = Render.crossjoin_br box.rbox bot.rbox;
+    { rbox = Render.join_br box.rbox bot.rbox;
       baseline = box.baseline }
 
   let join_NESE box top bot =
     let w = max (width top) (width bot) in
     let 
-      rtop = Render.grow_custom 'E' top.rbox w (height top) and
-      rbot = Render.grow_custom 'E' bot.rbox w (height bot)
+      rtop = Render.grow 'E' top.rbox w (height top) and
+      rbot = Render.grow 'E' bot.rbox w (height bot)
     in
     let rbox = 
-      Render.grow_custom 'E' box.rbox (width box + w) (height box)
+      Render.grow 'E' box.rbox (width box + w) (height box)
     in
       { rbox = Render.join_v 'Q' [rtop; rbox; rbot];
         baseline = (height top) + box.baseline }
 
-  let render_str box =
-    Render.render_str box.rbox
+  let render box =
+    Render.render box.rbox
 
   let frac box1 box2 =
     let width = max (width box1) (width box2) in

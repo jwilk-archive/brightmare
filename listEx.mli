@@ -3,7 +3,6 @@ val max_map : ('a -> 'b) -> 'a list -> 'b
 val min : 'a list -> 'a
 val max : 'a list -> 'a
 val make : int -> 'a -> 'a list
-val seek : ('a -> 'b) -> 'a list -> 'b
 
 val length : 'a list -> int
 val rev : 'a list -> 'a list
