@@ -1,13 +1,4 @@
-module OrderedString =
-struct
-  type t = string
-  let compare x y =
-    if x < y then -1
-    else if x > y then 1
-    else 0
-end ;;
-
-module AsocString = Map.Make(OrderedString);;
+module AsocString = Map.Make(String);;
 
 type 'b t = 'b AsocString.t;;
 
@@ -22,5 +13,7 @@ let from_list kv_list =
   multi_put empty kv_list;;
 
 let get arr key = AsocString.find key arr;;
+
+let exist arr key = AsocString.mem key arr;;
 
 (* vim: set tw=96 et ts=2 sw=2: *)

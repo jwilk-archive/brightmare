@@ -2,15 +2,11 @@ VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
 DIST_FILES = Makefile Makefile.dep $(SOURCE_FILES)
 SOURCE_FILES = $(MLI_FILES) $(ML_FILES)
-MLI_FILES = \
-	dictionary.mli tokenize.mli
+MLI_FILES = unicode.mli dictionary.mli tokenize.mli
 ML_FILES = \
-	dictionary.ml \
-	version.ml \
-	tokenize.ml \
-	render.ml render_math.ml \
-	latex_dictionary.ml parse.ml \
-	brightmare.ml
+	dictionary.ml latex_dictionary.ml unicode.ml \
+	render.ml render_math.ml tokenize.ml version.ml \
+	parse.ml brightmare.ml 
 CMI_FILES = $(ML_FILES:ml=cmi)
 CMO_FILES = $(ML_FILES:ml=cmo)
 CMX_FILES = $(ML_FILES:ml=cmx)

@@ -40,7 +40,14 @@ let rec parse_a bldtree toklist limit =
         parse_a (parsetree_add bldtree newbldtree) toklist (limit-1) |
     token::toklist ->
       try 
-        let (p, q) = Dictionary.get Latex_dictionary.self token in
+        let 
+          (p, q) = 
+            if Dictionary.exist Latex_dictionary.symbols token 
+            then
+              (0, 0)
+            else
+              Dictionary.get Latex_dictionary.commands token 
+        in
         let (newbldtree, toklist) = parse_a (PT_Operator (PO_Custom token, [])) toklist q in
           parse_a (parsetree_add bldtree newbldtree) toklist (limit-1)
       with 
@@ -52,7 +59,12 @@ let rec parsetree_to_renderbox tree =
   match tree with
     PT_Element (PE_Void) -> rbx_empty 1 1 |
     PT_Element (PE_Custom str) -> rbx_si str |
-    PT_Operator (_, []) -> rbx_empty 1 1 |
+    PT_Operator (PO_Custom str, []) -> 
+      if Dictionary.exist Latex_dictionary.symbols str 
+      then
+        rbx_si (Unicode.wchar_of_int (Dictionary.get Latex_dictionary.symbols str))
+      else
+        rbx_empty 1 1 |
     PT_Operator (PO_Void, treelist) ->
       let boxlist = map parsetree_to_renderbox treelist in
         rbx_join_h 'S' boxlist |

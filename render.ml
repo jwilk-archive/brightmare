@@ -1,5 +1,7 @@
 open List;;
 
+let (++) = Unicode.(++);;
+
 let make count elem =
   let rec make_helper newlist count elem =
     if count <= 0 then
@@ -12,12 +14,10 @@ let make count elem =
 (* ---------------------------------------------------------------------- *)
 
 type renderbox = 
-  { rb_width: int; rb_height: int; rb_lines: string list }
+  { rb_width: int; rb_height: int; rb_lines: Unicode.wstring list }
 
 let rbx_si str =
-  { rb_width = String.length str; rb_height=1; rb_lines = [str] };;
-
-let ($) = rbx_si;;
+  { rb_width = Unicode.length str; rb_height=1; rb_lines = [str] };;
 
 let rbx_make width height chr =
   let filler = String.make width chr in
@@ -45,10 +45,10 @@ let rbx_grow_leftright box width modfun =
       rbx_grow_h box diffwidth (modfun spacer);;
 
 let rbx_grow_right box width =
-  rbx_grow_leftright box width (fun x y -> y^x);;
+  rbx_grow_leftright box width (fun x y -> y ++ x);;
  
 let rbx_grow_left box width =
-  rbx_grow_leftright box width (fun x y -> x^y);;
+  rbx_grow_leftright box width (fun x y -> x ++ y);;
 
 (* -- HORIZONTAL GROW, part III ----------------------------------------- *)
 
@@ -63,7 +63,7 @@ let rbx_grow_center box width =
       lspacer = String.make lspace ' ' and
       rspacer = String.make rspace ' '
     in
-      rbx_grow_h box diffwidth (fun s -> lspacer^s^rspacer);;
+      rbx_grow_h box diffwidth (fun s -> lspacer ++ s ++ rspacer);;
 
 let rbx_grow_hmiddle = rbx_grow_center;;
 
@@ -158,8 +158,6 @@ let rbx_join_v choice boxlist =
         head 
         boxlist;;
 
-let ($%) b1 b2 = rbx_join_v 'S' [b1;b2];;
-
 let rbx_join_h choice boxlist =
   match rbx_grow_auto_v choice boxlist with
     [] -> raise (Invalid_argument "rbx_join_h") |
@@ -168,12 +166,10 @@ let rbx_join_h choice boxlist =
         (fun addbox box -> 
           {rb_width=addbox.rb_width+box.rb_width; 
           rb_height=head.rb_height; 
-          rb_lines=map2 (^) addbox.rb_lines box.rb_lines}
+          rb_lines=map2 (++) addbox.rb_lines box.rb_lines}
         )
         head 
         boxlist;;
-
-let ($+) b1 b2 = rbx_join_h 'S' [b1;b2];;
 
 (* -- CROSS JOINS ------------------------------------------------------- *)
 
@@ -191,8 +187,6 @@ let rbx_crossjoin_tr botleft topright =
   in
     rbx_4join topleft botleft topright botright;;
 
-let ($^) = rbx_crossjoin_tr;;
-
 let rbx_crossjoin_br topleft botright =
   let 
     topright = rbx_empty botright.rb_width  topleft.rb_height and
@@ -200,12 +194,13 @@ let rbx_crossjoin_br topleft botright =
   in
     rbx_4join topleft botleft topright botright;;
 
-let ($-) = rbx_crossjoin_br;;
-
 (* ---------------------------------------------------------------------- *)
 
 let rbx_render_str box =
-  List.fold_right (fun s1 s2 -> "\x1B[1;44m"^s1^"\x1B[22;49m\n"^s2^"\x1B[49m" ) box.rb_lines ""
+  List.fold_right 
+    (fun s1 s2 -> "\x1B[1;44m" ++ s1 ++ "\x1B[22;49m\n" ++ s2 ++ "\x1B[49m" )
+    box.rb_lines 
+    ""
 
 let rbx_render box =
   Printf.printf "%s" (rbx_render_str box);;
