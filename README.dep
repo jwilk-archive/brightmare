@@ -1,0 +1,19 @@
+brightmare:	
+	automaton decoration decoration_html interpret
+	interpret_debug	latex_dictionary locale	parse
+	render rmath tokenize unicode_html unicode_konwert
+	version
+interpret:
+	parsetree
+interpret_debug:
+	parsetree
+latex_dictionary:
+	dictionary
+parse:
+	parsetree
+unicode:
+	unicore
+unicode_konwert:
+	locale unicore
+
+# vim:ts=4

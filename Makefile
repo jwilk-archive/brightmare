@@ -1,6 +1,6 @@
 VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
-DIST_FILES = README Makefile Makefile.dep $(SOURCE_FILES)
+DIST_FILES = README README.dep Makefile Makefile.dep $(SOURCE_FILES)
 SOURCE_FILES = $(C_FILES) $(ML_FILES) $(MLI_FILES)
 C_FILES = locale.c
 ML_FILES = \
@@ -16,7 +16,7 @@ ML_FILES = \
 	parsetree.ml parse.ml interpret.ml interpret_debug.ml \
 	brightmare.ml
 MLI_FILES = \
-	locale.mli version.mli \
+	locale.mli \
 	listEx.mli strEx.mli \
 	unicore.mli unicode.mli unicode_html.mli unicode_konwert.mli \
 	decoration.mli decoration_html.mli \

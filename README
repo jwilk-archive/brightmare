@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041117
+BrightMaRe, version 0.20041119
 ------------------------------
 
 Author:
@@ -9,14 +9,17 @@ License:
 
 ChangeLog:
 
-17 Nov 2004, version 0.20041117
+19 Nov 2004, version 0.20041119
+  -- attached module dependency information (`README.dep')
+
+18 Nov 2004, version 0.20041117
   -- emerged `interpret.ml' from `parse.ml'
   -- automatic choice of modules set
   -- at last fixed parsetree-fixing routine
   -- written `interpret_debug.ml' (now it pretty helps!)
   -- written *really* simple command options parser
 
-16 Nov 2004, version 0.20041116
+17 Nov 2004, version 0.20041116
   -- continued the major cleanup
   -- `unicode_konwert.ml' works!
   -- written `decoration.ml' and `decoration_html.ml'

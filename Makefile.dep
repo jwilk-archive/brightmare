@@ -1,5 +1,3 @@
-version.cmo: version.cmi 
-version.cmx: version.cmi 
 listEx.cmo: listEx.cmi 
 listEx.cmx: listEx.cmi 
 strEx.cmo: strEx.cmi 
@@ -39,7 +37,7 @@ interpret_debug.cmx: listEx.cmx parsetree.cmx zz_signatures.cmx
 brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmi \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmi listEx.cmi \
     locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmi tokenize.cmx \
-    unicode_html.cmi unicode_konwert.cmi version.cmi zz_signatures.cmx 
+    unicode_html.cmi unicode_konwert.cmi version.cmx zz_signatures.cmx 
 brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmx listEx.cmx \
     locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmx tokenize.cmx \
