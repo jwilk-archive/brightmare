@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041031
+BrightMaRe, version 0.20041107
 ------------------------------
 
 Author:
@@ -8,6 +8,9 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+7 Nov 2004, version 0.20041107
+  -- LateX dictionary is still expanding
 
 31 Oct 2004, version 0.20041031.2
   -- LaTeX dictionary is still expanding

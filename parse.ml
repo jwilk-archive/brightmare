@@ -1,3 +1,5 @@
+open Dictionary_lib;;
+
 type parse_operator = PO_Void | PO_Custom of string;;
 type parse_element = PE_Void | PE_Custom of string;;
 type parse_tree = 
@@ -43,16 +45,8 @@ let rec parse_a bldtree toklist limit =
    token::toklist ->
       try 
         let 
-          (p, q) = 
-            if Dictionary.exist Latex_dictionary.symbols token 
-            then
-              (0, 0)
-            else if Dictionary.exist Latex_dictionary.alphabets token 
-            then
-              (0, 1)
-            else
-              Dictionary.get Latex_dictionary.commands token 
-        in
+          (p, q) = JoinedDictionary.get Latex_dictionary.commands token 
+       in
         let (newbldtree, toklist) = parse_a (PT_Operator (PO_Custom token, [])) toklist q in
          parse_a 
             ( (if token.[0] = '\\' then pt_add else pt_backadd)

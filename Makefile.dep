@@ -1,7 +1,7 @@
-dictionary.cmo: dictionary.cmi 
-dictionary.cmx: dictionary.cmi 
-latex_dictionary.cmo: dictionary.cmi 
-latex_dictionary.cmx: dictionary.cmx 
+dictionary_lib.cmo: dictionary_lib.cmi 
+dictionary_lib.cmx: dictionary_lib.cmi 
+latex_dictionary.cmo: dictionary_lib.cmi 
+latex_dictionary.cmx: dictionary_lib.cmx 
 unicode.cmo: unicode.cmi 
 unicode.cmx: unicode.cmi 
 list2.cmo: list2.cmi 
@@ -12,9 +12,9 @@ rmath.cmo: list2.cmi render.cmi
 rmath.cmx: list2.cmx render.cmx 
 tokenize.cmo: tokenize.cmi 
 tokenize.cmx: tokenize.cmi 
-parse.cmo: dictionary.cmi latex_dictionary.cmo rmath.cmo tokenize.cmi \
+parse.cmo: dictionary_lib.cmi latex_dictionary.cmo rmath.cmo tokenize.cmi \
     unicode.cmi 
-parse.cmx: dictionary.cmx latex_dictionary.cmx rmath.cmx tokenize.cmx \
+parse.cmx: dictionary_lib.cmx latex_dictionary.cmx rmath.cmx tokenize.cmx \
     unicode.cmx 
 brightmare.cmo: parse.cmo rmath.cmo tokenize.cmi version.cmo 
 brightmare.cmx: parse.cmx rmath.cmx tokenize.cmx version.cmx 
