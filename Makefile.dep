@@ -1,0 +1,6 @@
+render_math.cmo: render.cmo 
+render_math.cmx: render.cmx 
+parse.cmo: render.cmo render_math.cmo tokenize.cmo 
+parse.cmx: render.cmx render_math.cmx tokenize.cmx 
+brightmare.cmo: parse.cmo render.cmo tokenize.cmo version.cmo 
+brightmare.cmx: parse.cmx render.cmx tokenize.cmx version.cmx 

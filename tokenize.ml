@@ -36,7 +36,7 @@ let rec extokenize arr state lasttok toklist =
 let tokenize_a arr =
   List.rev 
     (List.filter 
-      (function s -> s <> "") 
+      (fun s -> s <> "") 
       (extokenize arr TS_Normal "" [])
     );;
 

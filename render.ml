@@ -14,22 +14,10 @@ let make count elem =
 type renderbox = 
   { rb_width: int; rb_height: int; rb_lines: string list }
 
-let rbx_singleton str =
+let rbx_si str =
   { rb_width = String.length str; rb_height=1; rb_lines = [str] };;
 
-let ($) = rbx_singleton;;
-
-let rbx_hline width =
-  if width <= 0 then
-    raise(Invalid_argument "rbx_hline")
-  else
-    { rb_width=width; rb_height=1; rb_lines=[String.make width '-']};;
-
-let rbx_vline height =
-  if height <= 0 then
-    raise(Invalid_argument "rbx_vline")
-  else
-    { rb_width=1; rb_height=height; rb_lines=make height "-"};;
+let ($) = rbx_si;;
 
 let rbx_make width height chr =
   let filler = String.make width chr in
@@ -191,10 +179,10 @@ let ($+) b1 b2 = rbx_join_h 'S' [b1;b2];;
 
 let rbx_4join topleft botleft topright botright =
   let
-    left  = rbx_join_v 'Q' [topleft;  botleft] and
-    right = rbx_join_v 'Q' [topright; botright]
+    left  = rbx_join_v 'Z' [topleft;  botleft] and
+    right = rbx_join_v 'Z' [topright; botright]
   in
-    rbx_join_h 'Q' [left; right];;
+    rbx_join_h 'Z' [left; right];;
 
 let rbx_crossjoin_tr botleft topright =
   let 
@@ -214,13 +202,12 @@ let rbx_crossjoin_br topleft botright =
 
 let ($-) = rbx_crossjoin_br;;
 
-
 (* ---------------------------------------------------------------------- *)
 
+let rbx_render_str box =
+  List.fold_right (fun s1 s2 -> "\x1B[1;44m"^s1^"\x1B[22;49m\n"^s2^"\x1B[49m" ) box.rb_lines ""
+
 let rbx_render box =
-  Printf.printf "%s"
-  (
-    List.fold_right (fun s1 s2 -> "\x1B[1;44m"^s1^"\x1B[22;49m\n"^s2^"\x1B[49m" ) box.rb_lines ""
-  );;
+  Printf.printf "%s" (rbx_render_str box);;
 
 (* vim: set tw=96 et ts=2 sw=2: *)
