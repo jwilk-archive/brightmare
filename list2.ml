@@ -36,18 +36,6 @@ let make count elem =
   in
     make_helper [] count elem
 
-let iter2 = List.iter2
-let map2 = List.map2
-let rev_map2 = List.rev_map2
-let fold_left2 = List.fold_left2
-let fold_right2 = List.fold_right2
-
-let for_all = List.for_all
-let exists = List.exists
-let mem = List.mem
-let memq = List.memq
-
-let find = List.find
 let rec seek f lst =
   match lst with
     [] -> raise(Not_found) |
@@ -57,10 +45,6 @@ let rec seek f lst =
       with
         Not_found -> seek f tail;;
 
-let filter = List.filter
-let partition = List.partition
-
-let split = List.split
-let combine = List.combine
+include List
 
 (* vim: set tw=96 et ts=2 sw=2: *)

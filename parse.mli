@@ -1,8 +1,10 @@
-type t
+module type UNICODE = Zz_signatures.UNICODE
+module type RMATH = Zz_signatures.RMATH
+module type T = Zz_signatures.PARSE
 
-val empty : t
-
-val as_rmathbox : t -> Rmath.t
-val tokens_to_rmathbox : string list -> Rmath.t
+module Make 
+  (Uni : UNICODE) 
+  (Rmath : RMATH with type wstring = Uni.wstring and type wchar = Uni.wchar) :
+  T with type rmath_t = Rmath.t
 
 (* vim: set tw=96 et ts=2 sw=2: *)

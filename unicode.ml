@@ -6,12 +6,12 @@ let (++) = (^);;
 let empty = "";;
 
 let string_of_int n =
-  String.make 1 (char_of_int n)
+  String2.make 1 (char_of_int n)
 
 let wchar_of_int n =
   if n < 0 
   then
-    raise(Invalid_argument "Unicode.wchar_of_int")
+    raise(Invalid_argument "Unicode_konwert.wchar_of_int")
   else if n < 0x80
   then
     string_of_int n
@@ -25,7 +25,7 @@ let wchar_of_int n =
     string_of_int (0x80 + (n lsr 6) land 0x3F) ++
     string_of_int (0x80 + n land 0x3F)
   else
-    raise(Invalid_argument "Unicode.wchar_of_int");;
+    raise(Invalid_argument "Unicode_konwert.wchar_of_int");;
 
 let wchar_of_char c =
   wchar_of_int (int_of_char c);;
@@ -41,7 +41,7 @@ let from_string s =
 let to_string s = s;; (* FIXME or not FIXME -- that is the question *)
 
 let length s =
-  let plen = String.length s in
+  let plen = String2.length s in
   let rec length_a ac i =
     if i >= plen then
       ac
@@ -60,12 +60,12 @@ let length s =
     if len >= 0 then
       len
     else
-      raise (Failure "Unicode.length");;
+      raise (Failure "Unicode_konwert.length");;
 
 
 let make n wch =
   if n < 0 then
-    raise(Invalid_argument "Unicode.make")
+    raise(Invalid_argument "Unicode_konwert.make")
   else
     let rec make_a str n =
       if n <= 0 then

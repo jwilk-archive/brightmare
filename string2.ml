@@ -8,6 +8,8 @@ let as_list str =
     else
       los_helper ((get str i)::lst) (i-1)
   in
-    los_helper [] (len-1);;
+    los_helper [] (len-1)
+
+include String
 
 (* vim: set tw=96 et ts=2 sw=2: *)

@@ -1,9 +1,3 @@
-type command = char
-type s = bool
-type t
-
-val default : t
-val pubstate : t -> s
-val execute : command -> t -> t
+include Zz_signatures.TOK_AUTOMATON
 
 (* vim: set tw=96 et ts=2 sw=2: *)

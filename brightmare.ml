@@ -14,18 +14,22 @@ Locale.initialize();;
 
 Printf.printf "Locale charmap = %s\n\n" (Locale.charmap ());;
 
-let module Tokenize = Tokenize.Make(Automaton2) in
-  List2.iter
-    ( fun s ->
-      let tokens = Tokenize.make s in
-      let mathbx = Parse.tokens_to_rmathbox tokens in
-      let render = Rmath.render_str mathbx in
-      let render = Unicode.to_string render in
-      let tokens = aos2str tokens in
-        Printf.printf 
-          "\x1B[12mZ\x1B[10m %s \n\x1B[12mSRR\x1B[10m> %s\n%s\n" 
-          s tokens render
-    ) argv;;
+module XUnicode = Unicode
+module XTokenize = Tokenize.Make(Automaton2)
+module XRender = Render.Make(XUnicode)
+module XRmath = Rmath.Make(XUnicode)(XRender)
+module XParse = Parse.Make(XUnicode)(XRmath);;
 
+List2.iter
+  ( fun s ->
+    let tokens = XTokenize.make s in
+    let mathbx = XParse.tokens_to_rmathbox tokens in
+    let render = XRmath.render_str mathbx in
+    let render = XUnicode.to_string render in
+    let tokens = aos2str tokens in
+      Printf.printf 
+        "\x1B[12mZ\x1B[10m %s \n\x1B[12mSRR\x1B[10m> %s\n%s\n" 
+        s tokens render
+  ) argv;;
 
 (* vim: set tw=96 et ts=2 sw=2: *)
