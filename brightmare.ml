@@ -15,7 +15,11 @@ let argv = match Array.to_list Sys.argv with
   _::tail -> tail;;
 
 List.iter
-  ( fun s -> printf "tokenize( %s ) = [ %s ]\n" s (aos2str (tokenize s)) )
-  argv;;
+  ( fun s -> 
+    printf 
+      "\x1B[12mZ\x1B[10m %s \n\x1B[12mSRR\x1B[10m> %s\n\n" 
+      s 
+      (aos2str (tokenize s)) 
+  ) argv;;
 
 (* vim: set tw=96 et ts=2 sw=2: *)

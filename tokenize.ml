@@ -16,21 +16,21 @@ let rec extokenize arr state lasttok toklist =
     [] -> lasttok::toklist |
     head::arr ->
       let 
-        et = extokenize arr and 
+        et = extokenize arr and
         hd = String.make 1 head and
-        nstate = (if state = TS_SCommand then TS_Command else state)  
-      in let 
-        et_append = et nstate (lasttok^hd) toklist and
+        nstate = (if state = TS_SCommand then TS_Command else state)
+      in let
+        et_append () = et nstate (lasttok^hd) toklist and
         et_fresh state = et state "" (hd::lasttok::toklist)
-      in
+      in 
       match head, state with
         ('^' | '_'), _ -> et_fresh TS_UpLow |
         ('\\' | '{' | '}'), TS_SCommand -> et TS_Normal "" (("\\"^hd)::toklist) |
         '\\', _ -> et TS_SCommand "\\" (lasttok::toklist) |
         _, TS_UpLow -> et_fresh TS_Normal |
-        '0'..'9', TS_Normal -> et_append |
+        '0'..'9', TS_Normal -> et_append () |
         '0'..'9', _ -> et TS_Normal hd (lasttok::toklist) |
-        ('a'..'z' | 'A'..'Z'), _ -> et_append |
+        ('a'..'z' | 'A'..'Z'), _ -> et_append () |
         _, _ -> et_fresh TS_Normal;;
 
 let tokenize_a arr =
