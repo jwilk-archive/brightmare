@@ -78,14 +78,14 @@ let alphabet_commands =
 
 let operators = make [
 (* variable-sized math operators:: *)
-  "\\bigcap",     ();
-  "\\bigcup",     ();
-  "\\bigodot",    ();
-  "\\bigoplus",   ();
-  "\\bigotimes",  ();
-  "\\bigsqcup",   ();
-  "\\bigvee",     ();
-  "\\bigwedge",   ();
+  "\\bigcap",     (); (* TODO: not implemented *)
+  "\\bigcup",     (); (* TODO: not implemented *)
+  "\\bigodot",    (); (* TODO: not implemented *)
+  "\\bigoplus",   (); (* TODO: not implemented *)
+  "\\bigotimes",  (); (* TODO: not implemented *)
+  "\\bigsqcup",   (); (* TODO: not implemented *)
+  "\\bigvee",     (); (* TODO: not implemented *)
+  "\\bigwedge",   (); (* TODO: not implemented *)
   "\\coprod",     ();
   "\\int",        ();
   "\\oint",       ();
@@ -132,10 +132,10 @@ let loglikes = make [
   "\\sup",        ();
   "\\tan",        ();
   "\\tanh",       ();
-  "\\varinjlim",  ();
-  "\\varliminf",  ();
-  "\\varlimsup",  ();
-  "\\varprojlim", ();
+  "\\varinjlim",  (); (* FIXME: erroneously implemented *)
+  "\\varliminf",  (); (* FIXME: erroneously implemented *)
+  "\\varlimsup",  (); (* FIXME: erroneously implemented *)
+  "\\varprojlim", (); (* FIXME: erroneously implemented *)
 ]
 
 let loglike_commands = 
@@ -143,38 +143,38 @@ let loglike_commands =
 
 let symbols = make [
 (* LaTeX escapable special characters:: *)
-  "\\$",  37;
-  "\\%",  38;
-  "\\_",  95;
-  "\\&",  39;
-  "\\#",  36;
+  "\\#",  0x0024;
+  "\\$",  0x0025;
+  "\\%",  0x0026;
+  "\\&",  0x0027;
+  "\\\\", 0x005c;
+  "\\_",  0x005f;
 
 (* LaTeX commands defined to work both in math and text mode:: *)
-  "\\dag",        8224;
-  "\\ddag",       8225;
-  "\\copyright",  169;
-  "\\pounds",     163;
-  "\\S",          167;
-  "\\P",          182;
+  "\\P",          0x00b6;
+  "\\S",          0x00a7;
+  "\\copyright",  0x00a9;
+  "\\dag",        0x2020;
+  "\\ddag",       0x2021;
   "\\dots",       0;
-  "\\\\",         92; (* FIXME - place? *)
+  "\\pounds",     0x00a3;
 
 (* non-ASCII letters:: *)
-  "\\aa", 229;
-  "\\AA", 197;
-  "\\ae", 230;
-  "\\AE", 198;
+  "\\aa", 0x00e5;
+  "\\AA", 0x00c5;
+  "\\ae", 0x00e6;
+  "\\AE", 0x00c6;
   "\\DH", 0;
   "\\dh", 0;
   "\\DJ", 0;
   "\\dj", 0;
-  "\\l",  322;
-  "\\L",  321;
-  "\\o",  248;
-  "\\O",  216;
-  "\\oe", 339;
-  "\\OE", 338;
-  "\\ss", 223;
+  "\\l",  0x0142;
+  "\\L",  0x0141;
+  "\\o",  0x00f8;
+  "\\O",  0x00d8;
+  "\\oe", 0x0153;
+  "\\OE", 0x0152;
+  "\\ss", 0x00df;
   "\\SS", 0;
   "\\TH", 0;
   "\\th", 0;
@@ -183,207 +183,207 @@ let symbols = make [
 
 
 (* binary operators:: *)
-  "\\amalg",            2210;
-  "\\ast",              8727;
-  "\\bigcirc",          9675;
-  "\\bigtriangledown",  9661;
-  "\\bigtriangleup",    9651;
-  "\\bullet",           8729;
-  "\\cap",              8745;
-  "\\cdot",             183;
-  "\\circ",             8728;
-  "\\cup",              8746;
-  "\\dagger",           8224;
-  "\\ddagger",          8225;
-  "\\diamond",          8900;
-  "\\div",              247;
+  "\\amalg",            0x08a2;
+  "\\ast",              0x2217;
+  "\\bigcirc",          0x25cb;
+  "\\bigtriangledown",  0x25bd;
+  "\\bigtriangleup",    0x25b3;
+  "\\bullet",           0x2219;
+  "\\cap",              0x2229;
+  "\\cdot",             0x00b7;
+  "\\circ",             0x2218;
+  "\\cup",              0x222a;
+  "\\dagger",           0x2020;
+  "\\ddagger",          0x2021;
+  "\\diamond",          0x22c4;
+  "\\div",              0x00f7;
   "\\lhd",              0;
-  "\\mp",               8723;  
-  "\\odot",             8857;
+  "\\mp",               0x2213;  
+  "\\odot",             0x2299;
   "\\ominus",           0x2296;
-  "\\oplus",            8853;
+  "\\oplus",            0x2295;
   "\\oslash",           0x2298;
-  "\\otimes",           8855;
-  "\\pm",               177;
+  "\\otimes",           0x2297;
+  "\\pm",               0x00b1;
   "\\rhd",              0;
-  "\\setminus",         2216;
+  "\\setminus",         0x08a8;
   "\\sqcap",            0x2293;
   "\\sqcup",            0x2294;
-  "\\star",             0x22C6;
-  "\\times",            215;
-  "\\trangleright",     9657;
-  "\\triangleleft",     9667;
+  "\\star",             0x22c6;
+  "\\times",            0x00d7;
+  "\\trangleright",     0x25b9;
+  "\\triangleleft",     0x25c3;
   "\\unlhd",            0;
   "\\unrhd",            0;
-  "\\uplus",            0x228E;
-  "\\vee",              8744;
-  "\\wedge",            8743;
-  "\\wr",               8768;
+  "\\uplus",            0x228e;
+  "\\vee",              0x2228;
+  "\\wedge",            0x2227;
+  "\\wr",               0x2240;
 
 (* relation symbols:: *)
-  "\\approx",     8776;
-  "\\asymp",      8781;
-  "\\bowtie",     0x22C8;
-  "\\cong",       8773;
-  "\\dashv",      8867;
-  "\\doteq",      8784;
-  "\\equiv",      8801;
-  "\\frown",      8894;
+  "\\approx",     0x2248;
+  "\\asymp",      0x224d;
+  "\\bowtie",     0x22c8;
+  "\\cong",       0x2245;
+  "\\dashv",      0x22a3;
+  "\\doteq",      0x2250;
+  "\\equiv",      0x2261;
+  "\\frown",      0x22be;
   "\\geq",        0;
-  "\\gg",         8811;
-  "\\in",         8712;
+  "\\gg",         0x226b;
+  "\\in",         0x2208;
   "\\Join",       0;
   "\\leq",        0;
-  "\\ll",         8810;
-  "\\mid",        8739;
-  "\\models",     0x22A7;
-  "\\ne",         8800;
-  "\\neq",        8800;
-  "\\ni",         8715;
-  "\\nin",        8713; (* FIXME - place? *)
-  "\\parallel",   8741;
+  "\\ll",         0x226a;
+  "\\mid",        0x2223;
+  "\\models",     0x22a7;
+  "\\ne",         0x2260;
+  "\\neq",        0x2260;
+  "\\ni",         0x220b;
+  "\\nin",        0x2209; (* FIXME - place? *)
+  "\\parallel",   0x2225;
   "\\perp",       0;
-  "\\prec",       8826;
-  "\\preceq",     10927;
-  "\\propto",     8733;
-  "\\sim",        8764;
-  "\\simeq",      8771;
-  "\\smile",      8895;
-  "\\sqsubset",   8847;
-  "\\sqsubseteq", 8849;
-  "\\sqsupset",   8848;
-  "\\sqsupseteq", 8850;
-  "\\subset",     8834;
-  "\\subseteq",   8838;
-  "\\succ",       8827;
-  "\\succeq",     10928;
-  "\\supset",     8835;
-  "\\supseteq",   8839;
-  "\\vdash",      8866;
+  "\\prec",       0x227a;
+  "\\preceq",     0x2aaf;
+  "\\propto",     0x221d;
+  "\\sim",        0x223c;
+  "\\simeq",      0x2243;
+  "\\smile",      0x22bf;
+  "\\sqsubset",   0x228f;
+  "\\sqsubseteq", 0x2291;
+  "\\sqsupset",   0x2290;
+  "\\sqsupseteq", 0x2292;
+  "\\subset",     0x2282;
+  "\\subseteq",   0x2286;
+  "\\succ",       0x227b;
+  "\\succeq",     0x2ab0;
+  "\\supset",     0x2283;
+  "\\supseteq",   0x2287;
+  "\\vdash",      0x22a2;
 
 (* punctuation marks --- TODO *)
 (* punctuation symbols:: *)
-  "\\colon",  58;
+  "\\colon",  0x003a;
   "\\ldotp",  0;
   "\\cdotp",  0;
 
 (* arrow symbols:: *)
-  "\\hookleftarrow",      0x21A9;
-  "\\hookrightarrow",     0x21A0;
+  "\\hookleftarrow",      0x21a9;
+  "\\hookrightarrow",     0x21a0;
   "\\leadsto",            0;
-  "\\leftarrow",          8592;
-  "\\Leftarrow",          8656;
-  "\\leftharpoondown",    8637;
-  "\\leftharpoonup",      8636;
-  "\\leftrightarrow",     8596;
-  "\\Leftrightarrow",     8660;
-  "\\leftrightharpoons",  8651;
-  "\\longleftarrow",      10229;
-  "\\Longleftarrow",      10232;
-  "\\longleftrightarrow", 10231;
-  "\\Longleftrightarrow", 10234;
-  "\\longmapsto",         10236;
-  "\\longrightarrow",     10230;
-  "\\Longrightarrow",     10233;
-  "\\mapsto",             0x21A6;
+  "\\leftarrow",          0x2190;
+  "\\Leftarrow",          0x21d0;
+  "\\leftharpoondown",    0x21bd;
+  "\\leftharpoonup",      0x21bc;
+  "\\leftrightarrow",     0x2194;
+  "\\Leftrightarrow",     0x21d4;
+  "\\leftrightharpoons",  0x21cb;
+  "\\longleftarrow",      0x27f5;
+  "\\Longleftarrow",      0x27f8;
+  "\\longleftrightarrow", 0x27f7;
+  "\\Longleftrightarrow", 0x27fa;
+  "\\longmapsto",         0x27fc;
+  "\\longrightarrow",     0x27f6;
+  "\\Longrightarrow",     0x27f9;
+  "\\mapsto",             0x21a6;
   "\\nearrow",            0x2197;
   "\\nwarrow",            0x2196;
-  "\\rightarrow",         8594;
-  "\\rightarrow",         8594;
-  "\\Rightarrow",         8658;
-  "\\rightharpoondown",   8640;
-  "\\rightharpoonup",     8640;
-  "\\rightleftharpoons",  8652;
+  "\\rightarrow",         0x2192;
+  "\\rightarrow",         0x2192;
+  "\\Rightarrow",         0x21d2;
+  "\\rightharpoondown",   0x21c0;
+  "\\rightharpoonup",     0x21c0;
+  "\\rightleftharpoons",  0x21cc;
   "\\searrow",            0x2198;
   "\\swarrow",            0x2199;
-  "\\to",                 8594; (* FIXME - place? *)
+  "\\to",                 0x2192; (* FIXME - place? *)
 
 (* miscellaneous LaTeX symbols:: *)
-  "\\angle",        8736;
-  "\\bot",          8869;
+  "\\angle",        0x2220;
+  "\\bot",          0x22a5;
   "\\Box",          0;
   "\\cdots",        0;
-  "\\clubsuit",     9827;
+  "\\clubsuit",     0x2663;
   "\\ddots",        0;
-  "\\Diamond",      8900;
-  "\\diamondsuit",  9830;
+  "\\Diamond",      0x22c4;
+  "\\diamondsuit",  0x2666;
   "\\ell",          0x2113;
-  "\\emptyset",     8709; (* FIXME - number? *)
-  "\\exists",       8707;
-  "\\flat",         9837;
-  "\\forall",       8704;
-  "\\heartsuit",    9829;
+  "\\emptyset",     0x2205; (* FIXME - number? *)
+  "\\exists",       0x2203;
+  "\\flat",         0x266d;
+  "\\forall",       0x2200;
+  "\\heartsuit",    0x2665;
   "\\Im",           0x2111;
   "\\imath",        0x0131;
-  "\\infty",        8734;
+  "\\infty",        0x221e;
   "\\jmath",        0;
-  "\\ldots",        8230;
-  "\\mho",          8487;
-  "\\nabla",        8711;
-  "\\natural",      9838;
-  "\\neg",          172;
-  "\\partial",      8706;
-  "\\prime",        8242;
-  "\\Re",           0x211C;
-  "\\sharp",        9839;
-  "\\spadesuit",    9824;
-  "\\surd",         8730;
-  "\\top",          8868;
+  "\\ldots",        0x2026;
+  "\\mho",          0x2127;
+  "\\nabla",        0x2207;
+  "\\natural",      0x266e;
+  "\\neg",          0x00ac;
+  "\\partial",      0x2202;
+  "\\prime",        0x2032;
+  "\\Re",           0x211c;
+  "\\sharp",        0x266f;
+  "\\spadesuit",    0x2660;
+  "\\surd",         0x221a;
+  "\\top",          0x22a4;
   "\\triangle",     0;
   "\\vdots",        0;
   "\\wp",           0x2118;
 
 (* small Greek letters:: *)
-  "\\alpha",      945;
-  "\\beta",       946;
-  "\\gamma",      947;
-  "\\digamma",    988;
-  "\\delta",      948;
-  "\\epsilon",    949;
-  "\\varepsilon", 8714;
-  "\\zeta",       950;
-  "\\eta",        951;
-  "\\theta",      952;
-  "\\vartheta",   977;
-  "\\iota",       953;
-  "\\kappa",      954;
-  "\\varkappa",   1008;
-  "\\lambda",     955;
-  "\\mu",         956;
-  "\\nu",         957;
-  "\\xi",         958;
-  "\\pi",         960;
+  "\\alpha",      0x03b1;
+  "\\beta",       0x03b2;
+  "\\gamma",      0x03b3;
+  "\\digamma",    0x03dc;
+  "\\delta",      0x03b4;
+  "\\epsilon",    0x03b5;
+  "\\varepsilon", 0x220a;
+  "\\zeta",       0x03b6;
+  "\\eta",        0x03b7;
+  "\\theta",      0x03b8;
+  "\\vartheta",   0x03d1;
+  "\\iota",       0x03b9;
+  "\\kappa",      0x03ba;
+  "\\varkappa",   0x03f0;
+  "\\lambda",     0x03bb;
+  "\\mu",         0x03bc;
+  "\\nu",         0x03bd;
+  "\\xi",         0x03be;
+  "\\pi",         0x03c0;
   "\\varpi",      0;
-  "\\rho",        961;
-  "\\varrho",     1009;
-  "\\sigma",      963;
-  "\\varsigma",   962;
-  "\\tau",        964;
-  "\\upsilon",    965;
-  "\\phi",        981;
-  "\\varphi",     966;
-  "\\chi",        967;
-  "\\psi",        968;
-  "\\omega",      969;
+  "\\rho",        0x03c1;
+  "\\varrho",     0x03f1;
+  "\\sigma",      0x03c3;
+  "\\varsigma",   0x03c2;
+  "\\tau",        0x03c4;
+  "\\upsilon",    0x03c5;
+  "\\phi",        0x03d5;
+  "\\varphi",     0x03c6;
+  "\\chi",        0x03c7;
+  "\\psi",        0x03c8;
+  "\\omega",      0x03c9;
 
 (* big Greek letters:: *)
-  "\\Gamma",      915;
-  "\\Delta",      916;
-  "\\Theta",      920;
-  "\\Lamdba",     923;
-  "\\Xi",         926;
-  "\\Pi",         928;
-  "\\Sigma",      931;
-  "\\Upsilon",    933;
-  "\\Phi",        934;
-  "\\Psi",        936;
-  "\\Omega",      937;
+  "\\Gamma",      0x0393;
+  "\\Delta",      0x0394;
+  "\\Theta",      0x0398;
+  "\\Lamdba",     0x039b;
+  "\\Xi",         0x039e;
+  "\\Pi",         0x03a0;
+  "\\Sigma",      0x03a3;
+  "\\Upsilon",    0x03a5;
+  "\\Phi",        0x03a6;
+  "\\Psi",        0x03a8;
+  "\\Omega",      0x03a9;
 
 (* Hebrew letters:: *)
-  "\\aleph",      8501;
-  "\\beth",       8502;
-  "\\gimel",      8503;
-  "\\daleth",     8504;
+  "\\aleph",      0x2135;
+  "\\beth",       0x2136;
+  "\\gimel",      0x2137;
+  "\\daleth",     0x2138;
  
 (* AMS arrows:: *)
   "\\circlearrowleft",      0;
@@ -429,105 +429,105 @@ let symbols = make [
 (* miscellaneous AMS symbols:: *)
   "\\backprime",          0x2035;
   "\\Bbbk",               0;
-  "\\bigstar",            9733;
-  "\\blacklozenge",       10731;
-  "\\blacksquare",        9632;
-  "\\blacktriangle",      9652;
-  "\\blacktriangledown",  9662;
+  "\\bigstar",            0x2605;
+  "\\blacklozenge",       0x29eb;
+  "\\blacksquare",        0x25a0;
+  "\\blacktriangle",      0x25b4;
+  "\\blacktriangledown",  0x25be;
   "\\checkmark",          0;
   "\\circledR",           0;
-  "\\circledS",           9416;
-  "\\complement",         8705;
-  "\\diagdown",           9586;
-  "\\diagup",             9585;
-  "\\eth",                240;
+  "\\circledS",           0x24c8;
+  "\\complement",         0x2201;
+  "\\diagdown",           0x2572;
+  "\\diagup",             0x2571;
+  "\\eth",                0x00f0;
   "\\Finv",               0;
-  "\\Game",               8513;
-  "\\hbar",               8463; (* FIXME - number? *)
-  "\\hslash",             8463; (* FIXME - number? *)
-  "\\lozenge",            9674;
+  "\\Game",               0x2141;
+  "\\hbar",               0x210f; (* FIXME - number? *)
+  "\\hslash",             0x210f; (* FIXME - number? *)
+  "\\lozenge",            0x25ca;
   "\\maltese",            0;
-  "\\measuredangle",      8737;
-  "\\nexists",            8708;
+  "\\measuredangle",      0x2221;
+  "\\nexists",            0x2204;
   "\\restriction",        0;
-  "\\sphericalangle",     8738;
+  "\\sphericalangle",     0x2222;
   "\\squeak",             0;
-  "\\triangledown",       9663;
-  "\\varnothing",         8709;
-  "\\vartriangle",        9653;
+  "\\triangledown",       0x25bf;
+  "\\varnothing",         0x2205;
+  "\\vartriangle",        0x25b5;
 
 (* AMS binary operators:: *)
-  "\\barwedge",        0x22BC;
-  "\\boxdot",          8865;
-  "\\boxminus",        8863;
-  "\\boxplus",         8862;
-  "\\boxtimes",        8864;
-  "\\Cap",             0x22D2;
-  "\\doublecap",       0x22D2;
+  "\\barwedge",        0x22bc;
+  "\\boxdot",          0x22a1;
+  "\\boxminus",        0x229f;
+  "\\boxplus",         0x229e;
+  "\\boxtimes",        0x22a0;
+  "\\Cap",             0x22d2;
+  "\\doublecap",       0x22d2;
   "\\centerdot",       0;
-  "\\circledast",      8859;
-  "\\circledcirc",     8858;
-  "\\circleddash",     8861;
-  "\\Cup",             0x22D3;
-  "\\doublecup",       0x22D3;
-  "\\curlyvee",        8911;
-  "\\curlywedge",      8910;
-  "\\divideontimes",   8903;
-  "\\dotplus",         8724;
-  "\\doublebarwedge",  8966;
-  "\\intercal",        8890;
-  "\\leftthreetimes",  8907;
-  "\\ltimes",          8905;
-  "\\rightthreetimes", 8908;
-  "\\rtimes",          8906;
-  "\\smallsetminus",   8726; (* FIXME - number? *)
-  "\\veebar",          8891;
+  "\\circledast",      0x229b;
+  "\\circledcirc",     0x229a;
+  "\\circleddash",     0x229d;
+  "\\Cup",             0x22d3;
+  "\\doublecup",       0x22d3;
+  "\\curlyvee",        0x22cf;
+  "\\curlywedge",      0x22ce;
+  "\\divideontimes",   0x22c7;
+  "\\dotplus",         0x2214;
+  "\\doublebarwedge",  0x2306;
+  "\\intercal",        0x22ba;
+  "\\leftthreetimes",  0x22cb;
+  "\\ltimes",          0x22c9;
+  "\\rightthreetimes", 0x22cc;
+  "\\rtimes",          0x22ca;
+  "\\smallsetminus",   0x2216; (* FIXME - number? *)
+  "\\veebar",          0x22bb;
 
 (* AMS binary relations:: *)
-  "\\approxeq",           8778;
-  "\\backepsilon",        1014;
+  "\\approxeq",           0x224a;
+  "\\backepsilon",        0x03f6;
   "\\backsim",            0;
   "\\backsimeq",          0;
-  "\\because",            8757;
-  "\\between",            8812;
-  "\\blacktriangleleft",  9666;
-  "\\blacktriangleright", 9656;
+  "\\because",            0x2235;
+  "\\between",            0x226c;
+  "\\blacktriangleleft",  0x25c2;
+  "\\blacktriangleright", 0x25b8;
   "\\bumpeq",             0;
   "\\Bumpeq",             0;
-  "\\circeq",             8791;
+  "\\circeq",             0x2257;
   "\\curlyeqprec",        0;
   "\\curlyeqsucc",        0;
   "\\Doteq",              0; (* FIXME - what's that? *)
   "\\doteqdot",           0;
-  "\\eqlslantgtr",        10902;
-  "\\eqsim",              8770; (* FIXME - what's that? *)
-  "\\eqslantless",        10901;
+  "\\eqlslantgtr",        0x2a96;
+  "\\eqsim",              0x2242; (* FIXME - what's that? *)
+  "\\eqslantless",        0x2a95;
   "\\fallingdotseq",      0;
-  "\\geqq",               8807;
-  "\\geqslant",           10878;
-  "\\ggg",                8921;
-  "\\gggtr",              8921;
-  "\\gtrapprox",          10886;
-  "\\gtrdot",             8919;
-  "\\gtreqless",          8923;
-  "\\gtreqqless",         8923;
-  "\\gtrless",            8823;
-  "\\gtrsim",             8819;
-  "\\leqq",               8806;
-  "\\leqslant",           10877;
-  "\\lessapprox",         10885;
-  "\\lessdot",            8918;
-  "\\lesseqgtr",          8922;
-  "\\lesseqqgtr",         8922;
-  "\\lessgtr",            8822;
-  "\\lesssim",            8818;
-  "\\lll",                8920;
-  "\\llless",             8920;
-  "\\pitchfork",          8916;
+  "\\geqq",               0x2267;
+  "\\geqslant",           0x2a7e;
+  "\\ggg",                0x22d9;
+  "\\gggtr",              0x22d9;
+  "\\gtrapprox",          0x2a86;
+  "\\gtrdot",             0x22d7;
+  "\\gtreqless",          0x22db;
+  "\\gtreqqless",         0x22db;
+  "\\gtrless",            0x2277;
+  "\\gtrsim",             0x2273;
+  "\\leqq",               0x2266;
+  "\\leqslant",           0x2a7d;
+  "\\lessapprox",         0x2a85;
+  "\\lessdot",            0x22d6;
+  "\\lesseqgtr",          0x22da;
+  "\\lesseqqgtr",         0x22da;
+  "\\lessgtr",            0x2276;
+  "\\lesssim",            0x2272;
+  "\\lll",                0x22d8;
+  "\\llless",             0x22d8;
+  "\\pitchfork",          0x22d4;
   "\\precapprox",         0;
   "\\preccurlyeq",        0;
   "\\precsim",            0;
-  "\\qcirc",              8790; (* FIXME - what's that? *)
+  "\\qcirc",              0x2256; (* FIXME - what's that? *)
   "\\risingdotseq",       0;
   "\\shartparallel",      0;
   "\\shortmid",           0;
@@ -540,13 +540,13 @@ let symbols = make [
   "\\succsim",            0;
   "\\Supset",             0;
   "\\supseteqq",          0;
-  "\\therefore",          8756;
+  "\\therefore",          0x2234;
   "\\thickapprox",        0;
   "\\thicksim",           0;
   "\\triangleeq",         0;
   "\\trianglelefteq",     0;
   "\\trianglerighteq",    0;
-  "\\varpropto",          8733;
+  "\\varpropto",          0x221d;
   "\\vartriangleleft",    0;
   "\\vartriangleright",   0;
   "\\vDash",              0;
@@ -573,7 +573,7 @@ let symbols = make [
   "\\nleqslant",        0;
   "\\nless",            0;
   "\\nmid",             0;
-  "\\nparallel",        8742;
+  "\\nparallel",        0x2226;
   "\\nprec",            0;
   "\\npreceq",          0;
   "\\nshortmid",        0;
@@ -609,13 +609,13 @@ let symbols = make [
   "\\varsupsetneq",     0;
   "\\varsupsetneqq",    0;
 
-(* FIXME - WAHT THE DUCK IS THAT?! *)
+(* Uhmm... *)
   "\\arcdeg",        0;
   "\\arcmin",        0;
   "\\arcsec",        0;
   "\\bv",            0;
   "\\dbond",         0;
-  "\\degr",          176;
+  "\\degr",          0x00b0;
   "\\diameter",      0;
   "\\earth",         0;
   "\\farcm",         0;
@@ -626,20 +626,20 @@ let symbols = make [
   "\\fm",            0;
   "\\fp",            0;
   "\\fs",            0;
-  "\\ga",            8819;
-  "\\gtrsim",        8819;
-  "\\la",            8818;
-  "\\lesssim",       8818;
+  "\\ga",            0x2273;
+  "\\gtrsim",        0x2273;
+  "\\la",            0x2272;
+  "\\lesssim",       0x2272;
   "\\micron",        0;
-  "\\onehalf",       188;
-  "\\onequarter",    188;
-  "\\onethird",      8531;
+  "\\onehalf",       0x00bc;
+  "\\onequarter",    0x00bc;
+  "\\onethird",      0x2153;
   "\\sbond",         0;
   "\\sq",            0;
   "\\sun",           0;
   "\\tbond",         0;
-  "\\threequarters", 190;
-  "\\twothirds",     8532;
+  "\\threequarters", 0x00be;
+  "\\twothirds",     0x2154;
   "\\ub",            0;
   "\\ubvr",          0;
   "\\ur",            0;
@@ -650,47 +650,47 @@ let symbol_commands =
   map (fun _ -> (0, 0)) symbols
 
 let delimiters1 = make [
-  "(",              40;
-  ")",              41;
+  "(",              0x0028;
+  ")",              0x0029;
   ".",              0;
-  "/",              47;
-  "<",              9001;
-  ">",              9002;
-  "[",              91;
-  "]",              93;
+  "/",              0x002f;
+  "<",              0x2329;
+  ">",              0x232a;
+  "[",              0x005b;
+  "]",              0x005d;
   "|",              124
 ]
 
 let delimiters2 = make [
-  "\\Arrowvert",    0;
-  "\\Downarrow",    0x21D3;
-  "\\Uparrow",      8657;
-  "\\Updownarrow",  0x21D1;
-  "\\Vert",         8214;
-  "\\arrowvert",    0;
-  "\\backslash",    92;
-  "\\bracevert",    0;
-  "\\downarrow",    8595;
-  "\\langle",       9001;
-  "\\lceil",        8968;
-  "\\lfloor",       8970;
+  "\\Arrowvert",    0; (* TODO: not implemented *)
+  "\\Downarrow",    0x21d3; (* TODO: not implemented *)
+  "\\Uparrow",      0x21d1; (* TODO: not implemented *)
+  "\\Updownarrow",  0x21d1; (* TODO: not implemented *)
+  "\\Vert",         0x2016;
+  "\\arrowvert",    0; (* TODO: not implemented *)
+  "\\backslash",    0x005c; (* TODO: not implemented *)
+  "\\bracevert",    0; (* TODO: not implemented *)
+  "\\downarrow",    0x2193; (* TODO: not implemented *)
+  "\\langle",       0x2329;
+  "\\lceil",        0x2308;
+  "\\lfloor",       0x230a;
   "\\lgroup",       0;
-  "\\llcorner",     0x231E;
+  "\\llcorner",     0x231e; (* TODO: not implemented *)
   "\\lmoustache",   0;
-  "\\lrcorner",     0x231F;
-  "\\rangle",       9002;
-  "\\rceil",        8969;
-  "\\rfloor",       8971;
+  "\\lrcorner",     0x231f; (* TODO: not implemented *)
+  "\\rangle",       0x232a;
+  "\\rceil",        0x2309;
+  "\\rfloor",       0x230b;
   "\\rgroup",       0;
   "\\rmoustache",   0;
-  "\\ulcorner",     0x231C;
-  "\\uparrow",      8539;
-  "\\updownarrow",  8597;
-  "\\urcorner",     0x231D;
-  "\\vert",         124;
-  "\\{",            123;
-  "\\|",            8741;
-  "\\}",            125;
+  "\\ulcorner",     0x231c; (* TODO: not implemented *)
+  "\\uparrow",      0x215b; (* TODO: not implemented *)
+  "\\updownarrow",  0x2195; (* TODO: not implemented *)
+  "\\urcorner",     0x231d; (* TODO: not implemented *)
+  "\\vert",         0x007c;
+  "\\{",            0x007b;
+  "\\|",            0x2225;
+  "\\}",            0x007d;
 ]
 
 let delimiters = union [delimiters1; delimiters2]

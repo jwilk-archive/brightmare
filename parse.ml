@@ -82,8 +82,15 @@ struct
         let newaccum =
         ( match newaccum with
             Operator ("\\right", trees) ->
-              Operator ("\\left\\right", (Operator (delim, []))::trees) |
-            _ -> raise Parse_error
+              Operator 
+                ( "\\left\\right", 
+                  (Operator (delim, []))::trees
+                ) |
+            _ -> 
+              Operator 
+                ( "\\left\\right", 
+                  [Operator (delim, []); Operator (".", []); newaccum]
+                )
         ) in          
           parse_a (add accum newaccum) lexlist (limit-1) 0 br |
       "["::lexlist ->

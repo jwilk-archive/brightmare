@@ -37,8 +37,8 @@ struct
           "\\rfloor" -> Rmath.Delim_floor false |
           "\\lceil" -> Rmath.Delim_ceil true  | 
           "\\rceil" -> Rmath.Delim_ceil false |
-          "|" -> Rmath.Delim_vert |
-          "\\|" -> Rmath.Delim_doublevert |
+          "\\vert" | "|" -> Rmath.Delim_vert |
+          "\\Vert" | "\\|" -> Rmath.Delim_doublevert |
           _ -> raise(Failure "")
       in
         Rmath.largedelimiter box d
@@ -66,9 +66,8 @@ struct
             _ -> Rmath.join_h [(make d1);box;(make d2)]
         ) |
       Operator ("_", [sub; obj]) ->
-        let subbox = make sub and objbox = make obj
-        in
-          let joinf =
+        let subbox = make sub and objbox = make obj in
+        let joinf =
           ( match obj with
               Operator (opstr, []) ->
                 if 
@@ -108,6 +107,9 @@ struct
       Operator (op, treelist) ->
         let boxlist = ListEx.map make treelist in
         match (op, boxlist) with
+          "\\sum", [] -> Rmath.sum () |
+          "\\prod", [] -> Rmath.prod () |
+          "\\coprod", [] -> Rmath.coprod () |
           "\\int", [] -> Rmath.integral () |
           "\\oint", [] -> Rmath.ointegral () |
           opstr, [] -> 
@@ -120,7 +122,7 @@ struct
             else if LatDict.exists opstr LatDict.loglikes then 
               Rmath.si (Uni.from_string (StrEx.str_after opstr 1))
             else
-              Rmath.si (Uni.from_string opstr) (* FIXME *) |
+              Rmath.si (Uni.from_string opstr) |
           "", _ | "[", _ -> Rmath.join_h boxlist |
           "\\frac", [b1; b2] -> Rmath.frac b1 b2 |
           "\\sqrt", [bi; b] -> Rmath.sqrt b bi |
@@ -130,9 +132,7 @@ struct
             then
               Rmath.join_h boxlist (* FIXME *)
             else 
-              let
-                opbox = Rmath.si (Uni.from_string opstr)
-              in
+              let opbox = Rmath.si (Uni.from_string opstr) in
                 Rmath.join_h (opbox::boxlist)
 
 end

@@ -113,9 +113,6 @@ module type RMATH =
 (* Renderer obrazów matematycznych. *)
 sig
   include SIMPLE_RENDER
-(*  val hline : int -> t
-  val vline : int -> t *)
-(* TODO: plus wiele operacji rysowania ograniczników (nawiasów) o dowolnych rozmiarach *)
   val join_h : t list -> t
   val join_top : t -> t -> t
   val join_bot : t -> t -> t
@@ -125,6 +122,9 @@ sig
   val join_NESE : t -> t -> t -> t
   val frac : t -> t -> t
   val sqrt : t -> t-> t
+  val sum : unit -> t
+  val prod : unit -> t
+  val coprod : unit -> t
   val integral : unit -> t
   val ointegral : unit -> t
 (* TODO: plus wiele operacji rysowania du¿ych symboli (suma, kwantyfikatory, etc.) *)

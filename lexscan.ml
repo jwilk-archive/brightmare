@@ -17,14 +17,13 @@ struct
           else
             scan (lastlex^head) lexlist chars state
 
-  let make str = 
-    let chars = (StrEx.as_list str) in
+  let make str =
+    let result =
       ListEx.rev 
-        ( ListEx.filter
-            (fun s -> s <> "")
-            (scan "" [] chars Aut.default)
-        )
-(* FIXME - does filtering is neccessary? *)
+        (scan "" [] (StrEx.as_list str) Aut.default)
+    in match result with
+      ""::result -> result |
+      _ -> result
 
 end
 
