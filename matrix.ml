@@ -161,21 +161,23 @@ let eachrow_map f mlst mat =
   if not mat.up then
     raise(Invalid_argument "Matrix.eachrow_map")
   else 
-    { up = true;
-      width = mat.width;
-      height = mat.height;
-      default = mat.default;
-      lines = ListEx.map2 (fun m (w, lst) -> w, ListEx.map (f m) lst) mlst mat.lines }
+    let mlst = ListEx.rev mlst in
+      { up = true;
+        width = mat.width;
+        height = mat.height;
+        default = mat.default;
+        lines = ListEx.map2 (fun m (w, lst) -> w, ListEx.map (f m) lst) mlst mat.lines }
 
 let eachcol_map f mlst mat =
   if not mat.up then
     raise(Invalid_argument "Matrix.eachcol_map")
   else 
-    { up = true;
-      width = mat.width;
-      height = mat.height;
-      default = mat.default;
-      lines = ListEx.map (fun (w, lst) -> w, ListEx.map2 f mlst lst) mat.lines }
+    let mlst = ListEx.rev mlst in
+      { up = true;
+        width = mat.width;
+        height = mat.height;
+        default = mat.default;
+        lines = ListEx.map (fun (w, lst) -> w, ListEx.map2 f mlst lst) mat.lines }
 
 
 (* vim: set tw=96 et ts=2 sw=2: *)

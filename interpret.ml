@@ -139,6 +139,9 @@ struct
                     | Element "r" -> 'Q'
                     | _ -> '?' ) 
                   trees
+            | Element "l" -> ['E']
+            | Element "c" -> ['W']
+            | Element "r" -> ['Q']
             | _ -> []
           in let optv = 
             ListEx.filter 
@@ -177,7 +180,7 @@ struct
           in let matrix = 
             Matrix.eachcol_map 
               (fun w box -> Rmath.join_h [Rmath.empty w 1; box]) 
-              (List.rev spacings)
+              spacings
               matrix
           in let rows =
             Matrix.eachrow_fold
@@ -234,6 +237,12 @@ struct
               else
                 Rmath.s (Uni.from_string opstr)
           | ("" | "[" | "\\mathop"), _ -> Rmath.join_h boxlist
+          | "\\binom", [b1; b2] ->
+            let b = Rmath.fraclike b1 b2 in
+            let d x = Rmath.Delim_bracket (x,  Rmath.Bracket_round) in
+            let d1 = Rmath.largedelimiter b (d true) in
+            let d2 = Rmath.largedelimiter b (d false) in
+              Rmath.join_h [d1; b; d2]
           | ("\\frac" | "\\cfrac"), [b1; b2] -> Rmath.frac b1 b2
           | "\\sqrt", [bi; b] -> Rmath.sqrt b bi
           | "\\sqrt", [b] -> Rmath.sqrt b (Rmath.empty 1 1)

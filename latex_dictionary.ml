@@ -43,7 +43,7 @@ let main_commands = make [
   "\\frac",           (0, 2);
   "\\cfrac",          (0, 2);
   "\\genfrac",        (0, 6); (* TODO: not implemented *)
-  "\\binom",          (0, 2); (* TODO: not implemented *)
+  "\\binom",          (0, 2);
   "\\sqrt",           (1, 1);
 (* hmm... *)
   "\\mathop",         (0, 1);

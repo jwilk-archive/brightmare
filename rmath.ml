@@ -109,6 +109,11 @@ struct
   let render box =
     Render.render box.rbox
 
+  let fraclike box1 box2 =
+    let separator = empty 0 1 in
+      { rbox = Render.join_v 'S' [box1.rbox; separator.rbox; box2.rbox];
+        baseline = height box1 }
+
   let frac box1 box2 =
     let width = max (width box1) (width box2) in
     let separator = hline (width+2) in

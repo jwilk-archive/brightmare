@@ -79,6 +79,7 @@ sig
   val join_SE : t -> t -> t
   val join_NESE : t -> t -> t -> t
   val frac : t -> t -> t
+  val fraclike : t -> t -> t
   val sqrt : t -> t-> t
   val sum : unit -> t
   val prod : unit -> t
