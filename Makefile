@@ -1,6 +1,6 @@
 VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
-ML_FILES  = version.ml tokenize.ml parse.ml brightmare.ml
+ML_FILES  = version.ml tokenize.ml parse.ml render.ml brightmare.ml
 CMI_FILES = $(ML_FILES:ml=cmi)
 CMX_FILES = $(ML_FILES:ml=cmx)
 O_FILES   = $(ML_FILES:ml=o)
@@ -18,7 +18,11 @@ brightmare: $(ML_FILES)
 
 test: brightmare devel/tests
 	< devel/tests tr '\n' '\0' | xargs -0 printf "\"%s\"\n" | xargs ./brightmare
-            
+
+stats:
+	@echo $(shell cat ${ML_FILES} | wc -l) lines.
+	@echo $(shell cat ${ML_FILES} | wc -c) bytes.
+
 clean:
 	rm -f brightmare $(CMI_FILES) $(CMX_FILES) $(O_FILES)
 

@@ -1,15 +1,15 @@
 type token_state =
   TS_Normal | TS_SCommand | TS_Command | TS_UpLow;;
 
-let array_of_string str =
+let list_of_string str =
   let len = String.length str in
-  let rec aos_helper lst i =
+  let rec los_helper lst i =
     if i < 0 then
       lst
     else
-      aos_helper ((String.get str i)::lst) (i-1)
+      los_helper ((String.get str i)::lst) (i-1)
   in
-    aos_helper [] (len-1);;
+    los_helper [] (len-1);;
 
 let rec extokenize arr state lasttok toklist =
   match arr with
@@ -41,6 +41,6 @@ let tokenize_a arr =
     );;
 
 let tokenize str =
-  tokenize_a (array_of_string str);;
+  tokenize_a (list_of_string str);;
 
 (* vim: set tw=96 et ts=2 sw=2: *)
