@@ -1,5 +1,5 @@
 type token_state =
-  TS_Normal | TS_SCommand | TS_Command | TS_UpLow;;
+  TS_Normal | TS_SCommand | TS_Command;;
 
 let list_of_string str =
   let len = String.length str in
@@ -24,14 +24,16 @@ let rec extokenize arr state lasttok toklist =
         et_fresh state = et state "" (hd::lasttok::toklist)
       in 
       match head, state with
-        ('^' | '_'), _ -> et_fresh TS_UpLow |
-        ('\\' | '{' | '}'), TS_SCommand -> et TS_Normal "" (("\\"^hd)::toklist) |
-        '\\', _ -> et TS_SCommand "\\" (lasttok::toklist) |
-        _, TS_UpLow -> et_fresh TS_Normal |
-        '0'..'9', TS_Normal -> et_append () |
-        '0'..'9', _ -> et TS_Normal hd (lasttok::toklist) |
-        ('a'..'z' | 'A'..'Z'), _ -> et_append () |
-        _, _ -> et_fresh TS_Normal;;
+        ('^' | '_'), _ -> 
+          et_fresh TS_Normal |
+        ('\\' | '{' | '}'), TS_SCommand -> 
+          et TS_Normal "" (("\\"^hd)::toklist) |
+        '\\', _ -> 
+          et TS_SCommand "\\" (lasttok::toklist) |
+        ('a'..'z' | 'A'..'Z'), (TS_SCommand | TS_Command) -> 
+          et_append () |
+        _, _ -> 
+          et_fresh TS_Normal;;
 
 let tokenize_a arr =
   List.rev 

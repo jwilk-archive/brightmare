@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041111
+BrightMaRe, version 0.20041112
 ------------------------------
 
 Author:
@@ -8,6 +8,10 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+12 Nov 2004, version 0.20041112
+  -- fixed tokenizer a bit
+  -- LateX dictionary is still expanding
 
 11 Nov 2004, version 0.20041111
   -- better support for `_' and `^'

@@ -227,19 +227,19 @@ let symbols = Dictionary.make [
   "\\triangleleft",     9667;
   "\\trangleright",     9657;
   "\\wr",               8768;
-  "\\bigcirc",          0;
-  "\\bigtriangleup",    0;
-  "\\bigtriangledown",  0;
+  "\\bigcirc",          9675;
+  "\\bigtriangleup",    9651;
+  "\\bigtriangledown",  9661;
   "\\rhd",              0;
-  "\\odot",             0;
-  "\\dagger",           0;
-  "\\ddagger",          0;
+  "\\odot",             8857;
+  "\\dagger",           8224;
+  "\\ddagger",          8225;
   "\\amalg",            2210;
   "\\unlhd",            0;
   "\\unrhd",            0;
 
   "\\dotplus",         8724;
-  "\\smallsetminus",   0;
+  "\\smallsetminus",   8726; (* FIXME *)
   "\\Cap",             0x22D2;
   "\\doublecap",       0x22D2;
   "\\Cup",             0x22D3;
@@ -274,6 +274,7 @@ let symbols = Dictionary.make [
   "\\$",          37;
   "\\%",          38;
   "\\&",          39;
+  "\\\\",         92;
   "\\_",          95;
   "\\{",          123;
   "\\}",          125;
@@ -301,7 +302,7 @@ let symbols = Dictionary.make [
   "\\surd",         8730;
   "\\top",          8868;
   "\\bot",          8869;
-  "\\|",            0;
+  "\\|",            8741; (* FIXME? *)
   "\\angle",        8736;
   "\\triangle",     0;
   "\\backslash",    92;
@@ -313,27 +314,27 @@ let symbols = Dictionary.make [
   "\\spadesuit",    9824;
 
   "\\vartriangle",       9653;
-  "\\triangledown",      0;
+  "\\triangledown",      9663;
   "\\squeak",            0;
   "\\lozenge",           9674;
   "\\circledS",          9416;
   "\\measuredangle",     8737;
-  "\\nexists",           0;
+  "\\nexists",           8708;
   "\\Finv",              0;
   "\\Game",              8513;
   "\\Bbbk",              0;
   "\\backprime",         0x2035;
   "\\varnothing",        8709;
-  "\\blacktriangle",     0;
-  "\\blacktriangledown", 0;
-  "\\blacksquare",       0;
-  "\\blacklozenge",      0;
-  "\\bigstar",           0;
+  "\\blacktriangle",     9652;
+  "\\blacktriangledown", 9662;
+  "\\blacksquare",       9632;
+  "\\blacklozenge",      10731;
+  "\\bigstar",           9733;
   "\\sphericalangle",    8738;
   "\\complement",        8705;
   "\\eth",               240;
-  "\\diagup",            0;
-  "\\diagdown",          0;
+  "\\diagup",            9585;
+  "\\diagdown",          9586;
   "\\restriction",       0;
 
   "\\leftarrow",          8592;
@@ -354,15 +355,16 @@ let symbols = Dictionary.make [
   "\\longmapsto",         10236;
   "\\hookleftarrow",      0x21A9;
   "\\hookrightarrow",     0x21A0;
-  "\\leftharpoonup",      0;
-  "\\leftharpoondown",    0;
-  "\\rightharpoonup",     0;
-  "\\rightharpoondown",   0;
-  "\\rightleftharpoons",  0;
+  "\\leftharpoonup",      8636;
+  "\\leftharpoondown",    8637;
+  "\\rightharpoonup",     8640;
+  "\\rightharpoondown",   8640;
+  "\\leftrightharpoons",  8651;
+  "\\rightleftharpoons",  8652;
   "\\leadsto",            0;
-  "\\uparrow",            0;
-  "\\Uparrow",            0;
-  "\\downarrow",          0;
+  "\\uparrow",            8539;
+  "\\Uparrow",            8657;
+  "\\downarrow",          8595;
   "\\Downarrow",          0x21D3;
   "\\updownarrow",        8597;
   "\\Updownarrow",        0x21D1;
