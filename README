@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041112
+BrightMaRe, version 0.20041113
 ------------------------------
 
 Author:
@@ -8,6 +8,10 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+13 Nov 2004, version 0.20041113
+  -- rewritten dictionary support
+  -- LateX di... blah
 
 12 Nov 2004, version 0.20041112
   -- fixed tokenizer a bit

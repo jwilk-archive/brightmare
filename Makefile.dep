@@ -4,19 +4,19 @@ list2.cmo: list2.cmi
 list2.cmx: list2.cmi 
 unicode.cmo: unicode.cmi 
 unicode.cmx: unicode.cmi 
-dictionary_lib.cmo: dictionary_lib.cmi 
-dictionary_lib.cmx: dictionary_lib.cmi 
-latex_dictionary.cmo: dictionary_lib.cmi latex_dictionary.cmi 
-latex_dictionary.cmx: dictionary_lib.cmx latex_dictionary.cmi 
+dictionary.cmo: dictionary.cmi 
+dictionary.cmx: dictionary.cmi 
+latex_dictionary.cmo: dictionary.cmi latex_dictionary.cmi 
+latex_dictionary.cmx: dictionary.cmx latex_dictionary.cmi 
 render.cmo: list2.cmi unicode.cmi render.cmi 
 render.cmx: list2.cmx unicode.cmx render.cmi 
 rmath.cmo: list2.cmi render.cmi unicode.cmi rmath.cmi 
 rmath.cmx: list2.cmx render.cmx unicode.cmx rmath.cmi 
 tokenize.cmo: tokenize.cmi 
 tokenize.cmx: tokenize.cmi 
-parse.cmo: dictionary_lib.cmi latex_dictionary.cmi rmath.cmi tokenize.cmi \
+parse.cmo: dictionary.cmi latex_dictionary.cmi rmath.cmi tokenize.cmi \
     unicode.cmi parse.cmi 
-parse.cmx: dictionary_lib.cmx latex_dictionary.cmx rmath.cmx tokenize.cmx \
+parse.cmx: dictionary.cmx latex_dictionary.cmx rmath.cmx tokenize.cmx \
     unicode.cmx parse.cmi 
 brightmare.cmo: parse.cmi rmath.cmi tokenize.cmi unicode.cmi version.cmi 
 brightmare.cmx: parse.cmx rmath.cmx tokenize.cmx unicode.cmx version.cmx 

@@ -1,5 +1,3 @@
-open Dictionary_lib;;
-
 type parse_operator = PO_Void | PO_Custom of string;;
 type parse_element = PE_Void | PE_Custom of string;;
 type parse_tree = 
@@ -57,17 +55,17 @@ let rec parse_a bldtree toklist limit =
     token::toklist ->
       try 
         let 
-          (p, q) = JoinedDictionary.get Latex_dictionary.commands token 
-       in
-         let (subtree, toklist) = parse_a (Operator (PO_Custom token, [])) toklist q in
-         parse_a 
-            ( (if token.[0] = '\\' then add else backadd)
-                bldtree 
-                subtree
-            ) 
-            toklist 
-            (limit - 1)
-     with 
+          (p, q) = Dictionary.get token Latex_dictionary.commands
+        in
+          let (subtree, toklist) = parse_a (Operator (PO_Custom token, [])) toklist q in
+            parse_a 
+              ( (if token.[0] = '^' || token.[0] = '_' then backadd else add)
+                  bldtree 
+                  subtree
+               ) 
+              toklist 
+              (limit - 1)
+      with 
         Not_found ->
           parse_a 
             (add bldtree (Element (PE_Custom token))) toklist (limit-1);;
@@ -80,9 +78,9 @@ let rec as_rmathbox tree =
       let boxlist = List.map as_rmathbox treelist in
       match (op, boxlist) with
         PO_Custom opstr, [] -> 
-          if Dictionary.exist Latex_dictionary.symbols opstr
+          if Dictionary.exists opstr Latex_dictionary.allsymbols
           then
-            let symbol = Dictionary.get Latex_dictionary.symbols opstr in
+            let symbol = Dictionary.get opstr Latex_dictionary.allsymbols in
             let symbol = Unicode.wchar_of_int symbol in
             let symbol = Unicode.make 1 symbol in
               Rmath.si symbol 
@@ -93,15 +91,14 @@ let rec as_rmathbox tree =
         PO_Custom "_", [b1; b2] -> Rmath.crossjoin_SE b2 b1 |
         PO_Custom "^", [b1; b2] -> Rmath.crossjoin_NE b2 b1 |
         PO_Custom opstr, _ ->
-          if Dictionary.exist Latex_dictionary.alphabets opstr 
+          if Dictionary.exists opstr Latex_dictionary.alphabets
           then
             Rmath.join_h boxlist (* FIXME *)
           else
             let
-              opbox = Rmath.si (Unicode.from_string (opstr^"[[")) and (* FIXME *)
-              opbox2 = Rmath.si (Unicode.from_string "]]") (* FIXME *)
+              opbox = Rmath.si (Unicode.from_string opstr)
             in
-              Rmath.join_h (opbox::boxlist @ [opbox2]);;
+              Rmath.join_h (opbox::boxlist);;
 
 let from_string str =
   let (revptree, _) = parse_a empty (Tokenize.make str) oo in

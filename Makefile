@@ -8,7 +8,7 @@ MLI_FILES = \
 	version.mli \
 	list2.mli \
 	unicode.mli \
-	dictionary_lib.mli latex_dictionary.mli \
+	dictionary.mli latex_dictionary.mli \
 	render.mli rmath.mli \
 	tokenize.mli parse.mli 
 ML_FILES  = $(MLI_FILES:mli=ml) brightmare.ml 

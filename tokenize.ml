@@ -26,7 +26,8 @@ let rec extokenize arr state lasttok toklist =
       match head, state with
         ('^' | '_'), _ -> 
           et_fresh TS_Normal |
-        ('\\' | '{' | '}'), TS_SCommand -> 
+        ('\\' | '{' | '}' | '|' | '#' | '&' | '!' | ',' | ':' | ';'), TS_SCommand -> 
+        (* FIXME *) 
           et TS_Normal "" (("\\"^hd)::toklist) |
         '\\', _ -> 
           et TS_SCommand "\\" (lasttok::toklist) |
