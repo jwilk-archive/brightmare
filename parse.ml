@@ -71,21 +71,18 @@ struct
           parse_a (add accum newaccum) lexlist (limit-1) 0 br  |
 
       "\\right"::lexlist ->
-      (
-        match accum with
-          Operator ("\\left", trees) ->
-            let (delim, lexlist) = extract_delim lexlist in
-              Operator ("\\left\\right", (Operator (delim, []))::trees), lexlist |
-          _ ->
-            parse_a 
-              (add accum (Element "\\right")) lexlist (limit-1) 0 br 
-      ) |
-      "\\left"::lexlist ->
         let (delim, lexlist) = extract_delim lexlist in
-        let (newaccum, lexlist) = parse_a (Operator ("\\left", [])) lexlist oo 0 false in
-        let newaccum = add newaccum (Operator (delim, [])) in
+          Operator ("\\right", [Operator (delim, []); accum]), lexlist |
+     "\\left"::lexlist ->
+        let (delim, lexlist) = extract_delim lexlist in
+        let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
+        let newaccum =
+        ( match newaccum with
+            Operator ("\\right", trees) ->
+              Operator ("\\left\\right", (Operator (delim, []))::trees) |
+            _ -> raise Parse_error
+        ) in          
           parse_a (add accum newaccum) lexlist (limit-1) 0 br |
-
       "["::lexlist ->
         if brlimit = 0 then
           parse_a (add accum (Element "[")) lexlist (limit-1) 0 br

@@ -47,7 +47,7 @@ include Makefile.dep
 	$(OCAMLOPT) $(FLAGS) -c ${<}
 
 %.o: %.c
-	$(OCAMLOPT) $(FLAGS)  -c ${<}
+	$(OCAMLOPT) $(FLAGS) -c ${<}
 
 brightmare: $(CMX_FILES) $(O_FILES)
 	$(OCAMLOPT) $(FLAGS) $(CMXA_FILES) ${^} -o ${@}
