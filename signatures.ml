@@ -80,8 +80,8 @@ sig
   val sum : unit -> t
   val prod : unit -> t
   val coprod : unit -> t
-  val bigcap : bool -> t
-  val bigcup : bool -> t
+  val bigcap : bool -> int -> t
+  val bigcup : bool -> int -> t
   val bigo : int -> t
   val bigvee : unit -> t
   val bigwedge : unit -> t
@@ -99,6 +99,12 @@ sig
     Delim_vert |
     Delim_doublevert
   val largedelimiter : t -> delimiter_t -> t
+  type ornament_t =
+    Ornament_line |
+    Ornament_arrow of bool |
+    Ornament_brace
+  val overornament : t -> ornament_t -> t
+  val underornament : t -> ornament_t -> t
 (* TODO: plus jeszcze kilka innych operacji... *)
 end
 
@@ -116,11 +122,14 @@ module type LATDICT =
 sig
   include DICTIONARY
   val alphabets : (string, unit) t
-  val operators : (string, unit) t
-  val loglikes : (string, unit) t
   val delimiters : (string, int) t
+  val loglikes : (string, unit) t
+  val operators : (string, unit) t
+  val ornaments : (string, unit) t
   val symbols : (string, int) t
   val commands : (string, int * int) t
+  val is_alphabet : string -> bool
+  val is_ornament : string -> bool
 end
 
 module type PARSE =

@@ -12,3 +12,4 @@ e = \lim_{n \to \infty} \left(1 + \frac1n\right)^n
 T(n) = 2T\left(\left\lfloor\frac{n}{2}\right\rfloor\right) + O\left(\sqrt{n}\right)
 \left\|A^{-1}\right\|=\inf_{\left\|x\right\|=1} \left\|Ax\right\|
 \left\{x^{2^2^{\left(2_2_2\right)}}_{2_2_{\left(2^2^2\right)}}\right\}
+(u + v)^n = \sum_{i=0}^n \binom{n}{i} u^{n-i}v^i

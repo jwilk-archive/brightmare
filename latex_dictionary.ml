@@ -22,16 +22,18 @@ let main_commands = make [
   "\\fbox",       (0, 1);
   "\\mbox",       (0, 1);
 (* math-mode accents:: *)     (* TODO: not implemented *)
-  "\\acute",  (0, 0);
-  "\\bar",    (0, 1);
-  "\\breve",  (0, 1);
-  "\\check",  (0, 1);
-  "\\ddot",   (0, 1);
-  "\\dot",    (0, 1);
-  "\\grave",  (0, 1);
-  "\\hat",    (0, 1);
-  "\\tilde",  (0, 1);
-  "\\vec",    (0, 1);
+  "\\acute",      (0, 0);
+  "\\bar",        (0, 1);
+  "\\breve",      (0, 1);
+  "\\check",      (0, 1);
+  "\\ddot",       (0, 1);
+  "\\dot",        (0, 1);
+  "\\grave",      (0, 1);
+  "\\hat",        (0, 1);
+  "\\tilde",      (0, 1);
+  "\\vec",        (0, 1);
+  "\\widehat",    (0, 1);
+  "\\widetilde",  (0, 1);
 (* some other constructions:: *)
   "_",                (0, 1);
   "^",                (0, 1);
@@ -39,19 +41,26 @@ let main_commands = make [
   "\\cfrac",          (0, 2);
   "\\genfrac",        (0, 6); (* TODO: not implemented *)
   "\\binom",          (0, 2); (* TODO: not implemented *)
-  "\\overbrace",      (0, 1); (* TODO: not implemented *)
-  "\\overleftarrow",  (0, 1); (* TODO: not implemented *)
-  "\\overline",       (0, 1); (* TODO: not implemented *)
-  "\\overrightarrow", (0, 1); (* TODO: not implemented *)
   "\\sqrt",           (1, 1);
-  "\\underbrace",     (0, 1); (* TODO: not implemented *)
-  "\\underline",      (0, 1); (* TODO: not implemented *)
-  "\\widehat",        (0, 1); (* TODO: not implemented *)
-  "\\widetilde",      (0, 1); (* TODO: not implemented *)
 (* hmm... *)
   "\\mathop",         (0, 1);
   "\\displaystyle",   (0, 0)
 ]
+
+let ornaments = make [
+  "\\overbrace",      ();
+  "\\overleftarrow",  ();
+  "\\overline",       ();
+  "\\overrightarrow", ();
+  "\\underbrace",     ();
+  "\\underline",      ();
+]
+
+let ornament_commands =
+  map (fun () -> (0, 1)) ornaments
+
+let is_ornament command =
+  exists command ornaments
 
 let alphabets = make [ (* TODO: not implemented *)
   "\\mathrm",     ();
@@ -79,6 +88,9 @@ let alphabets = make [ (* TODO: not implemented *)
 let alphabet_commands = 
   map (fun () -> (0, 1)) alphabets
 
+let is_alphabet command =
+  exists command alphabets
+
 let operators = make [
 (* variable-sized math operators:: *)
   "\\bigcap",     ();
@@ -87,6 +99,7 @@ let operators = make [
   "\\bigoplus",   ();
   "\\bigotimes",  ();
   "\\bigsqcup",   ();
+  "\\biguplus",   ();
   "\\bigvee",     ();
   "\\bigwedge",   ();
   "\\coprod",     ();
@@ -291,7 +304,6 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\mapsto",             0x21a6;
   "\\nearrow",            0x2197;
   "\\nwarrow",            0x2196;
-  "\\rightarrow",         0x2192;
   "\\rightarrow",         0x2192;
   "\\Rightarrow",         0x21d2;
   "\\rightharpoondown",   0x21c0;
@@ -640,6 +652,8 @@ let delimiters2 = make [ (* FIXME: lots of 0s *)
   "\\bracevert",    0;      (* TODO: not implemented *)
   "\\downarrow",    0x2193; (* TODO: not implemented *)
   "\\langle",       0x2329;
+  "\\lbrace",       0x007b;
+  "\\lbrack",       0x005b;
   "\\lceil",        0x2308;
   "\\lfloor",       0x230a;
   "\\lgroup",       0;
@@ -647,6 +661,8 @@ let delimiters2 = make [ (* FIXME: lots of 0s *)
   "\\lmoustache",   0x23b0; (* TODO: not implemented *)
   "\\lrcorner",     0x231f; (* TODO: not implemented *)
   "\\rangle",       0x232a;
+  "\\rbrace",       0x007d;
+  "\\rbrack",       0x005d;
   "\\rceil",        0x2309;
   "\\rfloor",       0x230b;
   "\\rgroup",       0;
@@ -659,7 +675,7 @@ let delimiters2 = make [ (* FIXME: lots of 0s *)
   "\\{",            0x007b;
   "\\|",            0x2225;
   "\\}",            0x007d;
-]
+ ]
 
 let delimiters = union [delimiters1; delimiters2]
 
@@ -667,7 +683,8 @@ let delimiter_commands =
   map (fun _ -> (0, 0)) delimiters2
 
 let commands = union [
-  main_commands; 
+  main_commands;
+  ornament_commands;
   alphabet_commands; 
   operator_commands;
   loglike_commands; 

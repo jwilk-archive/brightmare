@@ -27,10 +27,10 @@ struct
         match d with
           "(" | "\\lgroup" -> Rmath.Delim_bracket (true,  Rmath.Bracket_round) |
           ")" | "\\rgroup" -> Rmath.Delim_bracket (false, Rmath.Bracket_round) |
-          "[" -> Rmath.Delim_bracket (true,  Rmath.Bracket_square) |
-          "]" -> Rmath.Delim_bracket (false, Rmath.Bracket_square) |
-          "\\{" -> Rmath.Delim_bracket (true,  Rmath.Bracket_brace) |
-          "\\}" -> Rmath.Delim_bracket (false, Rmath.Bracket_brace) |
+          "[" | "\\lbrack" -> Rmath.Delim_bracket (true,  Rmath.Bracket_square) |
+          "]" | "\\rbrack" -> Rmath.Delim_bracket (false, Rmath.Bracket_square) |
+          "\\{" | "\\lbrace" -> Rmath.Delim_bracket (true,  Rmath.Bracket_brace) |
+          "\\}" | "\\rbrace" -> Rmath.Delim_bracket (false, Rmath.Bracket_brace) |
           "<" | "\\langle" -> Rmath.Delim_bracket (true, Rmath.Bracket_angle) |
           ">" | "\\rangle" -> Rmath.Delim_bracket (true, Rmath.Bracket_angle) |
           "\\lfloor" -> Rmath.Delim_floor true  |
@@ -78,7 +78,7 @@ struct
                   Rmath.join_bot
                 else
                   Rmath.join_SE |
-              Operator ("\\mathop", _) -> 
+              Operator (("\\mathop" | "\\underbrace"), _) -> 
                 Rmath.join_bot |
               _ -> 
                 Rmath.join_SE )
@@ -93,7 +93,7 @@ struct
                 Rmath.join_top
               else
                 Rmath.join_NE |
-            Operator ("\\mathop", _) -> 
+            Operator (("\\mathop" | "\\overbrace"), _) -> 
               Rmath.join_top |
             _ -> 
               Rmath.join_NE )
@@ -117,19 +117,32 @@ struct
       Operator (op, treelist) ->
         let boxlist = ListEx.map make treelist in
         match (op, boxlist) with
-          "\\sum",       [] -> Rmath.sum () |
-          "\\prod",      [] -> Rmath.prod () |
-          "\\coprod",    [] -> Rmath.coprod () |
-          "\\bigcup",    [] -> Rmath.bigcup false |
-          "\\bigsqcup",  [] -> Rmath.bigcup true |
-          "\\bigcap",    [] -> Rmath.bigcap false |
-          "\\bigoplus",  [] -> Rmath.bigo 0x2b | 
+          "\\overbrace",      [b] -> 
+            Rmath.join_top b (Rmath.overornament b Rmath.Ornament_brace) |
+          "\\overleftarrow",  [b] -> 
+            Rmath.join_top b (Rmath.overornament b (Rmath.Ornament_arrow (true))) |
+          "\\overline",       [b] -> 
+            Rmath.join_top b (Rmath.overornament b Rmath.Ornament_line) |
+          "\\overrightarrow", [b] -> 
+            Rmath.join_top b (Rmath.overornament b (Rmath.Ornament_arrow (false))) |
+          "\\underbrace",     [b] ->
+            Rmath.join_bot b (Rmath.underornament b Rmath.Ornament_brace) |
+          "\\underline",      [b] -> 
+            Rmath.join_bot b (Rmath.underornament b Rmath.Ornament_line) |
+          "\\bigcap",    [] -> Rmath.bigcap false 0x20 |
+          "\\bigcup",    [] -> Rmath.bigcup false 0x20 |
           "\\bigodot",   [] -> Rmath.bigo 0xb7 |
+          "\\bigoplus",  [] -> Rmath.bigo 0x2b | 
           "\\bigotimes", [] -> Rmath.bigo 0xd7 |
+          "\\bigsqcup",  [] -> Rmath.bigcup true  0x20 |
+          "\\biguplus",  [] -> Rmath.bigcup false 0x61 | 
           "\\bigvee",    [] -> Rmath.bigvee () |
           "\\bigwedge",  [] -> Rmath.bigwedge () |
+          "\\coprod",    [] -> Rmath.coprod () |
           "\\int",       [] -> Rmath.integral () |
           "\\oint",      [] -> Rmath.ointegral () |
+          "\\prod",      [] -> Rmath.prod () |
+          "\\sum",       [] -> Rmath.sum () |
           "\\displaystyle", [] -> Rmath.empty 0 0 |
           opstr, [] -> 
             if LatDict.exists opstr LatDict.symbols
@@ -147,8 +160,7 @@ struct
           "\\sqrt", [bi; b] -> Rmath.sqrt b bi |
           "\\sqrt", [b] -> Rmath.sqrt b (Rmath.empty 1 1) |
           opstr, _ ->
-            if LatDict.exists opstr LatDict.alphabets
-            then
+            if LatDict.is_alphabet opstr then
               Rmath.join_h boxlist (* FIXME *)
             else 
               let opbox = Rmath.s (Uni.from_string opstr) in
