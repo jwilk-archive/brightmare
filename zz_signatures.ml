@@ -141,7 +141,7 @@ sig
 end
 
 module type LATDICT =
-(* S³owniki symboli, poleceñ, ograniczników, whatever, LaTex-a *)
+(* S³owniki symboli, poleceñ, ograniczników, whatever, LaTeX-a *)
 sig
   include DICTIONARY
   val main_commands : (int * int) t

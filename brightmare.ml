@@ -1,7 +1,5 @@
 (* Program g³ówny *)
 
-let () = Locale.initialize()
-
 include Zz_signatures
 
 module type BRIGHTMARE =

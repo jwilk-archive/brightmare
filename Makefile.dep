@@ -36,12 +36,12 @@ interpret_debug.cmo: listEx.cmi parsetree.cmx zz_signatures.cmx
 interpret_debug.cmx: listEx.cmx parsetree.cmx zz_signatures.cmx 
 brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmi \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmi lexscan.cmx \
-    listEx.cmi locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmi \
-    unicode_html.cmi unicode_konwert.cmi version.cmx zz_signatures.cmx 
+    listEx.cmi parse.cmx render.cmx rmath.cmx strEx.cmi unicode_html.cmi \
+    unicode_konwert.cmi version.cmx zz_signatures.cmx 
 brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
     interpret.cmx interpret_debug.cmx latex_dictionary.cmx lexscan.cmx \
-    listEx.cmx locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmx \
-    unicode_html.cmx unicode_konwert.cmx version.cmx zz_signatures.cmx 
+    listEx.cmx parse.cmx render.cmx rmath.cmx strEx.cmx unicode_html.cmx \
+    unicode_konwert.cmx version.cmx zz_signatures.cmx 
 unicode.cmi: zz_signatures.cmx 
 unicode_html.cmi: zz_signatures.cmx 
 unicode_konwert.cmi: zz_signatures.cmx 

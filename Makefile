@@ -31,6 +31,7 @@ O_FILES = $(C_FILES:c=o)
 OCAMLOPT = ocamlopt.opt
 OCAMLDEP = ocamldep.opt -native
 STRIP = strip -s
+FLAGS =
 
 all: brightmare brightmare-html
 
@@ -40,16 +41,16 @@ Makefile.dep: $(ML_FILES) $(MLI_FILES)
 include Makefile.dep
 
 %.cmi: %.mli
-	$(OCAMLOPT) -c ${<}
+	$(OCAMLOPT) $(FLAGS) -c ${<}
 
 %.cmx: %.ml
-	$(OCAMLOPT) -c ${<}
+	$(OCAMLOPT) $(FLAGS) -c ${<}
 
 %.o: %.c
-	$(OCAMLOPT) -c ${<}
+	$(OCAMLOPT) $(FLAGS)  -c ${<}
 
 brightmare: $(CMX_FILES) $(O_FILES)
-	$(OCAMLOPT) $(CMXA_FILES) ${^} -o ${@}
+	$(OCAMLOPT) $(FLAGS) $(CMXA_FILES) ${^} -o ${@}
 	$(STRIP) ${@}
 
 brightmare-html: brightmare
