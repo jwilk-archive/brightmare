@@ -30,7 +30,7 @@ let append mat e =
   | [] -> 
       { up = false;
         width = 1;
-        height =1;
+        height = 1;
         default = mat.default;
         lines = [(1, [e])] }
   | (lw, ll)::tail ->
@@ -42,10 +42,10 @@ let append mat e =
           lines = (lw, ll)::tail
         }
 
-let grow mat desw desh =
+let grow mat dw dh =
   let
-    desw = max mat.width desw and
-    desh = max mat.height desh in
+    desw = max mat.width dw and
+    desh = max mat.height dh in
   let rec growup lst h =
     if h >= desh then
       lst

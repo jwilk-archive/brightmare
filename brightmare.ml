@@ -1,5 +1,3 @@
-(* Program g³ówny *)
-
 include Signatures
 
 module type BRIGHTMARE =

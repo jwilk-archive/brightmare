@@ -128,19 +128,57 @@ struct
             | _ -> Rmath.join_NESE )
           in
             joinf objbox supbox subbox
-      | Operator ("#array", [opt; cont]) ->
+      | Operator ("#array", [optv; cont]) ->
+          let optv = 
+            match optv with
+            | Operator ("", trees) ->
+                ListEx.map 
+                  ( function
+                    | Element "l" -> 'E'
+                    | Element "c" -> 'W'
+                    | Element "r" -> 'Q'
+                    | _ -> '?' ) 
+                  trees
+            | _ -> []
+          in let optv = 
+            ListEx.filter 
+              ( function
+                | 'E' | 'W' | 'Q' -> true
+                | _ -> false)
+              optv 
+          in let optc = ListEx.length optv in
           let matrix = Matrix.make (Rmath.empty 0 0) in
-          let matrix = Matrix.fillup (env_array_make matrix cont) in
-          let widths = 
+          let matrix = env_array_make matrix cont in
+          let matrix = Matrix.grow matrix optc 0 in
+          let matrix = Matrix.fillup matrix in
+          let width = Matrix.width matrix in
+          let (optc, optv) =
+            if optc < width then
+              width, optv @ (ListEx.make (width-optc) 'Z')
+            else
+              optc, optv
+          in let widths = 
             Matrix.eachcol_fold 
               (fun ac box -> max ac (Rmath.width box)) 
               0 
+              matrix
+          in let widths_aligns =
+            ListEx.map2 (fun x y -> x, y) widths optv
+          in let matrix =
+            Matrix.eachcol_map 
+              (fun (w, al) box -> Rmath.align al box w) 
+              widths_aligns 
               matrix 
+          in let spacings =
+            match width with
+            | 0 -> [] 
+            | 1 -> [0]
+            | n -> 0::(ListEx.make (n-1) 1)
           in let matrix = 
             Matrix.eachcol_map 
-              (fun w box -> Rmath.align 'S' box w) 
-              widths 
-              matrix 
+              (fun w box -> Rmath.join_h [Rmath.empty w 1; box]) 
+              (List.rev spacings)
+              matrix
           in let rows =
             Matrix.eachrow_fold
               (fun ac box -> Rmath.join_h [ac; box])
