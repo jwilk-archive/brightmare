@@ -3,21 +3,23 @@ module type T = Zz_signatures.TOKENIZE
 
 module Make(Aut : TOK_AUTOMATON) : T =
 struct
+  let ( ** ) = StrEx.( ** )
+  
   let rec extokenize lasttok toklist chars state =
     match chars with
       [] -> lasttok::toklist |
       head::chars ->
         let state = Aut.execute head state in
-        let head = String2.make 1 head in
+        let head = 1 ** head in
           if Aut.pubstate state then
             extokenize head (lasttok::toklist) chars state
           else
             extokenize (lasttok^head) toklist chars state
 
   let make str =
-    let chars = (String2.as_list str) in
-      List2.rev 
-        ( List2.filter
+    let chars = (StrEx.as_list str) in
+      ListEx.rev 
+        ( ListEx.filter
             (fun s -> s <> "")
             (extokenize "" [] chars Aut.default)
         )

@@ -647,7 +647,7 @@ let symbols = Dictionary.make [
 ]
 
 let symbol_commands = 
-  Dictionary.map (fun _ -> (0, 0)) symbols;;
+  Dictionary.map (fun _ -> (0, 0)) symbols
 
 let delimiters = Dictionary.make [
   "(",              40;
@@ -684,7 +684,7 @@ let delimiters = Dictionary.make [
 ]
 
 let delimiter_commands =
-  Dictionary.map (fun _ -> (0, 0)) delimiters;;
+  Dictionary.map (fun _ -> (0, 0)) delimiters
 
 let commands = Dictionary.join [
   main_commands; 

@@ -4,9 +4,11 @@ module type T = Zz_signatures.PARSE
 
 module Make 
   (Uni : UNICODE) 
-  (Rmath : RMATH with type wstring = Uni.wstring and type wchar = Uni.wchar) :
+  (Rmath : RMATH with module Uni = Uni) :
   T with type rmath_t = Rmath.t =
 struct
+  
+  let ( ** ) = Uni.( ** )
 
   type parse_operator = PO_Void | PO_Custom of string
   type parse_element = PE_Void | PE_Custom of string
@@ -29,9 +31,9 @@ struct
       Operator (PO_Void, [tree]) ->
         rev tree |
       Operator (op, [Operator (PO_Void, lst)]) ->
-        Operator (op, List2.rev_map rev lst) |
+        Operator (op, ListEx.rev_map rev lst) |
       Operator (op, lst) -> 
-        Operator (op, List2.rev_map rev lst)
+        Operator (op, ListEx.rev_map rev lst)
 
   let add basetree subtree  =
     match basetree with
@@ -50,7 +52,7 @@ struct
           _ -> 
             Operator (subop, basetree::subtrees)
       ) |
-      _ -> raise(Failure "backadd") (* FIXME *)
+      _ -> raise(Failure "Parse.backadd") (* FIXME *)
 
   let oo = -1 (* oo + 1 == oo, hence oo = -1 *)
 
@@ -87,15 +89,17 @@ struct
       Element (PE_Void) -> Rmath.empty 1 1 |
       Element (PE_Custom str) -> Rmath.si (Uni.from_string str) |
       Operator (op, treelist) ->
-        let boxlist = List2.map as_rmathbox treelist in
+        let boxlist = ListEx.map as_rmathbox treelist in
         match (op, boxlist) with
           PO_Custom opstr, [] -> 
             if Dictionary.exists opstr Latex_dictionary.allsymbols
             then
               let symbol = Dictionary.get opstr Latex_dictionary.allsymbols in
               let symbol = Uni.wchar_of_int symbol in
-              let symbol = Uni.make 1 symbol in
+              let symbol = 1 ** symbol in
                 Rmath.si symbol 
+            else if Dictionary.exists opstr Latex_dictionary.loglikes then 
+              Rmath.si (Uni.from_string (StrEx.str_after opstr 1))
             else
               Rmath.si (Uni.from_string opstr) (* FIXME *) |
           PO_Void, _ -> Rmath.join_h boxlist |
@@ -106,7 +110,7 @@ struct
             if Dictionary.exists opstr Latex_dictionary.alphabets
             then
               Rmath.join_h boxlist (* FIXME *)
-            else
+            else 
               let
                 opbox = Rmath.si (Uni.from_string opstr)
               in

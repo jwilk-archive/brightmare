@@ -4,31 +4,30 @@ module type T = Zz_signatures.RMATH
 
 module Make
   (Uni : UNICODE) 
-  (Render : RENDER with type wstring = Uni.wstring and type wchar = Uni.wchar) : 
-  T with type wstring = Uni.wstring and type wchar = Uni.wchar =
+  (Render : RENDER with module Uni = Uni) : 
+  T with module Uni = Uni =
 struct
 
   type t = { rbox: Render.t; baseline: int }
-
-  type wstring = Uni.wstring
-  type wchar = Uni.wchar
+  
+  module Uni = Uni
 
   let hline width =
     if width <= 0 then
       raise(Invalid_argument "rbm_hline")
     else
       { rbox = Render.make width 1 (Uni.wchar_of_int 0x2500);
-        baseline = 0 };;
+        baseline = 0 }
 
   let vline height =
     if height <= 0 then
       raise(Invalid_argument "rbm_vline")
     else
       { rbox = Render.make 1 height (Uni.wchar_of_int 0x2502);
-        baseline = (height-1)/2 };;
+        baseline = (height-1)/2 }
 
-  let width box = Render.width box.rbox;;
-  let height box = Render.height box.rbox;;
+  let width box = Render.width box.rbox
+  let height box = Render.height box.rbox
 
   let frac box1 box2 =
     let width = max (width box1) (width box2) in
@@ -38,20 +37,20 @@ struct
 
   let empty width height = 
     { rbox = Render.empty width height;
-      baseline = 0 };;
+      baseline = 0 }
 
   let si str = 
     { rbox = Render.si str;
-      baseline = 0 };;
+      baseline = 0 }
 
   let join_h boxes =
     let 
-      maxbaseline = List2.max_map (fun box -> box.baseline) boxes and
-      maxheight = List2.max_map (fun box -> height box) boxes
+      maxbaseline = ListEx.max_map (fun box -> box.baseline) boxes and
+      maxheight = ListEx.max_map (fun box -> height box) boxes
     in
     let
       boxes = 
-        List2.map 
+        ListEx.map 
           ( fun box -> 
             Render.grow_custom 
               'Q'
@@ -62,26 +61,26 @@ struct
           boxes
     in
       { rbox = Render.join_h 'Z' boxes; 
-        baseline = maxbaseline; };;
+        baseline = maxbaseline; }
 
   let crossjoin_NE box appbox =
     { rbox = Render.crossjoin_tr box.rbox appbox.rbox;
-      baseline = (height appbox) + box.baseline };;
+      baseline = (height appbox) + box.baseline }
 
   let crossjoin_SE box appbox =
     { rbox = Render.crossjoin_br box.rbox appbox.rbox;
-      baseline = box.baseline };;
+      baseline = box.baseline }
 
   let crossjoin_SW box appbox =
     { rbox = Render.crossjoin_tr appbox.rbox box.rbox;
-      baseline = box.baseline };;
+      baseline = box.baseline }
 
   let crossjoin_NW box appbox =
     { rbox = Render.crossjoin_br appbox.rbox box.rbox;
-      baseline = (height appbox) + box.baseline };;
+      baseline = (height appbox) + box.baseline }
 
   let render_str box =
-    Render.render_str box.rbox;;
+    Render.render_str box.rbox
 
 end
 

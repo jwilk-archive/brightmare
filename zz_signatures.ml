@@ -31,26 +31,33 @@ sig
   val to_string : wstring -> string
   val empty : wstring
   val length : wstring -> int
-  val make : int -> wchar -> wstring
   val ( ++ ) : wstring -> wstring -> wstring
+  val ( ** ) : int -> wchar -> wstring
+end
+
+module type DECORATION =
+sig
+  val line_begin : string
+  val line_end : string
+  val equation_begin : string
+  val equation_end : string
 end
 
 module type SIMPLE_RENDER =
 sig
   type t
-  type wstring
-  type wchar
+  module Uni : UNICODE
   val width : t -> int
   val height : t -> int
   val empty : int -> int -> t
-  val si : wstring -> t
-  val render_str : t -> wstring
+  val si : Uni.wstring -> t
+  val render_str : t -> string
 end
 
 module type RENDER =
 sig
   include SIMPLE_RENDER
-  val make : int -> int -> wchar -> t
+  val make : int -> int -> Uni.wchar -> t
   val grow_custom : char -> t -> int -> int -> t
   val join_v : char -> t list -> t
   val join_h : char -> t list -> t

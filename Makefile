@@ -6,23 +6,24 @@ C_FILES = locale.c
 ML_FILES = \
 	zz_signatures.ml \
 	version.ml \
-	list2.ml string2.ml \
-	unicode.ml unicode_konwert.ml \
+	listEx.ml strEx.ml \
+	unicore.ml unicode.ml unicode_html.ml unicode_konwert.ml \
 	dictionary.ml latex_dictionary.ml \
+	decoration.ml decoration_html.ml \
 	render.ml rmath.ml \
 	automaton.ml automaton2.ml \
 	tokenize.ml parse.ml \
 	brightmare.ml
 MLI_FILES = \
 	locale.mli version.mli \
-	list2.mli string2.mli \
-	unicode.mli unicode_konwert.mli \
+	listEx.mli strEx.mli \
+	unicore.mli unicode.mli unicode_html.mli unicode_konwert.mli \
+	decoration.mli decoration_html.mli \
 	dictionary.mli latex_dictionary.mli \
-	render.mli rmath.mli \
-	automaton.mli automaton2.ml \
-	tokenize.mli parse.mli 
+	automaton.mli automaton2.mli
 CMI_FILES = $(MLI_FILES:mli=cmi)
 CMX_FILES = $(ML_FILES:ml=cmx)
+CMXA_FILES = unix.cmxa str.cmxa
 O_FILES = $(C_FILES:c=o)
 
 OCAMLOPT = ocamlopt.opt
@@ -30,6 +31,9 @@ STRIP = strip -s
 OCAMLDEP = ocamldep.opt -native
 
 all: brightmare
+
+Makefile.dep: $(ML_FILES) $(MLI_FILES)
+	$(OCAMLDEP) ${^} > Makefile.dep
 
 include Makefile.dep
 
@@ -43,7 +47,7 @@ include Makefile.dep
 	$(OCAMLOPT) -c ${<}
 
 brightmare: $(CMX_FILES) $(O_FILES)
-	$(OCAMLOPT) unix.cmxa ${^} -o ${@}
+	$(OCAMLOPT) $(CMXA_FILES) ${^} -o ${@}
 	$(STRIP) ${@}
 
 test: brightmare
@@ -56,9 +60,8 @@ stats:
 	@echo $(shell cat ${SOURCE_FILES} | wc -l) lines.
 	@echo $(shell cat ${SOURCE_FILES} | wc -c) bytes.
 
-clean:
+clean: Makefile.dep
 	rm -f brightmare *.cmi *.cmo *.cmx *.o *~
-	$(OCAMLDEP) $(MLI_FILES) $(ML_FILES) > Makefile.dep
 
 distclean:
 	rm -f brightmare-$(VERSION).tar.*

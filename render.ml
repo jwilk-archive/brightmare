@@ -1,24 +1,29 @@
 module type UNICODE = Zz_signatures.UNICODE
+module type DECORATION = Zz_signatures.DECORATION
 module type T = Zz_signatures.RENDER
 
 module Make 
-  (Uni : UNICODE) : 
-  T with type wstring = Uni.wstring and type wchar = Uni.wchar =
+  (Uni : UNICODE) 
+  (Decoration : DECORATION) : 
+  T with module Uni = Uni =
 struct
+  module Uni = Uni
+
   type wstring = Uni.wstring
   type wchar = Uni.wchar
 
   type t = 
     { width: int; height: int; lines: wstring list }
 
-  let (++) = Uni.(++)
+  let ( ++ ) = Uni.( ++ )
+  let ( ** ) = Uni.( ** )
 
   let si str =
     { width = Uni.length str; height=1; lines = [str] }
 
   let make width height chr =
-    let filler = Uni.make width chr in
-      { width=width; height=height; lines=List2.make height filler}
+    let filler = width ** chr in
+      { width=width; height=height; lines=ListEx.make height filler}
 
   let wspace = Uni.wchar_of_char ' '
 
@@ -36,7 +41,7 @@ struct
       raise(Invalid_argument "grow_h")
     else
       { width=box.width+diffwidth; height=box.height;
-        lines=List2.map modfun box.lines}
+        lines=ListEx.map modfun box.lines}
 
 (* -- HORIZONTAL GROW, part II ------------------------------------------ *)
 
@@ -45,7 +50,7 @@ struct
     if diffwidth < 0 then
       raise(Invalid_argument "grow_leftright")
     else
-      let spacer = Uni.make diffwidth wspace in
+      let spacer = diffwidth ** wspace in
         grow_h box diffwidth (modfun spacer)
 
   let grow_right box width =
@@ -64,8 +69,8 @@ struct
       let lspace = diffwidth/2 in
       let rspace = diffwidth-lspace in
       let 
-        lspacer = Uni.make lspace wspace and
-        rspacer = Uni.make rspace wspace
+        lspacer = lspace ** wspace and
+        rspacer = rspace ** wspace
       in
         grow_h box diffwidth (fun s -> lspacer ++ s ++ rspacer)
 
@@ -87,7 +92,7 @@ struct
     if diffheight < 0 then
       raise(Invalid_argument "grow_topbottom")
     else
-      let spacer = List2.make diffheight (Uni.make box.width wspace) in
+      let spacer = ListEx.make diffheight (box.width ** wspace) in
         grow_v box diffheight (modfun spacer)
 
   let grow_bottom box height =
@@ -105,14 +110,14 @@ struct
     else
       let tspace = diffheight/2 in
       let bspace = diffheight-tspace in
-      let spacer = Uni.make box.width wspace in
+      let spacer = box.width ** wspace in
       let 
-        tspacer = List2.make tspace spacer and
-        bspacer = List2.make bspace spacer
+        tspacer = ListEx.make tspace spacer and
+        bspacer = ListEx.make bspace spacer
       in
         grow_v box diffheight (fun s -> tspacer @ s @ bspacer)
 
-(* -- UniVERSAL GROW ---------------------------------------------------- *)
+(* -- UNIVERSAL GROW ---------------------------------------------------- *)
 
   let grow_Universal box width height wgrow hgrow =
     let box = wgrow box width in
@@ -138,12 +143,12 @@ struct
 (* -- AUTOMATIC GROW ---------------------------------------------------- *)
 
   let grow_auto_h choice boxlist =
-    let maxwidth = List2.fold_left (fun width box -> (max width box.width)) 0 boxlist in
-      List2.map (fun box -> grow_custom choice box maxwidth box.height) boxlist
+    let maxwidth = ListEx.fold (fun width box -> (max width box.width)) 0 boxlist in
+      ListEx.map (fun box -> grow_custom choice box maxwidth box.height) boxlist
 
   let grow_auto_v choice boxlist =
-    let maxheight = List2.fold_left (fun height box -> (max height box.height)) 0 boxlist in
-      List2.map (fun box -> grow_custom choice box box.width maxheight) boxlist
+    let maxheight = ListEx.fold (fun height box -> (max height box.height)) 0 boxlist in
+      ListEx.map (fun box -> grow_custom choice box box.width maxheight) boxlist
 
 (* -- SIMPLE JOINS ------------------------------------------------------ *)
 
@@ -151,7 +156,7 @@ struct
     match grow_auto_h choice boxlist with
       [] -> raise (Invalid_argument "join_v") |
       head::boxlist ->
-        List2.fold_left 
+        ListEx.fold 
           (fun addbox box -> 
             { width = head.width; 
               height = addbox.height+box.height; 
@@ -164,11 +169,11 @@ struct
     match grow_auto_v choice boxlist with
       [] -> raise (Invalid_argument "join_h") |
       head::boxlist ->
-        List2.fold_left 
+        ListEx.fold 
           (fun addbox box -> 
             { width=addbox.width+box.width; 
               height=head.height; 
-              lines=List2.map2 (++) addbox.lines box.lines}
+              lines=ListEx.map2 (++) addbox.lines box.lines}
           )
           head 
           boxlist
@@ -200,14 +205,17 @@ struct
 
   let render_str box = (* FIXME *)
     let 
-      wstr_left  = Uni.from_string "\x1B[1;44m"  and
-      wstr_mid   = Uni.from_string "\x1B[22;49m\n" and
-      wstr_right = Uni.from_string "\x1B[49m"
-    in
-      List2.fold_right 
-        (fun s1 s2 -> wstr_left ++ s1 ++ wstr_mid  ++ s2 ++ wstr_right )
-        box.lines 
-        Uni.empty
+      lines = ListEx.map Uni.to_string box.lines
+    in 
+      let contents = 
+        ListEx.rfold 
+          ( fun s1 s2 -> 
+            Decoration.line_begin ^ s1 ^ Decoration.line_end ^ s2
+          )
+          lines 
+          ""
+    in 
+      Decoration.equation_begin ^ contents ^ Decoration.equation_end
 
 end
 

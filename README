@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041115
+BrightMaRe, version 0.20041116
 ------------------------------
 
 Author:
@@ -8,6 +8,10 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+16 Nov 2004, version 0.20041116
+  -- continued the major cleanup
+  -- `unicode_konwert.ml' works!
 
 15 Nov 2004, version 0.20041115
   -- put all those nasty, scattered signatures into `zz_signatures.ml'

@@ -1,11 +1,10 @@
-(* ====== *FIXME* ====== *FIXME* ====== *FIXME* ===== *)
-
 type wstring = string and wchar = string
-type t = wstring;;
+type t = wstring
 
-let (++) = (^);;
+let ( ++ ) = StrEx.( ++ )
+let ( ** ) = StrEx.( ** )
 
-let empty = "";;
+let empty = ""
 
 let locale_charmap = 
   let s = Locale.charmap () in
@@ -14,72 +13,67 @@ let locale_charmap =
     else
     try 
       let ison = Scanf.sscanf s "ISO-8859-%d" (fun n -> n) in
-      if (ison <= 0) or (ison > 15) then 
-        "" 
+      if (ison < 1) or (ison > 16) then 
+        "ascii" 
       else
         Printf.sprintf "iso%d" ison
     with
-      Scanf.Scan_failure _ -> "";;
+      Scanf.Scan_failure _ -> "ascii"
  
-let wchar_of_int n =
-  if n < 0 
-  then
-    raise(Invalid_argument "Unicode_konwert.wchar_of_int")
-  else if n < 0x80
-  then
-    string_of_int n
-  else if n < 0x800
-  then
-    string_of_int (0xC0 + (n lsr 6) land 0x1F) ++
-    string_of_int (0x80 + n land 0x3F)
-  else if n < 0x10000
-  then
-    string_of_int (0xE0 + (n lsr 12) land 0x0F) ++
-    string_of_int (0x80 + (n lsr 6) land 0x3F) ++
-    string_of_int (0x80 + n land 0x3F)
-  else
-    raise(Invalid_argument "Unicode_konwert.wchar_of_int");;
+let fetch_contents chin =
+  let rec f q accum =
+    try
+      let nl = input_line chin in
+      if not q then
+        f true nl
+      else
+        f true (accum ^ "\n" ^ nl)
+    with
+      End_of_file -> accum
+  in
+    f false ""
 
-let wchar_of_char c =
-  wchar_of_int (int_of_char c);;
-
-let forget _ = ();;
+let perform_filter cmdline str =
+  let 
+    (chin, chout) = Unix.open_process cmdline and
+    forget _ = () 
+  in
+    (
+      output_string chout str;
+      close_out chout;
+      let s = fetch_contents chin in
+      (
+        forget (Unix.close_process (chin, chout));
+        s
+      )
+    )
 
 let perform_convert encfrom encto str =
   let cmdline = Printf.sprintf "konwert %s-%s" encfrom encto in
-    let chout = Unix.open_process_out cmdline in
-    let buffer = Buffer.create 16 in
-    (
-      output_string chout str;
-(*      ( try Buffer.add_channel buffer chin 1 with End_of_file -> () ); *)
-(*      forget (input_char chin); *)
-      forget (Unix.close_process_out chout);
-      Buffer.contents buffer
-    )
+    perform_filter cmdline str
 
-let from_string =
-  if locale_charmap = "" then
-    raise(Failure "Unicode_konwert..from_string")
-  else perform_convert locale_charmap "utf8";;
-  
-let to_string = 
-  if locale_charmap = "" then
-    raise(Failure "Unicode_konwert..to_string")
-  else perform_convert "utf8" locale_charmap;;
- 
-let length s =
-  String2.length (to_string s);;
+let from_utf8 =
+  perform_convert "utf8" locale_charmap
 
-let make n wch =
-  if n < 0 then
-    raise(Invalid_argument "Unicode_konwert.make")
+let id x = x
+
+let from_string = id
+let to_string = id
+
+let wchar_of_int n = 
+  if n < 127 then
+    1 ** char_of_int n
   else
-    let rec make_a str n =
-      if n <= 0 then
-        str
-      else
-        make_a (str ++ wch) (n-1)
-    in
-      make_a "" n;;
+    from_utf8 (Unicore.utf8char_of_int n)
+
+let wchar_of_char ch = wchar_of_int (int_of_char ch)
+
+let length = 
+  if locale_charmap = "utf8" then
+    Unicore.utf8string_length
+  else
+    StrEx.length
+
+let ( ** ) = StrEx.( **! )
 
 (* vim: set tw=96 et ts=2 sw=2: *)
