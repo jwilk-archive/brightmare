@@ -24,9 +24,9 @@ struct
     | Operator ("", [tree]) -> fix tree
     | Operator ("\\left\\right", d1::d2::trees) ->
         Operator ("\\left\\right", d1::d2::(ListEx.rev_map fix trees))
-    | Operator ("_", [Operator ("^", [tree;b]); a]) ->
+    | Operator ("_", [Operator ("^", [tree; b]); a]) ->
         Operator ("_^", [fix a; fix b; fix tree])
-    | Operator ("^", [Operator ("_", [tree;b]); a]) ->
+    | Operator ("^", [Operator ("_", [tree; b]); a]) ->
         Operator ("_^", [fix b; fix a; fix tree])
     | Operator (op, trees) -> 
         Operator (op, ListEx.rev_map fix trees)
@@ -40,7 +40,7 @@ struct
     | Operator (opstr, basetrees) -> 
         Operator (opstr, subtree::basetrees)
 
- let add_nl basetree subtree =
+  let add_nl_0 basetree subtree =
     match subtree with
     | Operator ("\\\\", subtrees) ->
       ( match basetree with
@@ -50,17 +50,36 @@ struct
             Operator("\\\\", subtrees@[basetree]) )
     | _ -> raise(Internal_error)
 
+  let add_nl basetree subtree =
+    let subtrees =
+      match subtree with
+      | Operator ("\\\\", subtrees) -> subtrees
+      | Operator ("&", _) -> [subtree]
+      | _ -> []
+    in 
+    match basetree with
+    | Operator ("\\\\", basetrees) -> 
+        Operator ("\\\\", subtrees@basetrees)
+    | _ -> 
+        Operator ("\\\\", subtrees@[basetree])
+
   let rec add_amp basetree subtree =
+    let nullop = [Operator ("", [])] in
     match subtree with
+    | Operator ("&", []) ->
+        add_amp basetree (Operator ("&", nullop))
     | Operator ("&", subtrees) ->
       ( match basetree with
+        | Operator ("&", []) -> 
+            Operator ("&", subtrees@nullop)
         | Operator ("&", basetrees) -> 
             Operator ("&", subtrees@basetrees)
         | Operator ("\\\\", baselast::basetrees) ->
             Operator ("\\\\", (add_amp baselast subtree)::basetrees)
         | _ -> 
-            Operator("&", subtrees@[basetree]) )
-    | _ -> raise(Internal_error)
+            Operator ("&", subtrees@[basetree]) )
+    | _ -> 
+      raise(Internal_error)
 
   let rec add_infix basetree subtree =
     match subtree with
@@ -173,27 +192,34 @@ struct
             lexlist 
             (limit-1) brlimit false
 
+    | "\x00" | "\t" | "\r" | "\n" | " " ->
+        if limit > 0 then
+          parse_a accum lexlist limit brlimit br  
+        else
+          parse_a
+            (add accum (Element " "))
+            lexlist
+            (-1) 0 br
     | _ ->
-        try 
-          let (p, q) = LatDict.get lexem LatDict.commands in
-          let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
-            parse_a
-              ( ( match lexem with 
-                  | "^" | "_" -> add_infix
-                  | "&"       -> add_amp
-                  | "\\\\"    -> add_nl 
-                  | _         -> add )
-                  accum 
-                  subtree
-               ) 
-              lexlist 
-              (limit-1) 0 br
-        with 
-          Not_found ->
-            parse_a 
-              (add accum (Element lexem)) 
-              lexlist 
-              (limit-1) 0 br
+      try 
+        let (p, q) = LatDict.get lexem LatDict.commands in
+        let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
+          parse_a
+            ( ( match lexem with 
+                | "^" | "_" -> add_infix
+                | "&"       -> add_amp
+                | "\\\\"    -> add_nl 
+                | _         -> add )
+                accum 
+                subtree ) 
+            lexlist 
+            (limit-1) 0 br
+      with 
+        Not_found ->
+          parse_a 
+            (add accum (Element lexem)) 
+            lexlist 
+            (limit-1) 0 br
 
   let from_lexems lexems =
     let (revptree, _) = parse_a empty lexems oo 0 false in

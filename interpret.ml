@@ -171,7 +171,7 @@ struct
             Matrix.eachcol_map 
               (fun (w, al) box -> Rmath.align al box w) 
               widths_aligns 
-              matrix 
+              matrix
           in let spacings =
             match width with
             | 0 -> [] 

@@ -139,13 +139,15 @@ let eachcol_fold f a mat =
   if not mat.up then
     raise(Invalid_argument "Matrix.eachcol_fold")
   else 
-    eachrow_fold f a (transpose mat)
+    let result = eachrow_fold f a (transpose mat) in
+      ListEx.rev result
 
 let eachcol_rfold f mat a = 
   if not mat.up then
     raise(Invalid_argument "Matrix.eachcol_rfold")
-  else 
-    eachrow_rfold f (transpose mat) a
+  else
+    let result = eachrow_rfold f (transpose mat) a in
+      ListEx.rev result
 
 let map f mat =
   if not mat.up then

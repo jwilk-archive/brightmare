@@ -13,5 +13,6 @@ T(n) = 2T\left(\left\lfloor\frac{n}{2}\right\rfloor\right) + O\left(\sqrt{n}\rig
 \left\|A^{-1}\right\|=\inf_{\left\|x\right\|=1} \left\|Ax\right\|
 \left\{x^{2^2^{\left(2_2_2\right)}}_{2_2_{\left(2^2^2\right)}}\right\}
 (u + v)^n = \sum_{i=0}^n \binom{n}{i} u^{n-i}v^i
-\left|\begin{array}{ccccc}a&b&\frac1c&d&e\\ &p^2&q&r_2\\ & &z\end{array}\right|
+\left|\begin{array}{ccccc}a&b&\frac1c&d&e\\&p^2&q&r_2\\&&z\end{array}\right|
 \left(\begin{array}{lcr}a&b&c\\aaa&bbb&ccc\\aaaaa&bbbbb&ccccc\end{array}\right)
+\left[\begin{array}{rr}1&2\\3&-4\end{array}\right]^5=\left[\begin{array}{rr}1&2^5\\3^5&-2^{10}\end{array}\right]
