@@ -3,11 +3,11 @@ module type T =
 
 module Make 
   (SubInterpret : T) : 
-  T with type rmath_t = SubInterpret.rmath_t =
+  T with type s = SubInterpret.s =
 struct
   
-  type rmath_t = SubInterpret.rmath_t
   type t = Parsetree.t
+  type s = SubInterpret.s
   
   open Parsetree
 
@@ -26,9 +26,9 @@ struct
         let argstr = implode treelist in
           "\x1B[35m" ^ op ^ "\x1B[0m(" ^ argstr ^ ")"
 
-  let as_rmathbox tree =
+  let make tree =
     print_string ((debug_rmathbox tree) ^ "\n");
-    SubInterpret.as_rmathbox tree
+    SubInterpret.make tree
 
 end
 

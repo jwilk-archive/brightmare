@@ -1,28 +1,28 @@
-module type TOK_AUTOMATON = Zz_signatures.TOK_AUTOMATON
-module type T = Zz_signatures.TOKENIZE
+module type LEX_AUTOMATON = Zz_signatures.LEX_AUTOMATON
+module type T = Zz_signatures.LEXSCAN
 
-module Make(Aut : TOK_AUTOMATON) : T =
+module Make(Aut : LEX_AUTOMATON) : T =
 struct
 
   let ( ** ) = StrEx.( ** )
   
-  let rec extokenize lasttok toklist chars state =
+  let rec scan lastlex lexlist chars state =
     match chars with
-      [] -> lasttok::toklist |
+      [] -> lastlex::lexlist |
       head::chars ->
         let state = Aut.execute head state in
         let head = 1 ** head in
           if Aut.pubstate state then
-            extokenize head (lasttok::toklist) chars state
+            scan head (lastlex::lexlist) chars state
           else
-            extokenize (lasttok^head) toklist chars state
+            scan (lastlex^head) lexlist chars state
 
   let make str = 
     let chars = (StrEx.as_list str) in
       ListEx.rev 
         ( ListEx.filter
             (fun s -> s <> "")
-            (extokenize "" [] chars Aut.default)
+            (scan "" [] chars Aut.default)
         )
 (* FIXME - does filtering is neccessary? *)
 

@@ -94,7 +94,7 @@ struct
       { rbox = Render.join_h 'Q' [hook; rbox];
         baseline = box.baseline + 1 }
  
-  let integral =
+  let integral () =
     let 
       i1 = Render.make 1 1 (Uni.wchar_of_int 0x256d) and 
       i2 = Render.make 1 1 (Uni.wchar_of_int 0x2502) and
@@ -104,7 +104,7 @@ struct
     in
       { rbox = rbox; baseline = 1 }
 
-  let ointegral =
+  let ointegral () =
     let 
       i1 = Render.make 1 1 (Uni.wchar_of_int 0x256d) and 
       i2 = Render.make 1 1 (Uni.wchar_of_int 0x25ef) and

@@ -6,7 +6,7 @@ let asoc_multi_put kv_list dict =
   ListEx.fold 
     (fun dict (k, v) -> AsocString.add k v dict) 
     (AsocString.empty) 
-    kv_list;;
+    kv_list
 
 let make kv_list = 
   [asoc_multi_put kv_list AsocString.empty]
@@ -21,7 +21,7 @@ let map f =
 let rec get key = 
   ListEx.seek (AsocString.find key)
 
-let join = 
+let merge = 
   ListEx.flatten
 
 (* vim: set tw=96 et ts=2 sw=2: *)

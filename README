@@ -1,4 +1,4 @@
-BrightMaRe, version 0.20041122
+BrightMaRe, version 0.20041123
 ------------------------------
 
 Author:
@@ -8,6 +8,8 @@ License:
   GPL v. 2
 
 ChangeLog:
+
+23 Nov 2004, version 0.20041123
 
 22 Nov 2004, version 0.20041122
   -- support for optional arguments
@@ -40,7 +42,7 @@ ChangeLog:
   -- use rev_map instead of rev(map)
   -- use List2 module instead of List
   -- locale support (sprout)
-  -- rewritten the tokenizer (now we have 2 flavours)
+  -- rewritten the lexical analyser (now we have 2 flavours)
   -- more than 1500 lines
 
 13 Nov 2004, version 0.20041113
@@ -48,7 +50,7 @@ ChangeLog:
   -- LateX di... blah
 
 12 Nov 2004, version 0.20041112
-  -- fixed the tokenizer a bit
+  -- fixed the lexical analyser a bit
   -- LateX dictionary is still expanding
 
 11 Nov 2004, version 0.20041111
@@ -86,7 +88,7 @@ ChangeLog:
   -- more than 250 lines
 
 21 Oct 2004, version 0.20041021.2
-  -- LaTeX-tokenizer almost works
+  -- LaTeX lexical analyser almost works
   -- began to write simple LaTeX-parser
 
 20 Oct 2004, version 0.20041020

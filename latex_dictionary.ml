@@ -299,9 +299,7 @@ let symbols = make [
   "\\to",                 8594; (* FIXME - place? *)
 
 (* miscellaneous LaTeX symbols:: *)
-  "\\|",            8741;
   "\\angle",        8736;
-  "\\backslash",    92;
   "\\bot",          8869;
   "\\Box",          0;
   "\\cdots",        0;
@@ -651,22 +649,31 @@ let symbols = make [
 let symbol_commands = 
   map (fun _ -> (0, 0)) symbols
 
-let delimiters = make [
-  ".",              46;
+let delimiters1 = make [
+  ".",              0;
   "(",              40;
   ")",              41;
+  "<",              9001;
+  ">",              9002;
   "[",              91;
   "]",              93;
+  "|",              124;
+  "/",              47
+]
+
+let delimiters2 = make [
+  "\\langle",       9001;
+  "\\rangle",       9002;
+  "\\backslash",    92;
+  "\\|",            8741;
   "\\{",            123;
   "\\}",            125;
   "\\Downarrow",    0x21D3;
   "\\downarrow",    8595;
-  "\\langle",       9001;
   "\\lceil",        8968;
   "\\lfloor",       8970;
   "\\llcorner",     0x231E;
   "\\lrcorner",     0x231F;
-  "\\rangle",       9002;
   "\\rceil",        8969;
   "\\rfloor",       8971;
   "\\ulcorner",     0x231C;
@@ -686,10 +693,12 @@ let delimiters = make [
   "\\bracevert",    0;
 ]
 
-let delimiter_commands =
-  map (fun _ -> (0, 0)) delimiters
+let delimiters = merge [delimiters1; delimiters2]
 
-let commands = join [
+let delimiter_commands =
+  map (fun _ -> (0, 0)) delimiters2
+
+let commands = merge [
   main_commands; 
   alphabet_commands; 
   operator_commands;
@@ -698,7 +707,7 @@ let commands = join [
   delimiter_commands
 ]
 
-let allsymbols = join [
+let allsymbols = merge [
   symbols;
   delimiters
 ]

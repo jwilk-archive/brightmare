@@ -1,3 +1,5 @@
+(* Program g³ówny *)
+
 let () = Locale.initialize()
 
 include Zz_signatures
@@ -10,27 +12,27 @@ end
 module Brightmare
   (Unicode : UNICODE)
   (Decoration : DECORATION)
-  (Automaton : TOK_AUTOMATON) 
+  (Automaton : LEX_AUTOMATON) 
   (LatDict : LATDICT) :
   BRIGHTMARE =
 struct
-  module Tokenize = Tokenize.Make(Automaton)
+  module LexScan = Lexscan.Make(Automaton)
   module Render = Render.Make(Unicode)(Decoration)
   module Rmath = Rmath.Make(Unicode)(Render)
   module Parse = Parse.Make(LatDict)
-  module Interpret = Interpret.Make(Unicode)(Parse)(Rmath)
+  module Interpret = Interpret.Make(Unicode)(LatDict)(Rmath)
   module Interpret_dbg = Interpret_debug.Make(Interpret)
   let iterate debug =
     let as_rmathbox =
       if debug then 
-        Interpret_dbg.as_rmathbox 
+        Interpret_dbg.make 
       else 
-        Interpret.as_rmathbox
+        Interpret.make
     in
       ListEx.iter
         ( fun s ->
-          let tokens = Tokenize.make s in
-          let parsetree = Parse.from_tokens tokens in
+          let lexems = LexScan.make s in
+          let parsetree = Parse.from_lexems lexems in
           let rmbox = as_rmathbox parsetree in
           let render = Rmath.render_str rmbox in
             print_string render

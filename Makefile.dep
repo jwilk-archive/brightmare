@@ -26,8 +26,8 @@ automaton.cmo: automaton.cmi
 automaton.cmx: automaton.cmi 
 automaton2.cmo: automaton2.cmi 
 automaton2.cmx: automaton2.cmi 
-tokenize.cmo: listEx.cmi strEx.cmi zz_signatures.cmx 
-tokenize.cmx: listEx.cmx strEx.cmx zz_signatures.cmx 
+lexscan.cmo: listEx.cmi strEx.cmi zz_signatures.cmx 
+lexscan.cmx: listEx.cmx strEx.cmx zz_signatures.cmx 
 parse.cmo: listEx.cmi parsetree.cmx zz_signatures.cmx 
 parse.cmx: listEx.cmx parsetree.cmx zz_signatures.cmx 
 interpret.cmo: listEx.cmi parsetree.cmx strEx.cmi zz_signatures.cmx 
@@ -35,12 +35,12 @@ interpret.cmx: listEx.cmx parsetree.cmx strEx.cmx zz_signatures.cmx
 interpret_debug.cmo: listEx.cmi parsetree.cmx zz_signatures.cmx 
 interpret_debug.cmx: listEx.cmx parsetree.cmx zz_signatures.cmx 
 brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmi \
-    interpret.cmx interpret_debug.cmx latex_dictionary.cmi listEx.cmi \
-    locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmi tokenize.cmx \
+    interpret.cmx interpret_debug.cmx latex_dictionary.cmi lexscan.cmx \
+    listEx.cmi locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmi \
     unicode_html.cmi unicode_konwert.cmi version.cmx zz_signatures.cmx 
 brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
-    interpret.cmx interpret_debug.cmx latex_dictionary.cmx listEx.cmx \
-    locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmx tokenize.cmx \
+    interpret.cmx interpret_debug.cmx latex_dictionary.cmx lexscan.cmx \
+    listEx.cmx locale.cmi parse.cmx render.cmx rmath.cmx strEx.cmx \
     unicode_html.cmx unicode_konwert.cmx version.cmx zz_signatures.cmx 
 unicode.cmi: zz_signatures.cmx 
 unicode_html.cmi: zz_signatures.cmx 

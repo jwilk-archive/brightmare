@@ -49,9 +49,16 @@ let perform_filter cmdline str =
     )
 
 let perform_convert encfrom encto str =
-  let cmdline = Printf.sprintf "konwert %s-%s" encfrom encto in
-    perform_filter cmdline str
-
+    let cmdline = 
+      Printf.sprintf 
+        "if [ -x /usr/bin/konwert ]; then /usr/bin/konwert %s-%s; else cat; fi" 
+        encfrom 
+        encto 
+    in try
+      perform_filter cmdline str
+    with
+      _ -> ""
+     
 let from_utf8 =
   perform_convert "utf8" locale_charmap
 
@@ -60,7 +67,7 @@ let id x = x
 let from_string = id
 let to_string = id
 
-let wchar_of_int n = 
+let wchar_of_int n =
   if n < 127 then
     1 ** char_of_int n
   else

@@ -12,7 +12,7 @@ ML_FILES = \
 	decoration.ml decoration_html.ml \
 	render.ml rmath.ml \
 	automaton.ml automaton2.ml \
-	tokenize.ml \
+	lexscan.ml \
 	parsetree.ml parse.ml interpret.ml interpret_debug.ml \
 	brightmare.ml
 MLI_FILES = \
@@ -55,7 +55,7 @@ brightmare: $(CMX_FILES) $(O_FILES)
 brightmare-html: brightmare
 	ln -sf ${<} ${@}
 
-test: brightmare
+test: all
 	cat test/defaulttest | \
 		tr '\n' '\0' | \
 		xargs -0 printf "\"%s\"\n" | \
@@ -66,7 +66,7 @@ stats:
 	@echo $(shell cat ${SOURCE_FILES} | wc -c) bytes.
 
 clean: Makefile.dep
-	rm -f brightmare{,-html} *.cmi *.cmo *.cmx *.o *~
+	rm -f brightmare{,-html} *.cmi *.cmo *.cmx *.o *~ a.out
 
 distclean:
 	rm -f brightmare-$(VERSION).tar.*

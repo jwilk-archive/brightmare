@@ -3,7 +3,7 @@ module type LATDICT = Zz_signatures.LATDICT
 
 module Make 
   (LatDict : LATDICT) : 
-  PARSE with type t = Parsetree.t and module LatDict = LatDict =
+  PARSE with type t = Parsetree.t =
 struct
 
   type t = Parsetree.t
@@ -49,75 +49,75 @@ struct
 
   let oo = -1 (* oo + 1 == oo, thus oo = -1 *)
 
-  let extract_delim toklist =
-    match toklist with
+  let extract_delim lexlist =
+    match lexlist with
       [] -> ".", [] |
       cand::tail ->
         if LatDict.exists cand LatDict.delimiters then
           cand, tail
         else
-          ".", toklist
+          ".", lexlist
 
-  let rec parse_a accum toklist limit brlimit br =
+  let rec parse_a accum lexlist limit brlimit br =
     if limit = 0 then
-      (accum, toklist)
+      (accum, lexlist)
     else
-    match toklist with
-      [] -> (accum, toklist) |
+    match lexlist with
+      [] -> (accum, lexlist) |
 
-      "}"::toklist -> (accum, toklist) |
-      "{"::toklist -> 
-        let (newaccum, toklist) = parse_a empty toklist oo 0 false in
-          parse_a (add accum newaccum) toklist (limit-1) 0 br  |
+      "}"::lexlist -> (accum, lexlist) |
+      "{"::lexlist -> 
+        let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
+          parse_a (add accum newaccum) lexlist (limit-1) 0 br  |
 
-      "\\right"::toklist ->
+      "\\right"::lexlist ->
       (
         match accum with
           Operator ("\\left", trees) ->
-            let (delim, toklist) = extract_delim toklist in
-              Operator ("\\left\\right", (Element delim)::trees), toklist |
+            let (delim, lexlist) = extract_delim lexlist in
+              Operator ("\\left\\right", (Operator (delim, []))::trees), lexlist |
           _ ->
             parse_a 
-              (add accum (Element "\\right")) toklist (limit-1) 0 br 
+              (add accum (Element "\\right")) lexlist (limit-1) 0 br 
       ) |
-      "\\left"::toklist ->
-        let (delim, toklist) = extract_delim toklist in
-        let (newaccum, toklist) = parse_a (Operator ("\\left", [])) toklist oo 0 false in
-        let newaccum = add newaccum (Element delim) in
-          parse_a (add accum newaccum) toklist (limit-1) 0 br |
+      "\\left"::lexlist ->
+        let (delim, lexlist) = extract_delim lexlist in
+        let (newaccum, lexlist) = parse_a (Operator ("\\left", [])) lexlist oo 0 false in
+        let newaccum = add newaccum (Operator (delim, [])) in
+          parse_a (add accum newaccum) lexlist (limit-1) 0 br |
 
-      "["::toklist ->
+      "["::lexlist ->
         if brlimit = 0 then
-          parse_a (add accum (Element "[")) toklist (limit-1) 0 br
+          parse_a (add accum (Element "[")) lexlist (limit-1) 0 br
         else
-          let (newaccum, toklist) = parse_a (Operator ("[", [])) toklist oo 0 true in
-            parse_a (add accum newaccum) toklist limit (brlimit-1) false |
-      "]"::toklist -> 
+          let (newaccum, lexlist) = parse_a (Operator ("[", [])) lexlist oo 0 true in
+            parse_a (add accum newaccum) lexlist limit (brlimit-1) false |
+      "]"::lexlist -> 
         if br then 
-          (accum, toklist) 
+          (accum, lexlist) 
         else
-          parse_a (add accum (Element "]")) toklist (limit-1) brlimit false |
+          parse_a (add accum (Element "]")) lexlist (limit-1) brlimit false |
 
-      token::toklist ->
+      lexem::lexlist ->
         try 
           let 
-            (p, q) = LatDict.get token LatDict.commands
+            (p, q) = LatDict.get lexem LatDict.commands
           in
-            let (subtree, toklist) = parse_a (Operator (token, [])) toklist q p br in
+            let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
               parse_a 
-                ( (if token.[0] = '^' || token.[0] = '_' then backadd else add)
+                ( (if lexem.[0] = '^' || lexem.[0] = '_' then backadd else add)
                     accum 
                     subtree
                  ) 
-                toklist 
+                lexlist 
                 (limit-1) 0 br
         with 
           Not_found ->
             parse_a 
-              (add accum (Element token)) toklist (limit-1) 0 br
+              (add accum (Element lexem)) lexlist (limit-1) 0 br
 
-  let from_tokens tokens =
-    let (revptree, _) = parse_a empty tokens oo 0 false in
+  let from_lexems lexems =
+    let (revptree, _) = parse_a empty lexems oo 0 false in
       fix revptree
 
 end

@@ -1,7 +1,7 @@
 brightmare:	
 	automaton decoration decoration_html interpret
-	interpret_debug	latex_dictionary locale	parse
-	render rmath tokenize unicode_html unicode_konwert
+	interpret_debug	latex_dictionary lexscan locale	
+	parse render rmath unicode_html unicode_konwert
 	version
 interpret:
 	parsetree

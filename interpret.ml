@@ -1,36 +1,35 @@
 module type UNICODE = 
   Zz_signatures.UNICODE
+module type LATDICT =
+  Zz_signatures.LATDICT
 module type RMATH = 
   Zz_signatures.RMATH
-module type PARSE = 
-  Zz_signatures.PARSE with type t = Parsetree.t
 module type T = 
   Zz_signatures.INTERPRET with type t = Parsetree.t
 
 module Make 
   (Uni : UNICODE) 
-  (Parse : PARSE)
+  (LatDict : LATDICT)
   (Rmath : RMATH with module Uni = Uni) :
-  T with type rmath_t = Rmath.t =
+  T with type s = Rmath.t =
 struct
   
   let ( ** ) = Uni.( ** )
 
-  type rmath_t = Rmath.t
   type t = Parsetree.t
-  module LatDict = Parse.LatDict
+  type s = Rmath.t
 
   open Parsetree
 
-  let rec as_rmathbox tree =
+  let rec make tree =
     match tree with
       Element "" -> Rmath.empty 1 1 |
       Element str -> Rmath.si (Uni.from_string str) |
       Operator (op, treelist) ->
-        let boxlist = ListEx.map as_rmathbox treelist in
+        let boxlist = ListEx.map make treelist in
         match (op, boxlist) with
-          "\\int", [] -> Rmath.integral |
-          "\\oint", [] -> Rmath.ointegral |
+          "\\int", [] -> Rmath.integral () |
+          "\\oint", [] -> Rmath.ointegral () |
           opstr, [] -> 
             if LatDict.exists opstr LatDict.allsymbols
             then
