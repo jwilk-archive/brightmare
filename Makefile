@@ -2,10 +2,10 @@ VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
 DIST_FILES = README Makefile Makefile.dep $(SOURCE_FILES)
 SOURCE_FILES = $(MLI_FILES) $(ML_FILES)
-MLI_FILES = unicode.mli render.mli dictionary.mli tokenize.mli
+MLI_FILES = list2.mli unicode.mli render.mli dictionary.mli tokenize.mli
 ML_FILES = \
 	dictionary.ml latex_dictionary.ml unicode.ml \
-	render.ml rmath.ml tokenize.ml version.ml \
+	list2.ml render.ml rmath.ml tokenize.ml version.ml \
 	parse.ml brightmare.ml 
 CMI_FILES = $(ML_FILES:ml=cmi)
 CMO_FILES = $(ML_FILES:ml=cmo)
@@ -60,6 +60,6 @@ dist: distclean
 	fakeroot tar cf brightmare-$(VERSION).tar $(DIST_FILES)
 	bzip2 -9 brightmare-$(VERSION).tar
 
-.PHONY: depend all clean distclean dist
+.PHONY: all clean distclean dist
 
 # vim:tw=76 ts=4

@@ -7,6 +7,8 @@ val empty : int -> int -> renderbox
 val width : renderbox -> int
 val height : renderbox -> int
 
+val grow_custom : char -> renderbox -> int -> int -> renderbox
+
 val join_v : char -> renderbox list -> renderbox
 val join_h : char -> renderbox list -> renderbox
 

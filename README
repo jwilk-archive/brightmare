@@ -9,8 +9,10 @@ License:
 
 ChangeLog:
 
-31 Oct 2004, version 0.20041031
+31 Oct 2004, version 0.20041031.2
   -- LaTeX dictionary is still expanding
+  -- a baseline is considered when joining boxes
+  -- more than 750 lines
 
 29 Oct 2004, version 0.20041029
   -- Unicode support (sprout)

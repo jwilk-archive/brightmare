@@ -1,16 +1,5 @@
 let (++) = Unicode.(++);;
 
-let list_make count elem =
-  let rec make_helper newlist count elem =
-    if count <= 0 then
-      newlist
-    else
-      make_helper (elem::newlist) (count-1) elem
-  in
-    make_helper [] count elem;;
-
-(* ---------------------------------------------------------------------- *)
-
 type renderbox = 
   { rb_width: int; rb_height: int; rb_lines: Unicode.wstring list }
 
@@ -19,7 +8,7 @@ let si str =
 
 let make width height chr =
   let filler = Unicode.make width chr in
-    { rb_width=width; rb_height=height; rb_lines=list_make height filler};;
+    { rb_width=width; rb_height=height; rb_lines=List2.make height filler};;
 
 let empty width height = make width height " ";;
 
@@ -86,7 +75,7 @@ let grow_topbottom box height modfun =
   if diffheight < 0 then
     raise(Invalid_argument "grow_topbottom")
   else
-    let spacer = list_make diffheight (Unicode.make box.rb_width " ") in
+    let spacer = List2.make diffheight (Unicode.make box.rb_width " ") in
       grow_v box diffheight (modfun spacer);;
 
 let grow_bottom box height =
@@ -106,8 +95,8 @@ let grow_vmiddle box height =
     let bspace = diffheight-tspace in
     let spacer = Unicode.make box.rb_width " " in
     let 
-      tspacer = list_make tspace spacer and
-      bspacer = list_make bspace spacer
+      tspacer = List2.make tspace spacer and
+      bspacer = List2.make bspace spacer
     in
       grow_v box diffheight (fun s -> tspacer @ s @ bspacer);;
 

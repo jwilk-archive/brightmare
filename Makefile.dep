@@ -4,10 +4,12 @@ latex_dictionary.cmo: dictionary.cmi
 latex_dictionary.cmx: dictionary.cmx 
 unicode.cmo: unicode.cmi 
 unicode.cmx: unicode.cmi 
-render.cmo: unicode.cmi render.cmi 
-render.cmx: unicode.cmx render.cmi 
-rmath.cmo: render.cmi 
-rmath.cmx: render.cmx 
+list2.cmo: list2.cmi 
+list2.cmx: list2.cmi 
+render.cmo: list2.cmi unicode.cmi render.cmi 
+render.cmx: list2.cmx unicode.cmx render.cmi 
+rmath.cmo: list2.cmi render.cmi 
+rmath.cmx: list2.cmx render.cmx 
 tokenize.cmo: tokenize.cmi 
 tokenize.cmx: tokenize.cmi 
 parse.cmo: dictionary.cmi latex_dictionary.cmo rmath.cmo tokenize.cmi \

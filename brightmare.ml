@@ -16,7 +16,7 @@ List.iter
       "\x1B[12mZ\x1B[10m %s \n\x1B[12mSRR\x1B[10m> %s\n%s\n" 
       s 
       (aos2str (Tokenize.make s)) 
-      (Rmath.render_str (Parse.string_to_renderbox s))
+      (Rmath.render_str (Parse.string_to_rmb s))
   ) argv;;
 
 (* vim: set tw=96 et ts=2 sw=2: *)
