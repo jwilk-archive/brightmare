@@ -1,5 +1,6 @@
 type ('a, 'b) t = 
-  BST_Empty | BST_Node of 'a * 'b * ('a, 'b) t * ('a, 'b) t
+  BST_Empty | 
+  BST_Node of 'a * 'b * ('a, 'b) t * ('a, 'b) t
 
 let bst_empty =
   BST_Empty
@@ -73,10 +74,7 @@ let get = bst_get
 
 let exists key dict =
   try
-    let 
-      _ = get key dict 
-    in 
-      true
+    let _ = get key dict in true
   with
     Not_found -> false
 

@@ -2,10 +2,12 @@ listEx.cmo: listEx.cmi
 listEx.cmx: listEx.cmi 
 strEx.cmo: strEx.cmi 
 strEx.cmx: strEx.cmi 
+dictionary2.cmo: dictionary2.cmi 
+dictionary2.cmx: dictionary2.cmi 
 dictionary.cmo: listEx.cmi dictionary.cmi 
 dictionary.cmx: listEx.cmx dictionary.cmi 
-latex_dictionary.cmo: dictionary.cmi latex_dictionary.cmi 
-latex_dictionary.cmx: dictionary.cmx latex_dictionary.cmi 
+latex_dictionary.cmo: dictionary2.cmi latex_dictionary.cmi 
+latex_dictionary.cmx: dictionary2.cmx latex_dictionary.cmi 
 unicore.cmo: strEx.cmi unicore.cmi 
 unicore.cmx: strEx.cmx unicore.cmi 
 unicore_convert.cmo: dictionary.cmi strEx.cmi unicore_convert.cmi 
@@ -47,6 +49,7 @@ brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
     listEx.cmx parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmx \
     unicode_ascii.cmx unicode_html.cmx version.cmx 
 dictionary.cmi: signatures.cmx 
+dictionary2.cmi: signatures.cmx 
 latex_dictionary.cmi: signatures.cmx 
 unicode.cmi: signatures.cmx 
 unicode_html.cmi: signatures.cmx 

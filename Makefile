@@ -8,7 +8,7 @@ ML_FILES = \
 	signatures.ml \
 	version.ml \
 	listEx.ml strEx.ml \
-	dictionary.ml latex_dictionary.ml \
+	dictionary2.ml dictionary.ml latex_dictionary.ml \
 	unicore.ml unicore_convert.ml \
 	unicode.ml unicode_html.ml unicode_ascii.ml unicode_konwert.ml \
 	decoration.ml decoration_ansi.ml decoration_html.ml \
@@ -20,7 +20,7 @@ ML_FILES = \
 MLI_FILES = \
 	locale.mli \
 	listEx.mli strEx.mli \
-	dictionary.mli latex_dictionary.mli \
+	dictionary.mli dictionary2.mli latex_dictionary.mli \
 	unicore.mli unicore_convert.mli \
 	unicode.mli unicode_html.mli unicode_ascii.mli unicode_konwert.mli \
 	automaton.mli automaton2.mli

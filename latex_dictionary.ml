@@ -1,4 +1,4 @@
-include Dictionary
+include Dictionary2
 
 let main_commands = make [
 (* spacing:: *)               (* TODO: not implemented *)
