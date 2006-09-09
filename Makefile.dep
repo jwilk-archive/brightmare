@@ -12,44 +12,42 @@ latex_dictionary.cmo: dictionary2.cmi latex_dictionary.cmi
 latex_dictionary.cmx: dictionary2.cmx latex_dictionary.cmi 
 unicore.cmo: strEx.cmi unicore.cmi 
 unicore.cmx: strEx.cmx unicore.cmi 
-unicore_convert.cmo: dictionary.cmi strEx.cmi unicore_convert.cmi 
-unicore_convert.cmx: dictionary.cmx strEx.cmx unicore_convert.cmi 
-unicode.cmo: locale.cmi strEx.cmi unicore.cmi unicode.cmi 
-unicode.cmx: locale.cmi strEx.cmx unicore.cmx unicode.cmi 
-unicode_html.cmo: listEx.cmi strEx.cmi unicode_html.cmi 
-unicode_html.cmx: listEx.cmx strEx.cmx unicode_html.cmi 
-unicode_ascii.cmo: locale.cmi strEx.cmi unicore.cmi unicore_convert.cmi \
+unicore_convert.cmo: strEx.cmi dictionary.cmi unicore_convert.cmi 
+unicore_convert.cmx: strEx.cmx dictionary.cmx unicore_convert.cmi 
+unicode.cmo: unicore.cmi strEx.cmi locale.cmi unicode.cmi 
+unicode.cmx: unicore.cmx strEx.cmx locale.cmi unicode.cmi 
+unicode_html.cmo: strEx.cmi listEx.cmi unicode_html.cmi 
+unicode_html.cmx: strEx.cmx listEx.cmx unicode_html.cmi 
+unicode_ascii.cmo: unicore_convert.cmi unicore.cmi strEx.cmi locale.cmi \
     unicode_ascii.cmi 
-unicode_ascii.cmx: locale.cmi strEx.cmx unicore.cmx unicore_convert.cmx \
+unicode_ascii.cmx: unicore_convert.cmx unicore.cmx strEx.cmx locale.cmi \
     unicode_ascii.cmi 
-unicode_konwert.cmo: locale.cmi strEx.cmi unicore.cmi unicode_konwert.cmi 
-unicode_konwert.cmx: locale.cmi strEx.cmx unicore.cmx unicode_konwert.cmi 
-decoration.cmo: decoration.cmi 
-decoration.cmx: decoration.cmi 
-render.cmo: listEx.cmi signatures.cmx 
-render.cmx: listEx.cmx signatures.cmx 
-rmath.cmo: listEx.cmi signatures.cmx 
-rmath.cmx: listEx.cmx signatures.cmx 
+unicode_konwert.cmo: unicore.cmi strEx.cmi locale.cmi unicode_konwert.cmi 
+unicode_konwert.cmx: unicore.cmx strEx.cmx locale.cmi unicode_konwert.cmi 
+render.cmo: signatures.cmx listEx.cmi 
+render.cmx: signatures.cmx listEx.cmx 
+rmath.cmo: signatures.cmx listEx.cmi 
+rmath.cmx: signatures.cmx listEx.cmx 
 automaton.cmo: automaton.cmi 
 automaton.cmx: automaton.cmi 
 automaton2.cmo: automaton2.cmi 
 automaton2.cmx: automaton2.cmi 
-lexscan.cmo: listEx.cmi signatures.cmx strEx.cmi 
-lexscan.cmx: listEx.cmx signatures.cmx strEx.cmx 
-parse.cmo: listEx.cmi parsetree.cmx signatures.cmx strEx.cmi 
-parse.cmx: listEx.cmx parsetree.cmx signatures.cmx strEx.cmx 
-interpret.cmo: listEx.cmi matrix.cmi parsetree.cmx signatures.cmx strEx.cmi 
-interpret.cmx: listEx.cmx matrix.cmx parsetree.cmx signatures.cmx strEx.cmx 
-interpret_debug.cmo: listEx.cmi parsetree.cmx signatures.cmx 
-interpret_debug.cmx: listEx.cmx parsetree.cmx signatures.cmx 
-brightmare.cmo: automaton.cmi decoration.cmi decoration_html.cmx \
-    interpret.cmx interpret_debug.cmx latex_dictionary.cmi lexscan.cmx \
-    listEx.cmi parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmi \
-    unicode.cmi unicode_ascii.cmi unicode_html.cmi version.cmx 
-brightmare.cmx: automaton.cmx decoration.cmx decoration_html.cmx \
-    interpret.cmx interpret_debug.cmx latex_dictionary.cmx lexscan.cmx \
-    listEx.cmx parse.cmx render.cmx rmath.cmx signatures.cmx strEx.cmx \
-    unicode.cmx unicode_ascii.cmx unicode_html.cmx version.cmx 
+lexscan.cmo: strEx.cmi signatures.cmx listEx.cmi 
+lexscan.cmx: strEx.cmx signatures.cmx listEx.cmx 
+parse.cmo: strEx.cmi signatures.cmx parsetree.cmx listEx.cmi 
+parse.cmx: strEx.cmx signatures.cmx parsetree.cmx listEx.cmx 
+interpret.cmo: strEx.cmi signatures.cmx parsetree.cmx matrix.cmi listEx.cmi 
+interpret.cmx: strEx.cmx signatures.cmx parsetree.cmx matrix.cmx listEx.cmx 
+interpret_debug.cmo: signatures.cmx parsetree.cmx listEx.cmi 
+interpret_debug.cmx: signatures.cmx parsetree.cmx listEx.cmx 
+brightmare.cmo: version.cmx unicode_html.cmi unicode_ascii.cmi unicode.cmi \
+    strEx.cmi signatures.cmx rmath.cmx render.cmx parse.cmx listEx.cmi \
+    lexscan.cmx latex_dictionary.cmi interpret_debug.cmx interpret.cmx \
+    decoration_html.cmx decoration.cmx automaton.cmi 
+brightmare.cmx: version.cmx unicode_html.cmx unicode_ascii.cmx unicode.cmx \
+    strEx.cmx signatures.cmx rmath.cmx render.cmx parse.cmx listEx.cmx \
+    lexscan.cmx latex_dictionary.cmx interpret_debug.cmx interpret.cmx \
+    decoration_html.cmx decoration.cmx automaton.cmx 
 dictionary.cmi: signatures.cmx 
 dictionary2.cmi: signatures.cmx 
 latex_dictionary.cmi: signatures.cmx 

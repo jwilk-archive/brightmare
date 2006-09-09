@@ -1,7 +1,7 @@
 VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
 
 DIST_FILES = README README.devel Makefile Makefile.dep $(SOURCE_FILES)
-TEST_FILE = test/defaulttest
+TEST_FILES = $(wildcard test/*)
 SOURCE_FILES = $(C_FILES) $(ML_FILES) $(MLI_FILES)
 C_FILES = locale.c
 ML_FILES = \
@@ -40,47 +40,42 @@ FLAGS =
 all: brightmare brightmare-html
 
 Makefile.dep: $(ML_FILES) $(MLI_FILES)
-	$(OCAMLDEP) ${^} > Makefile.dep
+	$(OCAMLDEP) $(^) > Makefile.dep
 
 include Makefile.dep
 
 %.cmi: %.mli
-	$(OCAMLOPT) $(FLAGS) -c ${<}
+	$(OCAMLOPT) $(FLAGS) -c $(<)
 
 %.cmx: %.ml
-	$(OCAMLOPT) $(FLAGS) -c ${<}
+	$(OCAMLOPT) $(FLAGS) -c $(<)
 
 %.o: %.c
-	$(OCAMLOPT) $(FLAGS) -c ${<}
+	$(OCAMLOPT) $(FLAGS) -c $(<)
 
 brightmare: $(CMX_FILES) $(O_FILES)
-	$(OCAMLOPT) $(FLAGS) $(CMXA_FILES) ${^} -o ${@}
-	$(STRIP) ${@}
+	$(OCAMLOPT) $(FLAGS) $(CMXA_FILES) $(^) -o $(@)
+	$(STRIP) $(@)
 
 brightmare-html: brightmare
-	ln -sf ${<} ${@}
+	ln -sf $(<) $(@)
 
+.PHONY: test
 test: all
-	< $(TEST_FILE) \
+	cat $(TEST_FILES) | \
 		tr '\n' '\0' | \
 		xargs -0 printf "\"%s\"\n" | \
 		xargs ./brightmare
 
+.PHONY: stats
 stats:
-	@echo $(shell cat ${SOURCE_FILES} | wc -l) lines.
-	@echo $(shell cat ${SOURCE_FILES} | wc -c) bytes.
+	@echo $(shell cat $(SOURCE_FILES) | wc -l) lines.
+	@echo $(shell cat $(SOURCE_FILES) | wc -c) bytes.
 
+.PHONY: clean
 clean: Makefile.dep
-	rm -f brightmare{,-html} *.cmi *.cmo *.cmx *.o *~ a.out
+	$(RM) brightmare brightmare-html *.cmi *.cmo *.cmx *.o *~ a.out
 
-distclean:
-	rm -f brightmare-$(VERSION).tar.*
-
-dist: distclean
-	fakeroot tar cf brightmare-$(VERSION).tar $(DIST_FILES)
-	fakeroot tar rhf brightmare-$(VERSION).tar $(TEST_FILE)
-	bzip2 -z brightmare-$(VERSION).tar
-
-.PHONY: all test stats clean distclean dist
+.PHONY: all test stats clean
 
 # vim:ts=4 sw=4

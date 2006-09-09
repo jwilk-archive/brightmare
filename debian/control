@@ -1,0 +1,11 @@
+Source: brightmare
+Section: tex
+Priority: optional
+Maintainer: Jakub Wilk <ubanus@users.sf.net>
+Build-Depends: debhelper (>= 5), ocaml-native-compilers (>= 3.0)
+Standards-Version: 3.7.2
+
+Package: brightmare
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: LaTeX equations to ASCII/UTF-8 translator

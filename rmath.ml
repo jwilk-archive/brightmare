@@ -58,8 +58,7 @@ struct
     | [] -> raise(Invalid_argument "Rmath()().join_h")
     | _ as boxes ->
       let 
-        maxbaseline = ListEx.max_map (fun box -> box.baseline) boxes and
-        maxheight = ListEx.max_map (fun box -> height box) boxes
+        maxbaseline = ListEx.max_map (fun box -> box.baseline) boxes
       in let
         boxes = 
           ListEx.map 
