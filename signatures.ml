@@ -1,3 +1,16 @@
+(*
+ * Copyright (c) 2006, 2008 Jakub Wilk <ubanus@users.sf.net>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *)
+
 module type AUTOMATON =
 sig
   type t
@@ -55,8 +68,6 @@ end
 module type RENDER =
 sig
   include SIMPLE_RENDER
-  val width : t -> int
-  val height : t -> int
   val make : int -> int -> Uni.wchar -> t
   val grow : char -> t -> int -> int -> t
   val join_v : char -> t list -> t

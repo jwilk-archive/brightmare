@@ -1,3 +1,16 @@
+(*
+ * Copyright (c) 2006, 2008 Jakub Wilk <ubanus@users.sf.net>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *)
+
 let convert_map = Dictionary.make [
 0x00a0, " ";	0x00a1, "!";	0x00a2, "c";	0x00a3, "L";	0x00a4, "CUR";
 0x00a5, "Y";	0x00a6, "|";	0x00a7, "S:";	0x00a8, "\"";	0x00a9, "(c)";

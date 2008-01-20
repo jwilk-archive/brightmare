@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE refentry PUBLIC '-//OASIS//DTD DocBook XML V4.5//EN' 'http://www.docbook.org/xml/4.5/docbookx.dtd' 
+[
+	<!ENTITY p 'brightmare'>
+	<!ENTITY version '0.34.2'>
+]>
+
+<refentry>
+
+<refentryinfo>
+	<title>&p; manual</title>
+	<productname>BrightMaRe</productname>
+	<author>
+		<firstname>Jakub</firstname> <surname>Wilk</surname>
+		<affiliation>
+			<address>
+				<email>ubanus@users.sf.net</email>
+			</address>
+		</affiliation>
+	</author>
+	<copyright>
+		<year>2008</year>
+		<holder>Jakub Wilk</holder>
+	</copyright>
+	<date>2008-01-20</date>
+</refentryinfo>
+
+<refmeta>
+	<refentrytitle>&p;</refentrytitle>
+	<manvolnum>1</manvolnum>
+	<refmiscinfo class='version'>&version;</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+	<refname>&p;</refname>
+	<refpurpose>LaTeX equations to ASCII/UTF-8 translator</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+	<cmdsynopsis>
+		<command>&p;</command>
+		<arg choice='opt'><option>--debug</option></arg>
+		<group choice='opt'>
+			<arg choice='plain'><option>--html</option></arg>
+			<arg choice='plain'><option>--ascii</option></arg>
+			<arg choice='plain'><option>--utf8</option></arg>
+		</group>
+		<arg choice='plain' rep='repeat'><replaceable>expression</replaceable></arg>
+	</cmdsynopsis>
+	<cmdsynopsis>
+		<command>&p;</command>
+		<group choice='req'>
+			<arg choice='plain'><option>--version</option></arg>
+			<arg choice='plain'><option>-v</option></arg>
+			<arg choice='plain'><option>--help</option></arg>
+			<arg choice='plain'><option>-h</option></arg>
+		</group>
+	</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+	<title>Options</title>
+	<para>
+		<command>&p;</command> accepts the following options:
+	</para>
+
+	<variablelist>
+		<varlistentry>
+			<term><option>--debug</option></term>
+			<listitem>
+				<para>Turn on debug output.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--html</option></term>
+			<listitem>
+				<para>Use HTML output format.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--ascii</option></term>
+			<listitem>
+				<para>Force US-ASCII charset.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>--utf8</option></term>
+			<listitem>
+				<para>Force UTF-8 charset.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><option>-h</option></term>
+			<term><option>--help</option></term>
+			<term><option>-v</option></term>
+			<term><option>--version</option></term>
+			<listitem>
+          		<para>Output version information and exit.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</refsect1>
+
+<refsect1>
+	<title>Usage example</title>
+	<screen><!--
+--><prompt>$</prompt> ./brightmare '\sqrt{T_EX}'
+ +---
+ |T X
+\| E
+</screen>
+</refsect1>
+
+<refsect1>
+	<title>See also</title>
+	<para>
+		<citerefentry>
+			<refentrytitle>brightmare-html</refentrytitle>
+			<manvolnum>1</manvolnum>
+		</citerefentry>,
+		<citerefentry>
+			<refentrytitle>utf-8</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry>,
+		<citerefentry>
+			<refentrytitle>ascii</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry>.
+	</para>
+</refsect1>
+
+</refentry>
+
+<!-- vim:set ts=4 sw=4: -->

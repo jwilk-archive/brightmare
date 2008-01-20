@@ -7,13 +7,15 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 	$(MAKE)
-	touch $@
+	$(MAKE) -C doc
+	touch $(@)
 
 clean:
 	dh_testdir
 	dh_testroot
 	$(RM) build-stamp
-	-$(MAKE) clean
+	$(MAKE) clean
+	$(MAKE) -C doc clean
 	dh_clean 
 
 install: build
@@ -31,11 +33,10 @@ binary-arch: build install
 	dh_installchangelogs 
 	dh_installdocs $(wildcard README*)
 	dh_installexamples
-	dh_installman
+	dh_installman $(wildcard doc/*.1)
 	dh_strip
 	dh_compress
 	dh_fixperms
-	dh_perl
 	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps

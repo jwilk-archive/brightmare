@@ -1,3 +1,16 @@
+(*
+ * Copyright (c) 2006, 2008 Jakub Wilk <ubanus@users.sf.net>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *)
+
 module type PARSE = Signatures.PARSE
 module type LATDICT = Signatures.LATDICT
 
@@ -35,16 +48,16 @@ struct
     match basetree with
     | Element _ -> 
         Operator ("", [subtree; basetree])
-    | Operator (("&" | "\\\\") as opstr, baselast::basetrees) ->
+    | Operator (("&" | "\\\\" | "\\newline") as opstr, baselast::basetrees) ->
         Operator (opstr, (add baselast subtree)::basetrees)
     | Operator (opstr, basetrees) -> 
         Operator (opstr, subtree::basetrees)
 
   let add_nl_0 basetree subtree =
     match subtree with
-    | Operator ("\\\\", subtrees) ->
+    | Operator (("\\\\" | "\\newline"), subtrees) ->
       ( match basetree with
-        | Operator ("\\\\", basetrees) -> 
+        | Operator (("\\\\" | "\\newline"), basetrees) -> 
             Operator ("\\\\", subtrees@basetrees)
         | _ -> 
             Operator("\\\\", subtrees@[basetree]) )
@@ -53,12 +66,12 @@ struct
   let add_nl basetree subtree =
     let subtrees =
       match subtree with
-      | Operator ("\\\\", subtrees) -> subtrees
+      | Operator (("\\\\" | "\\newline"), subtrees) -> subtrees
       | Operator ("&", _) -> [subtree]
       | _ -> []
     in 
     match basetree with
-    | Operator ("\\\\", basetrees) -> 
+    | Operator (("\\\\" | "\\newline"), basetrees) -> 
         Operator ("\\\\", subtrees@basetrees)
     | _ -> 
         Operator ("\\\\", subtrees@[basetree])
@@ -74,7 +87,7 @@ struct
             Operator ("&", subtrees@nullop)
         | Operator ("&", basetrees) -> 
             Operator ("&", subtrees@basetrees)
-        | Operator ("\\\\", baselast::basetrees) ->
+        | Operator (("\\\\" | "\\newline"), baselast::basetrees) ->
             Operator ("\\\\", (add_amp baselast subtree)::basetrees)
         | _ -> 
             Operator ("&", subtrees@[basetree]) )
@@ -85,7 +98,7 @@ struct
     match subtree with
     | Operator (subop, subtrees) ->
       ( match basetree with
-        | Operator (("\\\\" | "&") as opstr, baselast::basetrees) ->
+        | Operator (("\\\\" | "\\newline" | "&") as opstr, baselast::basetrees) ->
             Operator (opstr, (add_infix baselast subtree)::basetrees)
         | Operator ("", baselast::basetrees) ->
             Operator 
@@ -206,10 +219,11 @@ struct
         let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
           parse_a
             ( ( match lexem with 
-                | "^" | "_" -> add_infix
-                | "&"       -> add_amp
-                | "\\\\"    -> add_nl 
-                | _         -> add )
+                | "^" | "_"   -> add_infix
+                | "&"         -> add_amp
+                | "\\\\"      -> add_nl 
+                | "\\newline" -> add_nl 
+                | _           -> add )
                 accum 
                 subtree ) 
             lexlist 
