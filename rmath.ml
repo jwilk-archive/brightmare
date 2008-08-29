@@ -30,6 +30,7 @@ struct
 
   let width box = Render.width box.rbox
   let height box = Render.height box.rbox
+  let baseline box = box.baseline
 
   let s str = 
     { rbox = Render.s str;
@@ -174,8 +175,16 @@ struct
       | Delim_vert        -> 0x2502, 0x2502, 0x2502
       | Delim_doublevert  -> 0x2551, 0x2551, 0x2551 
   in
-      { rbox = Render.join_v 'Q' [c tu; (vline p).rbox; c mu; (vline q).rbox; c bu];
-        baseline = sbox.baseline }
+  let
+    baseline = 
+      if (height sbox = 2) && (sbox.baseline = 0)
+      then
+        1
+      else
+        sbox.baseline
+  in
+    { rbox = Render.join_v 'Q' [c tu; (vline p).rbox; c mu; (vline q).rbox; c bu];
+      baseline = baseline }
 
   let sum () =
     let 

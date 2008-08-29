@@ -2,10 +2,10 @@ include Dictionary2
 
 let main_commands = make [
 (* spacing:: *)               (* TODO: not implemented *)
-  "\\!",          (0, 0);
-  "\\+",          (0, 0);
-  "\\,",          (0, 0);
-  "\\;",          (0, 0);
+  "\\!",          (0, 0); (* imp. *)
+  "\\;",          (0, 0); (* imp. *)
+  "\\:",          (0, 0); (* imp. *)
+  "\\,",          (0, 0); (* imp. *)
   "\\bigskip",    (0, 0);
   "\\hfill",      (0, 0);
   "\\hspace",     (0, 1);
@@ -20,7 +20,6 @@ let main_commands = make [
 (* some other commands:: *)   (* TODO: not implemented *)
   "\\hrulefill",  (0, 0);
   "\\fbox",       (0, 1);
-  "\\mbox",       (0, 1);
 (* math-mode accents:: *)     (* TODO: not implemented *)
   "\\acute",      (0, 0);
   "\\bar",        (0, 1);
@@ -45,6 +44,9 @@ let main_commands = make [
   "\\genfrac",        (0, 6); (* TODO: not implemented *)
   "\\binom",          (0, 2);
   "\\sqrt",           (1, 1);
+  "\\mod",            (0, 0);
+  "\\bmod",           (0, 0);
+  "\\pmod",           (0, 1);
 (* hmm... *)
   "\\mathop",         (0, 1);
   "\\displaystyle",   (0, 0);
@@ -80,6 +82,8 @@ let alphabets = make [ (* TODO: not implemented *)
   "\\textrm",     ();
   "\\textit",     ();
   "\\emph",       ();
+  "\\mbox",       ();
+  "\\text",       ();
   "\\textmd",     ();
   "\\textbf",     ();
   "\\textup",     ();
@@ -303,9 +307,11 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\Longleftarrow",      0x27f8;
   "\\longleftrightarrow", 0x27f7;
   "\\Longleftrightarrow", 0x27fa;
+  "\\iff",                0x27fa;
   "\\longmapsto",         0x27fc;
   "\\longrightarrow",     0x27f6;
   "\\Longrightarrow",     0x27f9;
+  "\\implies",            0x27f9;
   "\\mapsto",             0x21a6;
   "\\nearrow",            0x2197;
   "\\nwarrow",            0x2196;
@@ -357,48 +363,48 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
 (* small Greek letters:: *)
   "\\alpha",      0x03b1;
   "\\beta",       0x03b2;
-  "\\gamma",      0x03b3;
-  "\\digamma",    0x03dc;
+  "\\chi",        0x03c7;
   "\\delta",      0x03b4;
+  "\\digamma",    0x03dc;
   "\\epsilon",    0x03b5;
-  "\\varepsilon", 0x220a;
-  "\\zeta",       0x03b6;
   "\\eta",        0x03b7;
-  "\\theta",      0x03b8;
-  "\\vartheta",   0x03d1;
+  "\\gamma",      0x03b3;
   "\\iota",       0x03b9;
   "\\kappa",      0x03ba;
-  "\\varkappa",   0x03f0;
   "\\lambda",     0x03bb;
   "\\mu",         0x03bc;
   "\\nu",         0x03bd;
-  "\\xi",         0x03be;
-  "\\pi",         0x03c0;
-  "\\varpi",      0x03d6;
-  "\\rho",        0x03c1;
-  "\\varrho",     0x03f1;
-  "\\sigma",      0x03c3;
-  "\\varsigma",   0x03c2;
-  "\\tau",        0x03c4;
-  "\\upsilon",    0x03c5;
-  "\\phi",        0x03d5;
-  "\\varphi",     0x03c6;
-  "\\chi",        0x03c7;
-  "\\psi",        0x03c8;
   "\\omega",      0x03c9;
+  "\\phi",        0x03c6;
+  "\\pi",         0x03c0;
+  "\\psi",        0x03c8;
+  "\\rho",        0x03c1;
+  "\\sigma",      0x03c3;
+  "\\tau",        0x03c4;
+  "\\theta",      0x03b8;
+  "\\upsilon",    0x03c5;
+  "\\varepsilon", 0x220a;
+  "\\varkappa",   0x03f0;
+  "\\varphi",     0x03d5;
+  "\\varpi",      0x03d6;
+  "\\varrho",     0x03f1;
+  "\\varsigma",   0x03c2;
+  "\\vartheta",   0x03d1;
+  "\\xi",         0x03be;
+  "\\zeta",       0x03b6;
 
 (* big Greek letters:: *)
-  "\\Gamma",      0x0393;
   "\\Delta",      0x0394;
-  "\\Theta",      0x0398;
+  "\\Gamma",      0x0393;
   "\\Lamdba",     0x039b;
-  "\\Xi",         0x039e;
-  "\\Pi",         0x03a0;
-  "\\Sigma",      0x03a3;
-  "\\Upsilon",    0x03a5;
-  "\\Phi",        0x03a6;
-  "\\Psi",        0x03a8;
   "\\Omega",      0x03a9;
+  "\\Phi",        0x03a6;
+  "\\Pi",         0x03a0;
+  "\\Psi",        0x03a8;
+  "\\Sigma",      0x03a3;
+  "\\Theta",      0x0398;
+  "\\Upsilon",    0x03a5;
+  "\\Xi",         0x039e;
 
 (* Hebrew letters:: *)
   "\\aleph",      0x2135;

@@ -83,7 +83,7 @@ struct
                   d1 = get_large_delim d1 box and
                   d2 = get_large_delim d2 box
                 in
-                  Rmath.join_h [d1;box;d2]
+                  Rmath.join_h [d1; box; d2]
             | _ -> Rmath.join_h [(make d1); box; (make d2)]
           ) 
       | Operator ("_", [sub; obj]) ->
@@ -189,9 +189,18 @@ struct
               matrix
           in
             Rmath.join_v rows
+      | Operator ("\\mathbb", [Element "C"]) -> Rmath.s (1 ** (Uni.wchar_of_int 0x2102))
+      | Operator ("\\mathbb", [Element "H"]) -> Rmath.s (1 ** (Uni.wchar_of_int 0x210D))
+      | Operator ("\\mathbb", [Element "N"]) -> Rmath.s (1 ** (Uni.wchar_of_int 0x2115))
+      | Operator ("\\mathbb", [Element "P"]) -> Rmath.s (1 ** (Uni.wchar_of_int 0x2119))
+      | Operator ("\\mathbb", [Element "Q"]) -> Rmath.s (1 ** (Uni.wchar_of_int 0x211a))
+      | Operator ("\\mathbb", [Element "R"]) -> Rmath.s (1 ** (Uni.wchar_of_int 0x211d))
+      | Operator ("\\mathbb", [Element "Z"]) -> Rmath.s (1 ** (Uni.wchar_of_int 0x2124))
       | Operator (op, treelist) ->
           let boxlist = ListEx.map make treelist in
           match (op, boxlist) with
+          | "\\!", [] -> Rmath.empty 0 1
+          | ("\\;" | "\\:" | "\\,"), [] -> Rmath.empty 1 1
           | "\\overbrace",      [b] -> 
               Rmath.join_top b (Rmath.overornament b Rmath.Ornament_brace)
           | "\\overleftarrow",  [b] ->
@@ -225,6 +234,19 @@ struct
                 (fun accum box -> Rmath.join_h [accum; Rmath.empty 3 1; box])
                 b1
                 boxlist
+          | ("\\mod" | "\\bmod"), [] -> Rmath.s (Uni.from_string "mod")
+          | "\\pmod", [b] ->
+              let spc = Rmath.empty 2 1 in
+              let d x = Rmath.Delim_bracket (x,  Rmath.Bracket_round) in
+              let (d1, d2) = 
+                if (Rmath.height b) > 1 then
+                  Rmath.largedelimiter b (d true),
+                  Rmath.largedelimiter b (d false)
+                else
+                  Rmath.s (Uni.from_string "("), Rmath.s (Uni.from_string ")")
+              in
+              let modb = Rmath.s (Uni.from_string "mod ") in
+                Rmath.join_h [spc; d1; modb; b; d2]
           | opstr, [] -> 
               if LatDict.exists opstr LatDict.symbols
               then
@@ -238,11 +260,11 @@ struct
                 Rmath.s (Uni.from_string opstr)
           | ("" | "[" | "\\mathop"), _ -> Rmath.join_h boxlist
           | "\\binom", [b1; b2] ->
-            let b = Rmath.fraclike b1 b2 in
-            let d x = Rmath.Delim_bracket (x,  Rmath.Bracket_round) in
-            let d1 = Rmath.largedelimiter b (d true) in
-            let d2 = Rmath.largedelimiter b (d false) in
-              Rmath.join_h [d1; b; d2]
+              let b = Rmath.fraclike b1 b2 in
+              let d x = Rmath.Delim_bracket (x,  Rmath.Bracket_round) in
+              let d1 = Rmath.largedelimiter b (d true) in
+              let d2 = Rmath.largedelimiter b (d false) in
+                Rmath.join_h [d1; b; d2]
           | ("\\frac" | "\\cfrac"), [b1; b2] -> Rmath.frac b1 b2
           | "\\sqrt", [bi; b] -> Rmath.sqrt b bi
           | "\\sqrt", [b] -> Rmath.sqrt b (Rmath.empty 1 1)

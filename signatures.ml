@@ -69,6 +69,7 @@ end
 module type RMATH =
 sig
   include SIMPLE_RENDER
+  val baseline : t -> int
   val align : char -> t -> int -> t
   val join_h : t list -> t
   val join_v : t list -> t
