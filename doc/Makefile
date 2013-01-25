@@ -7,7 +7,7 @@ all: $(man_files)
 
 .PHONY: clean
 clean:
-	$(RM) $(wildcard *.1)
+	rm -f *.1
 
 %.1: %.xml
 	xsltproc --output $(@) $(xsl) $(<)
