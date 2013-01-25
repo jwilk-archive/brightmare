@@ -52,10 +52,6 @@
 
 <refsection>
 	<title>Options</title>
-	<para>
-		<command>&p;</command> accepts the following options:
-	</para>
-
 	<variablelist>
 		<varlistentry>
 			<term><option>--debug</option></term>
