@@ -12,17 +12,9 @@
 	<productname>BrightMaRe</productname>
 	<author>
 		<firstname>Jakub</firstname> <surname>Wilk</surname>
-		<affiliation>
-			<address>
-				<email>jwilk@jwilk.net</email>
-			</address>
-		</affiliation>
+		<email>jwilk@jwilk.net</email>
 	</author>
-	<copyright>
-		<year>2008</year>
-		<holder>Jakub Wilk</holder>
-	</copyright>
-	<date>2008-01-20</date>
+	<date>2013-01-25</date>
 </refentryinfo>
 
 <refmeta>
@@ -58,7 +50,7 @@
 	</cmdsynopsis>
 </refsynopsisdiv>
 
-<refsect1>
+<refsection>
 	<title>Options</title>
 	<para>
 		<command>&p;</command> accepts the following options:
@@ -99,9 +91,9 @@
 			</listitem>
 		</varlistentry>
 	</variablelist>
-</refsect1>
+</refsection>
 
-<refsect1>
+<refsection>
 	<title>Example</title>
 	<screen><!--
 --><prompt>$</prompt> ./brightmare '\sqrt{T_EX}'
@@ -109,9 +101,9 @@
  |T X
 \| E
 </screen>
-</refsect1>
+</refsection>
 
-<refsect1>
+<refsection>
 	<title>See also</title>
 	<para>
 		<citerefentry>
@@ -127,7 +119,7 @@
 			<manvolnum>7</manvolnum>
 		</citerefentry>.
 	</para>
-</refsect1>
+</refsection>
 
 </refentry>
 
