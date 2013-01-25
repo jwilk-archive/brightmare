@@ -1,5 +1,4 @@
-DB2MAN = /usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl
-
+XSL = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
 XML_FILES = $(wildcard *.xml)
 MAN_FILES = $(XML_FILES:.xml=.1)
 
@@ -11,6 +10,6 @@ clean:
 	$(RM) $(wildcard *.1)
 
 %.1: %.xml
-	xsltproc --output $(@) $(DB2MAN) $(<)
+	xsltproc --output $(@) $(XSL) $(<)
 
 # vim:ts=4 sw=4
