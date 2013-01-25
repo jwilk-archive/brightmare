@@ -1,5 +1,3 @@
-VERSION = $(shell sed -nre '1 s/.*"([0-9.]+)".*/\1/p' version.ml)
-
 DIST_FILES = README README.devel Makefile Makefile.dep $(SOURCE_FILES)
 TEST_FILES = $(wildcard test/*)
 SOURCE_FILES = $(C_FILES) $(ML_FILES) $(MLI_FILES)
