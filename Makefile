@@ -68,6 +68,6 @@ test: all
 
 .PHONY: clean
 clean: Makefile.dep
-	$(RM) brightmare brightmare-html *.cmi *.cmo *.cmx *.o *~ a.out
+	rm -f brightmare brightmare-html *.cmi *.cmo *.cmx *.o *~ a.out
 
 # vim:ts=4 sw=4
