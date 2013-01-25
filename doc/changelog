@@ -1,3 +1,9 @@
+brightmare (0.35) UNRELEASED; urgency=low
+
+  * 
+
+ -- Jakub Wilk <jwilk@jwilk.net>  Fri, 25 Jan 2013 17:42:29 +0100
+
 brightmare (0.34.2) unstable; urgency=low
 
   * Fix a syntax error, which appears with current OCaml compiler.

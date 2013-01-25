@@ -11,7 +11,7 @@
  * GNU General Public License for more details.
  *)
 
-let version = "0.34.2"
+let version = "0.35"
 
 let product_name = 
   "BrightMaRe v. " ^ 
