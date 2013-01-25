@@ -66,19 +66,19 @@
 		<varlistentry>
 			<term><option>--html</option></term>
 			<listitem>
-				<para>Use HTML output format.</para>
+				<para>Use the HTML output format.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
 			<term><option>--ascii</option></term>
 			<listitem>
-				<para>Force US-ASCII charset.</para>
+				<para>Force the US-ASCII encoding.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
 			<term><option>--utf8</option></term>
 			<listitem>
-				<para>Force UTF-8 charset.</para>
+				<para>Force the UTF-8 encoding.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
