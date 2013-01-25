@@ -37,6 +37,7 @@ OCAMLDEP = ocamldep.opt -native
 STRIP = strip -s
 FLAGS =
 
+.PHONY: all
 all: brightmare brightmare-html
 
 Makefile.dep: $(ML_FILES) $(MLI_FILES)
@@ -67,15 +68,8 @@ test: all
 		xargs -0 printf "\"%s\"\n" | \
 		xargs ./brightmare
 
-.PHONY: stats
-stats:
-	@echo $(shell cat $(SOURCE_FILES) | wc -l) lines.
-	@echo $(shell cat $(SOURCE_FILES) | wc -c) bytes.
-
 .PHONY: clean
 clean: Makefile.dep
 	$(RM) brightmare brightmare-html *.cmi *.cmo *.cmx *.o *~ a.out
-
-.PHONY: all test stats clean
 
 # vim:ts=4 sw=4
