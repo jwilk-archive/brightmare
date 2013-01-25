@@ -1,15 +1,15 @@
-XSL = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-XML_FILES = $(wildcard *.xml)
-MAN_FILES = $(XML_FILES:.xml=.1)
+xsl = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+xml_files = $(wildcard *.xml)
+man_files = $(xml_files:.xml=.1)
 
 .PHONY: all
-all: $(MAN_FILES)
+all: $(man_files)
 
 .PHONY: clean
 clean:
 	$(RM) $(wildcard *.1)
 
 %.1: %.xml
-	xsltproc --output $(@) $(XSL) $(<)
+	xsltproc --output $(@) $(xsl) $(<)
 
 # vim:ts=4 sw=4
