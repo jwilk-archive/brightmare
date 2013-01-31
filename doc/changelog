@@ -1,4 +1,4 @@
-brightmare (0.35) UNRELEASED; urgency=low
+brightmare (0.35) unstable; urgency=low
 
   * Change the license to the Expat license.
   * Improve error handling.
@@ -9,7 +9,7 @@ brightmare (0.35) UNRELEASED; urgency=low
   * Remove some unused cruft from Makefile.
   * Remove Debian packaging.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Thu, 31 Jan 2013 21:12:58 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu, 31 Jan 2013 21:23:42 +0100
 
 brightmare (0.34.2) unstable; urgency=low
 
