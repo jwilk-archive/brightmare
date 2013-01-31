@@ -1,0 +1,8 @@
+syntax: glob
+*.cmi
+*.cmo
+*.cmx
+*.o
+brightmare
+brightmare-html
+doc/*.1
