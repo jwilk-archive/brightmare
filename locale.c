@@ -21,6 +21,7 @@
  */
 
 #include <caml/alloc.h>
+#include <caml/fail.h>
 #include <caml/memory.h>
 #include <langinfo.h>
 #include <locale.h>
@@ -51,6 +52,11 @@ value utf8string_of_string(value s)
     locale_initialize();
   source = String_val(s);
   length = 1 + mbstowcs(NULL, source, 0);
+  if (length == 0)
+  {
+    /* mbstowcs(3) failed */
+    caml_failwith("utf8string_of_string");
+  }
   {
     wchar_t unir[length];
     char utf8r[3 * length];
