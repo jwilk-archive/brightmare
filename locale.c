@@ -87,4 +87,3 @@ value utf8string_of_string(value s)
 }
 
 /* vim: set tw=96 et ts=2 sw=2: */
-
