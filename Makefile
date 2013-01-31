@@ -1,8 +1,6 @@
-DIST_FILES = README README.devel Makefile Makefile.dep $(SOURCE_FILES)
-TEST_FILES = $(wildcard test/*)
-SOURCE_FILES = $(C_FILES) $(ML_FILES) $(MLI_FILES)
-C_FILES = locale.c
-ML_FILES = \
+test_files = $(wildcard test/*)
+c_files = locale.c
+ml_files = \
 	signatures.ml \
 	version.ml \
 	listEx.ml strEx.ml \
@@ -16,7 +14,7 @@ ML_FILES = \
 	lexscan.ml \
 	parsetree.ml parse.ml interpret.ml interpret_debug.ml \
 	brightmare.ml
-MLI_FILES = \
+mli_files = \
 	locale.mli \
 	listEx.mli strEx.mli \
 	matrix.mli \
@@ -25,43 +23,40 @@ MLI_FILES = \
 	unicode.mli unicode_html.mli unicode_ascii.mli unicode_konwert.mli \
 	automaton.mli automaton2.mli
 
-CMI_FILES = $(MLI_FILES:mli=cmi)
-CMX_FILES = $(ML_FILES:ml=cmx)
-CMXA_FILES = unix.cmxa str.cmxa
-O_FILES = $(C_FILES:c=o)
+cmx_files = $(ml_files:ml=cmx)
+cmxa_files = unix.cmxa str.cmxa
+o_files = $(c_files:c=o)
 
 OCAMLOPT = ocamlopt.opt
 OCAMLDEP = ocamldep.opt -native
-STRIP = strip -s
-FLAGS =
+OCAMLFLAGS =
 
 .PHONY: all
 all: brightmare brightmare-html
 
-Makefile.dep: $(ML_FILES) $(MLI_FILES)
+Makefile.dep: $(ml_files) $(mli_files)
 	$(OCAMLDEP) $(^) > Makefile.dep
 
 include Makefile.dep
 
 %.cmi: %.mli
-	$(OCAMLOPT) $(FLAGS) -c $(<)
+	$(OCAMLOPT) $(OCAMLFLAGS) -c $(<)
 
 %.cmx: %.ml
-	$(OCAMLOPT) $(FLAGS) -c $(<)
+	$(OCAMLOPT) $(OCAMLFLAGS) -c $(<)
 
 %.o: %.c
-	$(OCAMLOPT) $(FLAGS) -c $(<)
+	$(OCAMLOPT) $(OCAMLFLAGS) -c $(<)
 
-brightmare: $(CMX_FILES) $(O_FILES)
-	$(OCAMLOPT) $(FLAGS) $(CMXA_FILES) $(^) -o $(@)
-	$(STRIP) $(@)
+brightmare: $(cmx_files) $(o_files)
+	$(OCAMLOPT) $(OCAMLFLAGS) $(cmxa_files) $(^) -o $(@)
 
 brightmare-html: brightmare
 	ln -sf $(<) $(@)
 
 .PHONY: test
 test: all
-	cat $(TEST_FILES) | \
+	cat $(test_files) | \
 		tr '\n' '\0' | \
 		xargs -0 printf "\"%s\"\n" | \
 		xargs ./brightmare
