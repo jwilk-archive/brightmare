@@ -3,293 +3,293 @@
 |  _ \| '__| |/ _` | '_ \| __| '_ ` _ \ / _` | '__/ _ \
 | |_) | |  | | (_| | | | | |_| | | | | | (_| | | |  __/
 |____/|_|  |_|\__, |_| |_|\__|_| |_| |_|\__,_|_|  \___|
-Przewodnik    |___/           po sygnaturach i modu³ach
+Przewodnik    |___/           po sygnaturach i moduÅ‚ach
 
-1. Modu³y pomocnicze
+1. ModuÅ‚y pomocnicze
 
-  1.1. Modu³ *ListEx* -- <listEx.ml>, <listEx.mli>
-    Udostêpnia funkcje:
-      -- znajduj±ce minimum/maksimum na li¶cie: 
+  1.1. ModuÅ‚ *ListEx* -- <listEx.ml>, <listEx.mli>
+    UdostÄ™pnia funkcje:
+      -- znajdujÄ…ce minimum/maksimum na liÅ›cie: 
          [min], [max], [min_map], [max_map]
-      -- tworz±c± listê o zadanej d³ugo¶ci: [make]
-      -- inne funkcje zaimportowane ze standardowego modu³u List
+      -- tworzÄ…cÄ… listÄ™ o zadanej dÅ‚ugoÅ›ci: [make]
+      -- inne funkcje zaimportowane ze standardowego moduÅ‚u List
 
-  1.2. Modu³ *StrEx* <strEx.ml>, <strEx.mli>
-    Udostêpnia funkcje:
-      -- zamieniaj±c± napis na listê znaków, z których siê sk³ada: [as_list]
-      -- ³±cz±c± dwa napisy: [( ++ )]
-      -- zwielokratniaj±c± znak: [( ** )]
-      -- zwielokratniaj±c± napis: [( **! )]
-      -- inne funkcje zaimportowane ze standardowych modu³ów *String* 
+  1.2. ModuÅ‚ *StrEx* <strEx.ml>, <strEx.mli>
+    UdostÄ™pnia funkcje:
+      -- zamieniajÄ…cÄ… napis na listÄ™ znakÃ³w, z ktÃ³rych siÄ™ skÅ‚ada: [as_list]
+      -- Å‚Ä…czÄ…cÄ… dwa napisy: [( ++ )]
+      -- zwielokratniajÄ…cÄ… znak: [( ** )]
+      -- zwielokratniajÄ…cÄ… napis: [( **! )]
+      -- inne funkcje zaimportowane ze standardowych moduÅ‚Ã³w *String* 
          oraz *Str*
 
-  1.3. Modu³y *Unicore* i *Unicore_convert* -- <unicore.ml>, <unicore.mli>,
+  1.3. ModuÅ‚y *Unicore* i *Unicore_convert* -- <unicore.ml>, <unicore.mli>,
        <unicore_convert.ml>, <unicore_convert.mli>
-    Udostêpniaj± funkcje:
-      -- daj±c± napis sk³adaj±cy siê z jednego znaku zakodowanego w UTF-8 
+    UdostÄ™pniajÄ… funkcje:
+      -- dajÄ…cÄ… napis skÅ‚adajÄ…cy siÄ™ z jednego znaku zakodowanego w UTF-8 
          o zadanym kodzie: [utf8char_of_int]
-      -- zamieniaj±ca znak zakodowany w ISO-8859-1 na jednoznakowy napis
+      -- zamieniajÄ…ca znak zakodowany w ISO-8859-1 na jednoznakowy napis
          zakodowany w UTF-8: [utf8char_of_char]
-      -- daj±c± ilo¶æ znaków napisu zakodowanego w UTF-8:
+      -- dajÄ…cÄ… iloÅ›Ä‡ znakÃ³w napisu zakodowanego w UTF-8:
          [utf8string_length]
-      -- daj±c± reprezentacjê znaku o zadanym kodzie w napisach ASCII:
+      -- dajÄ…cÄ… reprezentacjÄ™ znaku o zadanym kodzie w napisach ASCII:
          [ascii_of_int]
-    Modu³ *Unicore_convert* zale¿y od modu³u *Dictionary*.
+    ModuÅ‚ *Unicore_convert* zaleÅ¼y od moduÅ‚u *Dictionary*.
 
-  1.4. Modu³ *Locale* -- <locale.c>, <locale.mli>
-    Modu³ udostêpnia funkcjê [charmap], która zwraca nazwê systemu kodowania
-    znaków odpowiedniego dla aktualnego locale.
+  1.4. ModuÅ‚ *Locale* -- <locale.c>, <locale.mli>
+    ModuÅ‚ udostÄ™pnia funkcjÄ™ [charmap], ktÃ³ra zwraca nazwÄ™ systemu kodowania
+    znakÃ³w odpowiedniego dla aktualnego locale.
     
 2. Unikod
 
   2.1. Sygatura UNICODE -- <signatures.ml>
-    Modu³ o takiej sygnaturze udostêpnia:
+    ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
       -- typ [wchar] i [t] = [wstring]: znak i napis unikodowy
-      -- funkcje konwersji do znaków unikodowych: [wchar_of_int] oraz
+      -- funkcje konwersji do znakÃ³w unikodowych: [wchar_of_int] oraz
          [wchar_of_char]
-      -- funkcjê konwertuj±ce do/z zwyk³ych napisów: [from_string] oraz
+      -- funkcjÄ™ konwertujÄ…ce do/z zwykÅ‚ych napisÃ³w: [from_string] oraz
          [to_string] 
       -- pusty napis unikodowy: [empty]
-      -- funkcjê daj±c± d³ugo¶æ napisu: [length]
-      -- funkcje [( ++ )] oraz [( ** )] analogiczne do tych z modu³u *StrEx*
+      -- funkcjÄ™ dajÄ…cÄ… dÅ‚ugoÅ›Ä‡ napisu: [length]
+      -- funkcje [( ++ )] oraz [( ** )] analogiczne do tych z moduÅ‚u *StrEx*
 
-    To jak powinny byæ zakodowane napisy wej¶ciowe, jak równie¿ to jak s±
-    zakodowane napisy wyj¶ciowe zale¿y od implementacji.
+    To jak powinny byÄ‡ zakodowane napisy wejÅ›ciowe, jak rÃ³wnieÅ¼ to jak sÄ…
+    zakodowane napisy wyjÅ›ciowe zaleÅ¼y od implementacji.
 
-  2.2. Modu³ *Unicode* : *UNICODE* -- <unicode.ml>
+  2.2. ModuÅ‚ *Unicode* : *UNICODE* -- <unicode.ml>
     Najprotsza implementacja sygnatury *UNICODE*:
-      -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zale¿no¶ci
+      -- oczekuje napisÃ³w zakodowanych w ISO-8859-1 lub UTF-8 (w zaleÅ¼noÅ›ci
          od locale),
       -- zwraca napisay zakodowane w UTF-8.
-    Zale¿y od modu³ów: *Locale*, *Unicore*
+    ZaleÅ¼y od moduÅ‚Ã³w: *Locale*, *Unicore*
 
-  2.3. Modu³ *Unicode_ascii* : *UNICODE* -- <unicode_ascii.ml>
+  2.3. ModuÅ‚ *Unicode_ascii* : *UNICODE* -- <unicode_ascii.ml>
     Implementacja standardowa:
-      -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zale¿no¶ci
+      -- oczekuje napisÃ³w zakodowanych w ISO-8859-1 lub UTF-8 (w zaleÅ¼noÅ›ci
          od locale),
       -- zwraca napisay zakodowane w ASCII.
-    Konwersjê obs³uguje modu³ *Unicore_convert*.
-    Zale¿y od modu³ów: *Locale*, *Unicore*, *Unicore_convert*.
+    KonwersjÄ™ obsÅ‚uguje moduÅ‚ *Unicore_convert*.
+    ZaleÅ¼y od moduÅ‚Ã³w: *Locale*, *Unicore*, *Unicore_convert*.
 
-  2.4. Modu³ *Unicode_konwert* : *UNICODE* -- <unicode_konwert.ml>
-    Implementacja za pomoc± zewnêtrznego konwertera:
+  2.4. ModuÅ‚ *Unicode_konwert* : *UNICODE* -- <unicode_konwert.ml>
+    Implementacja za pomocÄ… zewnÄ™trznego konwertera:
       -- oczekuje i zwraca napisy zakodowane w ISO-8859-n lub UTF-8 
-         (w zale¿no¶ci od locale).
-    Konwersjê przeprowadza zewnêtrzny program `konwert'
+         (w zaleÅ¼noÅ›ci od locale).
+    KonwersjÄ™ przeprowadza zewnÄ™trzny program `konwert'
     (<http://qrczak.ids.net.pl/programy/linux/konwert/>).
-    Zale¿y od modu³ów: *Locale*, *Unicore*.
+    ZaleÅ¼y od moduÅ‚Ã³w: *Locale*, *Unicore*.
 
-  2.5. Modu³ *Unicode_html* : *UNICODE* -- <unicode_html.ml>
+  2.5. ModuÅ‚ *Unicode_html* : *UNICODE* -- <unicode_html.ml>
     Implementacja na potrzeby HTML-a:
-      -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zale¿no¶ci
+      -- oczekuje napisÃ³w zakodowanych w ISO-8859-1 lub UTF-8 (w zaleÅ¼noÅ›ci
          od locale),
       -- zwraca napisy zakodowane w ASCII, ze znakami spoza ASCII i
          specjalnymi jako encje HTML-owe.
-    Zale¿y od modu³ów: *Locale*, *Unicore*.
+    ZaleÅ¼y od moduÅ‚Ã³w: *Locale*, *Unicore*.
 
-3. S³owniki
+3. SÅ‚owniki
 
   3.1. Sygnatura *DICTIONARY* -- <signatures.ml>
-    Sygnatura statycznych, z³±czalnych s³owników, polimorficznych ze zwglêdu
-    na typ klucza i typ skojarzonej warto¶ci.
-    Modu³ o takiej sygnaturze udostêpnia:
-      -- typ [('a, 'b) t] s³ownika;
-      -- funkcje dostêpu: [get] (mo¿e zg³osiæ wyj±tek Not_found), [exists];
-      -- konstruktor z listy par klucz-warto¶æ: [make];
-      -- konstruktor z listy s³owników: [union];
-      -- funkcjê odwzorowuj±c± jeden s³ownik na inny: [map].
+    Sygnatura statycznych, zÅ‚Ä…czalnych sÅ‚ownikÃ³w, polimorficznych ze zwglÄ™du
+    na typ klucza i typ skojarzonej wartoÅ›ci.
+    ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+      -- typ [('a, 'b) t] sÅ‚ownika;
+      -- funkcje dostÄ™pu: [get] (moÅ¼e zgÅ‚osiÄ‡ wyjÄ…tek Not_found), [exists];
+      -- konstruktor z listy par klucz-wartoÅ›Ä‡: [make];
+      -- konstruktor z listy sÅ‚ownikÃ³w: [union];
+      -- funkcjÄ™ odwzorowujÄ…cÄ… jeden sÅ‚ownik na inny: [map].
 
-  3.2. Modu³ *Dictionary* : *DICTIONARY* -- <signatures.ml>
+  3.2. ModuÅ‚ *Dictionary* : *DICTIONARY* -- <signatures.ml>
     Implementacja oparta o drzewa BST.
-    Je¿eli lista par klucz-warto¶æ bêdzie posortowana, konstruktor utworzy
-    drzewo idealnie zrównowa¿one.
+    JeÅ¼eli lista par klucz-wartoÅ›Ä‡ bÄ™dzie posortowana, konstruktor utworzy
+    drzewo idealnie zrÃ³wnowaÅ¼one.
 
   3.2. Sygnatura *LATDICT* -- <signatures.ml>
-    Sygnatura zestawu s³owników symboli i poleceñ LaTeXa.
-    Modu³ o takiej sygnaturze udostêpnia:
-      -- wszysto to, co modu³ o sygnaturze *DICTIONARY*
-      -- s³ownik alfabetów (np. `\mathtt', `\mathbf'): [alphabets]
-      -- s³ownik operatorów o zmiennej wielko¶ci (np. `\sum', `bigcup'):
+    Sygnatura zestawu sÅ‚ownikÃ³w symboli i poleceÅ„ LaTeXa.
+    ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+      -- wszysto to, co moduÅ‚ o sygnaturze *DICTIONARY*
+      -- sÅ‚ownik alfabetÃ³w (np. `\mathtt', `\mathbf'): [alphabets]
+      -- sÅ‚ownik operatorÃ³w o zmiennej wielkoÅ›ci (np. `\sum', `bigcup'):
          [operators]
-      -- s³ownik symboli typu log (np. `\sin', `\sup'): [loglikes]
-      -- s³ownik symboli ograniczników (warto¶ci± jest kod Unicode):
+      -- sÅ‚ownik symboli typu log (np. `\sin', `\sup'): [loglikes]
+      -- sÅ‚ownik symboli ogranicznikÃ³w (wartoÅ›ciÄ… jest kod Unicode):
          [delimiters]
-      -- s³ownik wszystkich symboli (warto¶ci± jest kod Unicode):
+      -- sÅ‚ownik wszystkich symboli (wartoÅ›ciÄ… jest kod Unicode):
          [symbols]
-      -- s³ownik wszystkich poleceñ (w tym symboli o nazwach zaczynaj±cych
-         siê od '\'; warto¶ci± jest para:
-         ile_argumentów_opcjonalnych-ile_argumentów_obowi±zkowych):
+      -- sÅ‚ownik wszystkich poleceÅ„ (w tym symboli o nazwach zaczynajÄ…cych
+         siÄ™ od '\'; wartoÅ›ciÄ… jest para:
+         ile_argumentÃ³w_opcjonalnych-ile_argumentÃ³w_obowiÄ…zkowych):
          [commands].
 
-    TODO: Prawdopodobnie sensowne by³oby drobniejsze rozbicie symboli 
-    na kilka s³owników wg pe³nionych funkcji -- to umo¿liwi³oby automatyczne
-    wstawianie odpowiednich odstêpów miêdzy symbole, czego na razie brak.
+    TODO: Prawdopodobnie sensowne byÅ‚oby drobniejsze rozbicie symboli 
+    na kilka sÅ‚ownikÃ³w wg peÅ‚nionych funkcji -- to umoÅ¼liwiÅ‚oby automatyczne
+    wstawianie odpowiednich odstÄ™pÃ³w miÄ™dzy symbole, czego na razie brak.
 
-  3.3. Modu³ *Latex_dictionary* : *LATDICT* -- <latex_dictionary.ml>
-    TODO: Wymaga wielu uzupe³nieñ.
-    Zale¿y od modu³u *Dictionary*.
+  3.3. ModuÅ‚ *Latex_dictionary* : *LATDICT* -- <latex_dictionary.ml>
+    TODO: Wymaga wielu uzupeÅ‚nieÅ„.
+    ZaleÅ¼y od moduÅ‚u *Dictionary*.
 
-3. Analiza i interpretacja danych wej¶ciowych
+3. Analiza i interpretacja danych wejÅ›ciowych
 
   4.1. Analiza leksykalna
 
     4.1.1. Sygnatury *AUTOMATON* i *LEX_AUTOMATON* -- <signatures.ml>
-      Sygnatura *AUTOMATON* to sygnatura automatów skoñczonych.
-      Modu³ o takiej sygnaturze udostêpnia:
-        -- typ automatu [t] (z za³o¿enia abstrakcyjny),
+      Sygnatura *AUTOMATON* to sygnatura automatÃ³w skoÅ„czonych.
+      ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+        -- typ automatu [t] (z zaÅ‚oÅ¼enia abstrakcyjny),
         -- typ publicznie widocznego stanu [s],
-        -- typ poleceñ [command],
-        -- stan domy¶lny: [default],
-        -- funkcjê daj±c± publicznie widoczny stan: [pubstate]
-        -- funkcjê ,,karmi±c±'' automat poleceniem: [execute]
+        -- typ poleceÅ„ [command],
+        -- stan domyÅ›lny: [default],
+        -- funkcjÄ™ dajÄ…cÄ… publicznie widoczny stan: [pubstate]
+        -- funkcjÄ™ ,,karmiÄ…cÄ…'' automat poleceniem: [execute]
       Sygnatura *LEX_AUTOMATON* to sygnatura *AUTOMATON* z ukonkretnionymi
       typami: [command = char] oraz [s = bool].
-      Automat o takiej sygnaturze ma s³u¿yæ do rozpoznawania koñca leksemu 
-      w ci±gu znaków, którymi jest ,,karmiony''. 
-      Publiczny stan [true] oznacza, ¿e poprzednio wczytany znak koñczy³
+      Automat o takiej sygnaturze ma sÅ‚uÅ¼yÄ‡ do rozpoznawania koÅ„ca leksemu 
+      w ciÄ…gu znakÃ³w, ktÃ³rymi jest ,,karmiony''. 
+      Publiczny stan [true] oznacza, Å¼e poprzednio wczytany znak koÅ„czyÅ‚
       leksem.
 
-    4.1.2. Modu³ *Automaton* : *LEX_AUTOMATON* -- <automaton.ml>
-      Automat rozpoznaj±cy leksemy TeX-owe.
+    4.1.2. ModuÅ‚ *Automaton* : *LEX_AUTOMATON* -- <automaton.ml>
+      Automat rozpoznajÄ…cy leksemy TeX-owe.
 
-    4.1.3. Modu³ *Automaton2* : *LEX_AUTOMATON* -- <automaton2.ml>
-      Automat rozpoznaj±cy leksemy TeX-opodobne. Zasadniczym odstêpstwem
-      jest traktowanie zawsze ci±gu cyfr jako ca³o¶ci. Zastosowanie tego
-      modu³u zamiast modu³u *Automaton* daje niepoprawne, 
+    4.1.3. ModuÅ‚ *Automaton2* : *LEX_AUTOMATON* -- <automaton2.ml>
+      Automat rozpoznajÄ…cy leksemy TeX-opodobne. Zasadniczym odstÄ™pstwem
+      jest traktowanie zawsze ciÄ…gu cyfr jako caÅ‚oÅ›ci. Zastosowanie tego
+      moduÅ‚u zamiast moduÅ‚u *Automaton* daje niepoprawne, 
       ale za to intuicyjne wyniki, takie jak ten:
       |          32                    3
       | x^32 -> x      --zamiast--    x 2
 
     4.1.4. Sygnatura *LEXSCAN* -- <signatures.ml>
-      Prosta sygnatura modu³u przeprowadzaj±cego analizê leksykaln±: 
-      jedyn± udostêpnion± funkcj± jest [make], która przekszta³ca napis 
-      na listê napisów (leksemów).
+      Prosta sygnatura moduÅ‚u przeprowadzajÄ…cego analizÄ™ leksykalnÄ…: 
+      jedynÄ… udostÄ™pnionÄ… funkcjÄ… jest [make], ktÃ³ra przeksztaÅ‚ca napis 
+      na listÄ™ napisÃ³w (leksemÃ³w).
 
     4.1.5. Funktor Lexscan.Make() : *LEXSCAN* -- <lexscan.ml>
       Naturalna implementacja analizy leksykalnej przy pomocy automatu
-      skoñczonego o sygnaturze *LEX_AUTOMATON* (parametr).
+      skoÅ„czonego o sygnaturze *LEX_AUTOMATON* (parametr).
 
-  4.2. Analiza sk³adniowa
+  4.2. Analiza skÅ‚adniowa
 
-    4.2.1. Modu³ *Parsetree* -- <parsetree.ml>
-      Zawiera jedynie implementacjê typu [t] drzewa analizy sk³adniowej.
-      Na potrzeby modu³ów *Parse* i *Interpret*.  
+    4.2.1. ModuÅ‚ *Parsetree* -- <parsetree.ml>
+      Zawiera jedynie implementacjÄ™ typu [t] drzewa analizy skÅ‚adniowej.
+      Na potrzeby moduÅ‚Ã³w *Parse* i *Interpret*.  
 
     4.2.2. Sygnatura *PARSE* -- <signatures.ml>
-      Prosta sygnatyra modu³u doknuj±cego analizy sk³adniowej.
-      Modu³ o takiej sygnaturze udostêpnia:
-        -- typ [t] drzewa analizy sk³adniowej,
-        -- wyj±tek [Parse_error],
-        -- funkcjê [from_lexems] tej analizy dokonuj±cej.
+      Prosta sygnatyra moduÅ‚u doknujÄ…cego analizy skÅ‚adniowej.
+      ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+        -- typ [t] drzewa analizy skÅ‚adniowej,
+        -- wyjÄ…tek [Parse_error],
+        -- funkcjÄ™ [from_lexems] tej analizy dokonujÄ…cej.
 
     4.2.3. Funktor *Parse.Make()* : *PARSE'* -- <parse.ml>
-      Implementacja analizy leksykalnej przeprowadzonej przy pomocy s³owników
+      Implementacja analizy leksykalnej przeprowadzonej przy pomocy sÅ‚ownikÃ³w
       LaTeX-owych o sygnaturze *LATDICT* (parametr), o typie [t = Parsetree.t].
-      Wyj±tek [Parse_error] nie jest nigdy zg³aszany.
+      WyjÄ…tek [Parse_error] nie jest nigdy zgÅ‚aszany.
 
   4.3. Interpretacja
 
     4.3.1. Sygnatura *INTERPRET* -- <signatures.ml>
-      Sygnatura interpretera wyniku, jaki uzyska³ analizator sk³adniowy.
-      Modu³ o takiej sygnaturze udostêpnia:
-        -- typ [t] drzewa analizy sk³adniowej,
+      Sygnatura interpretera wyniku, jaki uzyskaÅ‚ analizator skÅ‚adniowy.
+      ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+        -- typ [t] drzewa analizy skÅ‚adniowej,
         -- typ wynikowy [s],
-        -- funkcjê przeprowadzaj±c± konwersjê: [make].
-      To czym jest wynik zale¿y tylko od implementacji.
+        -- funkcjÄ™ przeprowadzajÄ…cÄ… konwersjÄ™: [make].
+      To czym jest wynik zaleÅ¼y tylko od implementacji.
 
     4.3.2. Funktor *Interpret.Make()()()* : *INTERPRET'* -- <interpret.ml>
-      Interpreter wyniku analizy sk³adniowej. Dokonuje siê jej z pomoc±:
-        -- modu³u obs³ugi Unikodu (parametr) o sygnaturze *UNICODE*,
-        -- s³owników LaTeX-owych (parametr) o sygnaturze *LATDICT*.
-      Wynikiem jest obraz utworzony przy pomocy modu³u wizualizacji wzorów
+      Interpreter wyniku analizy skÅ‚adniowej. Dokonuje siÄ™ jej z pomocÄ…:
+        -- moduÅ‚u obsÅ‚ugi Unikodu (parametr) o sygnaturze *UNICODE*,
+        -- sÅ‚ownikÃ³w LaTeX-owych (parametr) o sygnaturze *LATDICT*.
+      Wynikiem jest obraz utworzony przy pomocy moduÅ‚u wizualizacji wzorÃ³w
       (parametr) o sygnaturze RMATH'.
 
     4.3.3. Funktor *Interpret_debug.Make()* : *INTERPRET'* --
            <interpret_debug.ml>
-      Funkcjonalno¶æ modu³ o sygnaturze *INTERPRET* (parametr) zostaje
-      rozszerzona o wypisywanie na standardowe wyj¶cie samego drzewa analizy
-      sk³adniowej.
+      FunkcjonalnoÅ›Ä‡ moduÅ‚ o sygnaturze *INTERPRET* (parametr) zostaje
+      rozszerzona o wypisywanie na standardowe wyjÅ›cie samego drzewa analizy
+      skÅ‚adniowej.
 
 5. Wizualizacja
 
   5.1. Wizualizacja abstrakcyjna
     5.1.1. Sygnatura *DECORATION* -- <signatures.ml>
-      Modu³ o takiej sygnaturze udostêpnia:
-        -- napis wstawiany na pocz±tku/koñcu linii: [line_begin], [line_end]
-        -- napis wstawiany na pocz±tku/koñcu wzoru: 
+      ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+        -- napis wstawiany na poczÄ…tku/koÅ„cu linii: [line_begin], [line_end]
+        -- napis wstawiany na poczÄ…tku/koÅ„cu wzoru: 
            [formula_begin], [formula_end]
 
-    5.1.2. Modu³y *Decoration*, *Decoration_ansi* i *Decoration_html* --
+    5.1.2. ModuÅ‚y *Decoration*, *Decoration_ansi* i *Decoration_html* --
            <decoration.ml>, <decoration_ansi.ml>, <decoration_html.ml>
 
     5.1.3. Sygnatura *SIMPLE_RENDER* -- <signatures.ml>
       Sygnatura prostego wizualizatora.
-      Modu³ o takiej sygnaturze udostêpnia:
-        -- modu³ [Uni] o sygnaturze *UNICODE*, z którego korzysta;
+      ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+        -- moduÅ‚ [Uni] o sygnaturze *UNICODE*, z ktÃ³rego korzysta;
         -- typ obrazu [t];
         -- pusty obraz [empty];
-        -- funkcje daj±ce wysoko¶æ i szeroko¶æ obrazu: [width], [height];
-        -- funkcjê przekszta³caj±c± napis unikodowy (typu [Uni.t]) na obraz:
+        -- funkcje dajÄ…ce wysokoÅ›Ä‡ i szerokoÅ›Ä‡ obrazu: [width], [height];
+        -- funkcjÄ™ przeksztaÅ‚cajÄ…cÄ… napis unikodowy (typu [Uni.t]) na obraz:
            [s]
-        -- funkcjê dokonuj±c± wizualizacji: [render]
+        -- funkcjÄ™ dokonujÄ…cÄ… wizualizacji: [render]
         
     5.1.4. Sygnatura *RENDER* -- <signatures.ml>
-      Sygnatura wizualizatora opartego na ,,rachunku pude³kowym'': 
-      nowe obrazy (pude³ka) uzyskujemy przez odpowiednie sk³adanie innych
-      obrazów (pude³ek).
-      Modu³ o takiej sygnaturze udostêpnia:
-        -- wszystko to, co modu³ o sygnaturze *SIMPLE_RENDER*;
-        -- funkcjê daj±c± pude³ko o ustalonym rozmiarze, wype³nione zadanym
+      Sygnatura wizualizatora opartego na ,,rachunku pudeÅ‚kowym'': 
+      nowe obrazy (pudeÅ‚ka) uzyskujemy przez odpowiednie skÅ‚adanie innych
+      obrazÃ³w (pudeÅ‚ek).
+      ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+        -- wszystko to, co moduÅ‚ o sygnaturze *SIMPLE_RENDER*;
+        -- funkcjÄ™ dajÄ…cÄ… pudeÅ‚ko o ustalonym rozmiarze, wypeÅ‚nione zadanym
            znakiem unikodowym: [make]
-        -- funkcjê zwiêkszaj±c± rozmiar pude³ka poprzez rozszerzenie go 
+        -- funkcjÄ™ zwiÄ™kszajÄ…cÄ… rozmiar pudeÅ‚ka poprzez rozszerzenie go 
            w zadanym kierunku (kierunkach): [grow]
-        -- funkcje ³±cz±ce pude³ka w pionie i w poziomie: [join_v], [join_v]
-        -- funkcje ³±cz±ce pude³ka na ukos: [join_tr], [join_br]
-        -- funkcjê ³±cz±ca 4 pude³ka w jedno (ka¿de z pude³ek w jednym
+        -- funkcje Å‚Ä…czÄ…ce pudeÅ‚ka w pionie i w poziomie: [join_v], [join_v]
+        -- funkcje Å‚Ä…czÄ…ce pudeÅ‚ka na ukos: [join_tr], [join_br]
+        -- funkcjÄ™ Å‚Ä…czÄ…ca 4 pudeÅ‚ka w jedno (kaÅ¼de z pudeÅ‚ek w jednym
            rogu): [join4]
 
     5.1.5. Funktor *Render.Make()()* : *RENDER'* -- <render.ml>
-      Implementacja jest dokonywana z pomoc± modu³ów:
+      Implementacja jest dokonywana z pomocÄ… moduÅ‚Ã³w:
         -- o sygnaturze UNICODE (parametr);
         -- o sygnaturze DECORATION (parametr).
 
-  5.2. Wizualizacja wzorów
+  5.2. Wizualizacja wzorÃ³w
 
     5.2.1. Syngatura *RMATH* -- <signatures.ml>
-      Sygnatura wizualizatora wzorów matematycznych.
-      Docelowo powinna pozwoliæ skonstruowaæ obraz dowolnie wyszukany wzoru.
-      Modu³ o takiej sygnaturze udostêpnia:
-        -- wszystko to, co modu³ o sygnaturze *SIMPLE_RENDER*;
-        -- funkcjê ³±cz±c± w poziomie wiele pude³ek: [join_h];
-        -- funkcjê dostawiaj±c± pude³ko nad/pod/nad-i-pod pude³ko bazowe:
+      Sygnatura wizualizatora wzorÃ³w matematycznych.
+      Docelowo powinna pozwoliÄ‡ skonstruowaÄ‡ obraz dowolnie wyszukany wzoru.
+      ModuÅ‚ o takiej sygnaturze udostÄ™pnia:
+        -- wszystko to, co moduÅ‚ o sygnaturze *SIMPLE_RENDER*;
+        -- funkcjÄ™ Å‚Ä…czÄ…cÄ… w poziomie wiele pudeÅ‚ek: [join_h];
+        -- funkcjÄ™ dostawiajÄ…cÄ… pudeÅ‚ko nad/pod/nad-i-pod pudeÅ‚ko bazowe:
            [join_top], [join_bot], [join_topbot]
            [join_topbot];
-        -- funkcjê dostawiaj±c± do pude³ka bazowego indeks górny/dolny/oba
+        -- funkcjÄ™ dostawiajÄ…cÄ… do pudeÅ‚ka bazowego indeks gÃ³rny/dolny/oba
            indeksy: [join_NE], [join_SE], [join_NESE];
-        -- funkcje tworz±ce u³amek: [frac];
-        -- funkcjê tworz±c± pierwiastek: [sqrt];
+        -- funkcje tworzÄ…ce uÅ‚amek: [frac];
+        -- funkcjÄ™ tworzÄ…cÄ… pierwiastek: [sqrt];
         -- TODO: oraz kilka innych operacji;
-        -- funkcje tworz±ce du¿e symbole: [sum], [prod], [coprod],
+        -- funkcje tworzÄ…ce duÅ¼e symbole: [sum], [prod], [coprod],
            [intergral], [ointegral] (oraz wiele innych -- TODO)
-        -- typy i funkcje umo¿liwiaj±ce tworzenie ograniczników
-           dopasowanych do rozmiaru pude³ka bazowego: typy [bracket_t] i
+        -- typy i funkcje umoÅ¼liwiajÄ…ce tworzenie ogranicznikÃ³w
+           dopasowanych do rozmiaru pudeÅ‚ka bazowego: typy [bracket_t] i
            [delimiter_t], funkcja [largedelimiter]
-      Istotne jest, by w strukturze obrazu pamiêtana by³a tzw. linia bazowa
-      wzoru, dziêki czemu nie powstan± takie potworki w rodzaju:
+      Istotne jest, by w strukturze obrazu pamiÄ™tana byÅ‚a tzw. linia bazowa
+      wzoru, dziÄ™ki czemu nie powstanÄ… takie potworki w rodzaju:
       |  y       2
       | ---- +  y
       |   2    ----
       |  x      x
               
     5.2.2. Funktor *Rmath.Make()()* : *RMATH'* -- <rmath.ml>
-      Implementacja wizualizatora wzorów korzystaj±ca z modu³u obs³ugi
-      Unikodu o sygnaturze UNICODE (parametr), a do sk³adania pude³ek
-      u¿ywaj±cego modu³u ogólnego wizualizatora o sygnaturze RENDER'.
+      Implementacja wizualizatora wzorÃ³w korzystajÄ…ca z moduÅ‚u obsÅ‚ugi
+      Unikodu o sygnaturze UNICODE (parametr), a do skÅ‚adania pudeÅ‚ek
+      uÅ¼ywajÄ…cego moduÅ‚u ogÃ³lnego wizualizatora o sygnaturze RENDER'.
 
-6. Program g³ówny -- <brightmare.ml>
-  Program mo¿na (w sposób organiczony) sk³oniæ do wybrania odpowiedniego
-  zestawu modu³ów poprzez podanie parametrów `--html', `--nohtml',
+6. Program gÅ‚Ã³wny -- <brightmare.ml>
+  Program moÅ¼na (w sposÃ³b organiczony) skÅ‚oniÄ‡ do wybrania odpowiedniego
+  zestawu moduÅ‚Ã³w poprzez podanie parametrÃ³w `--html', `--nohtml',
   `--debug'.
-  Pozosta³e parametry s± traktowane jako wzory, które nale¿y zwizualizowaæ.
+  PozostaÅ‚e parametry sÄ… traktowane jako wzory, ktÃ³re naleÅ¼y zwizualizowaÄ‡.
 
-# vim:tw=76 et ts=2 sw=2 fenc=iso-8859-2
+# vim:tw=76 et ts=2 sw=2
