@@ -1,4 +1,4 @@
-# Copyright © 2006-2013 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2006-2015 Jakub Wilk <jwilk@jwilk.net>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the “Software”),
@@ -77,9 +77,7 @@ brightmare-html: brightmare
 .PHONY: test
 test: all
 	cat $(test_files) | \
-		tr '\n' '\0' | \
-		xargs -0 printf "\"%s\"\n" | \
-		xargs ./brightmare
+		xargs -d '\n' ./brightmare
 
 .PHONY: clean
 clean: Makefile.dep
