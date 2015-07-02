@@ -6,3 +6,4 @@ syntax: glob
 brightmare
 brightmare-html
 doc/*.1
+Makefile.dep
