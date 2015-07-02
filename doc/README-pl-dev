@@ -275,7 +275,7 @@ Przewodnik    |___/           po sygnaturach i modułach
            dopasowanych do rozmiaru pudełka bazowego: typy [bracket_t] i
            [delimiter_t], funkcja [largedelimiter]
       Istotne jest, by w strukturze obrazu pamiętana była tzw. linia bazowa
-      wzoru, dzięki czemu nie powstaną takie potworki w rodzaju:
+      wzoru, dzięki czemu nie powstaną potworki w rodzaju:
       |  y       2
       | ---- +  y
       |   2    ----
