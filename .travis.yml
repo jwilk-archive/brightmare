@@ -1,0 +1,10 @@
+language: c
+addons:
+  apt:
+    packages:
+    - ocaml-native-compilers
+script:
+- make
+- make test
+
+# vim:ts=2 sts=2 sw=2 et
