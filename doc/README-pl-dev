@@ -18,8 +18,8 @@ Przewodnik    |___/           po sygnaturach i modułach
     Udostępnia funkcje:
       -- zamieniającą napis na listę znaków, z których się składa: [as_list]
       -- łączącą dwa napisy: [( ++ )]
-      -- zwielokratniającą znak: [( ** )]
-      -- zwielokratniającą napis: [( **! )]
+      -- zwielokrotniającą znak: [( ** )]
+      -- zwielokrotniającą napis: [( **! )]
       -- inne funkcje zaimportowane ze standardowych modułów *String* 
          oraz *Str*
 
@@ -60,14 +60,14 @@ Przewodnik    |___/           po sygnaturach i modułach
     Najprotsza implementacja sygnatury *UNICODE*:
       -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zależności
          od locale),
-      -- zwraca napisay zakodowane w UTF-8.
+      -- zwraca napisy zakodowane w UTF-8.
     Zależy od modułów: *Locale*, *Unicore*
 
   2.3. Moduł *Unicode_ascii* : *UNICODE* -- <unicode_ascii.ml>
     Implementacja standardowa:
       -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zależności
          od locale),
-      -- zwraca napisay zakodowane w ASCII.
+      -- zwraca napisy zakodowane w ASCII.
     Konwersję obsługuje moduł *Unicore_convert*.
     Zależy od modułów: *Locale*, *Unicore*, *Unicore_convert*.
 
@@ -90,7 +90,7 @@ Przewodnik    |___/           po sygnaturach i modułach
 3. Słowniki
 
   3.1. Sygnatura *DICTIONARY* -- <signatures.ml>
-    Sygnatura statycznych, złączalnych słowników, polimorficznych ze zwględu
+    Sygnatura statycznych, złączalnych słowników, polimorficznych ze względu
     na typ klucza i typ skojarzonej wartości.
     Moduł o takiej sygnaturze udostępnia:
       -- typ [('a, 'b) t] słownika;
@@ -287,7 +287,7 @@ Przewodnik    |___/           po sygnaturach i modułach
       używającego modułu ogólnego wizualizatora o sygnaturze RENDER'.
 
 6. Program główny -- <brightmare.ml>
-  Program można (w sposób organiczony) skłonić do wybrania odpowiedniego
+  Program można (w sposób ograniczony) skłonić do wybrania odpowiedniego
   zestawu modułów poprzez podanie parametrów `--html', `--nohtml',
   `--debug'.
   Pozostałe parametry są traktowane jako wzory, które należy zwizualizować.
