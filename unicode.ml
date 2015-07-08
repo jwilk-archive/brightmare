@@ -35,7 +35,7 @@ let from_string s =
   else
     Locale.utf8string_of_string s
 
-let wchar_of_char ch = 
+let wchar_of_char ch =
   from_string (1 ** ch)
 
 let to_string s = s

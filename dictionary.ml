@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  *)
 
-type ('a, 'b) t = 
+type ('a, 'b) t =
 | BST_Empty
 | BST_Node of 'a * 'b * ('a, 'b) t * ('a, 'b) t
 
@@ -96,7 +96,7 @@ let exists key dict =
   with
     Not_found -> false
 
-let map = bst_map 
+let map = bst_map
 
 let union trees = ListEx.fold bst_union bst_empty trees
 

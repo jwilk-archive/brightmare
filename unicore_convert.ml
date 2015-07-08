@@ -367,7 +367,7 @@ let convert_map = Dictionary.make [
 0x266f, "#";	0x3012, "=T";	0x3020, "=T:)";	0xfb00, "ff";	0xfb01, "fi";
 0xfb02, "fl";	0xfb03, "ffi";	0xfb04, "ffl";	0xfb05, "St";	0xfb06, "st"
 ]
-  
+
 let ( ** ) = StrEx.( ** )
 
 let ascii_of_int n =
@@ -375,7 +375,7 @@ let ascii_of_int n =
     1 ** (char_of_int n)
   else
     try
-      Dictionary.get n convert_map 
+      Dictionary.get n convert_map
     with Not_found -> "?"
 
 (* vim: set tw=96 et ts=2 sw=2: *)

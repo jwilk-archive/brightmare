@@ -25,15 +25,15 @@ module type RENDER = Signatures.RENDER
 module type T = Signatures.RMATH
 
 module Make
-  (Uni : UNICODE) 
-  (Render : RENDER with module Uni = Uni) : 
+  (Uni : UNICODE)
+  (Render : RENDER with module Uni = Uni) :
   T with module Uni = Uni =
 struct
 
-  type t = 
-  { rbox : Render.t; 
+  type t =
+  { rbox : Render.t;
     baseline : int }
-  
+
   module Uni = Uni
 
   let hline width =
@@ -54,11 +54,11 @@ struct
   let height box = Render.height box.rbox
   let baseline box = box.baseline
 
-  let s str = 
+  let s str =
     { rbox = Render.s str;
       baseline = 0 }
 
-  let empty width height = 
+  let empty width height =
     { rbox = Render.empty width height;
       baseline = 0 }
 
@@ -68,7 +68,7 @@ struct
 
   let join_v =
     function
-    | [] -> 
+    | [] ->
         raise(Invalid_argument "Rmath()().join_v")
     | box::_ as boxes ->
         let boxes = ListEx.map (fun box -> box.rbox) boxes in
@@ -79,21 +79,21 @@ struct
     function
     | [] -> raise(Invalid_argument "Rmath()().join_h")
     | _ as boxes ->
-      let 
+      let
         maxbaseline = ListEx.max_map (fun box -> box.baseline) boxes
       in let
-        boxes = 
-          ListEx.map 
-            ( fun box -> 
-              Render.grow 
+        boxes =
+          ListEx.map
+            ( fun box ->
+              Render.grow
                 'Q'
                 box.rbox
-                (width box) 
+                (width box)
                 (height box + maxbaseline - box.baseline)
             )
             boxes
       in
-        { rbox = Render.join_h 'Z' boxes; 
+        { rbox = Render.join_h 'Z' boxes;
           baseline = maxbaseline; }
 
   let join_top box top =
@@ -118,11 +118,11 @@ struct
 
   let join_NESE box top bot =
     let w = max (width top) (width bot) in
-    let 
+    let
       rtop = Render.grow 'E' top.rbox w (height top) and
       rbot = Render.grow 'E' bot.rbox w (height bot)
     in
-    let rbox = 
+    let rbox =
       Render.grow 'E' box.rbox (width box + w) (height box)
     in
       { rbox = Render.join_v 'Q' [rtop; rbox; rbot];
@@ -145,24 +145,24 @@ struct
   let c n = Render.make 1 1 (Uni.wchar_of_int n)
 
   let sqrt box upbox =
-    let 
+    let
       vline = vline (height box) and
       hline = hline (width box) and
       joint = c 0x250C and
       hook = c 0x2572
-    in let 
+    in let
       rbox = Render.join4 joint vline.rbox hline.rbox box.rbox and
       hook = Render.join_v 'Q' [upbox.rbox; hook]
     in
       { rbox = Render.join_h 'Q' [hook; rbox];
         baseline = box.baseline + 1 }
 
-  type bracket_t = 
-  | Bracket_round 
+  type bracket_t =
+  | Bracket_round
   | Bracket_square
   | Bracket_brace
   | Bracket_angle
-  type delimiter_t = 
+  type delimiter_t =
   | Delim_bracket of bool * bracket_t
   | Delim_floor of bool
   | Delim_ceil of bool
@@ -171,12 +171,12 @@ struct
 
   let largedelimiter sbox kind =
     let n = height sbox in
-    let n = 
-      ( if n <= 1 then 
+    let n =
+      ( if n <= 1 then
           raise(Invalid_argument "Rmath.Make()().delimiter")
         else
           max 3 n
-      ) in 
+      ) in
     let p = (n-3)/2 in
     let q = (n-3)-p in
     let (tu, mu, bu) =
@@ -194,10 +194,10 @@ struct
       | Delim_ceil  true  -> 0x250c, 0x2502, 0x2502
       | Delim_ceil  false -> 0x2510, 0x2502, 0x2502
       | Delim_vert        -> 0x2502, 0x2502, 0x2502
-      | Delim_doublevert  -> 0x2551, 0x2551, 0x2551 
+      | Delim_doublevert  -> 0x2551, 0x2551, 0x2551
   in
   let
-    baseline = 
+    baseline =
       if (height sbox = 2) && (sbox.baseline = 0)
       then
         1
@@ -208,14 +208,14 @@ struct
       baseline = baseline }
 
   let sum () =
-    let 
+    let
       s1 = Render.make 3 1 (Uni.wchar_of_int 0x2550) and
       s2 = c 0x003e
     in
       { rbox = Render.join_v 'E' [s1; s2; s1];
         baseline = 1 }
 
-  let prod () = 
+  let prod () =
     let
       t = c 0x2564 and v = c 0x2502
     in let
@@ -224,8 +224,8 @@ struct
     in
       { rbox = Render.join_v 'Q' [p1; p2; p2];
         baseline = 1 }
-      
-  let coprod () = 
+
+  let coprod () =
     let
       t = c 0x2567 and v = c 0x2502
     in let
@@ -238,7 +238,7 @@ struct
   let bigcap sq ch =
     let
       v = c 0x2502 and
-      (l, r) = 
+      (l, r) =
         match sq with
         | false -> c 0x256d, c 0x256e
         | true  -> c 0x250c, c 0x2510
@@ -253,7 +253,7 @@ struct
   let bigcup sq ch =
     let
       v = c 0x2502 and
-      (l, r) = 
+      (l, r) =
         match sq with
         | false -> c 0x2570, c 0x256f
         | true  -> c 0x2514, c 0x2518
@@ -277,7 +277,7 @@ struct
         baseline = 1 }
 
   let bigvee () =
-    let 
+    let
       l = c 0x2572 and r = c 0x2571 and s = c 0x20
     in let
       p1 = Render.join_h 'Q' [l; s; s;  r] and
@@ -287,7 +287,7 @@ struct
         baseline = 1 }
 
   let bigwedge () =
-    let 
+    let
       l = c 0x2571 and  r = c 0x2572 and s = c 0x20
     in let
       p1 = Render.join_h 'Q' [l;  r] and

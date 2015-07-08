@@ -30,25 +30,25 @@ let ( **! ) = StrEx.( **! )
 
 let empty = 0, ""
 
-let from_string s = 
+let from_string s =
   let len = StrEx.length s in
-  let 
+  let
     repl_from = ["&"; "<"; ">"] and
     repl_to = ["&amp;"; "&lt;"; "&gt;"]
-  in let 
-    repl_from = ListEx.map StrEx.regexp repl_from 
   in let
-    s = 
-      ListEx.fold2 
+    repl_from = ListEx.map StrEx.regexp repl_from
+  in let
+    s =
+      ListEx.fold2
       ( fun s sfrom sto ->
         StrEx.replace sfrom sto s )
       s repl_from repl_to
   in
     len, s
-  
+
 let to_string (_, s) = s
 
-let wchar_of_int n = 
+let wchar_of_int n =
   if (n<127) && (n!=38) && (n!=60) && (n!=62) then
     1 ** (char_of_int n)
   else

@@ -117,7 +117,7 @@ let alphabets = make [ (* TODO: not implemented *)
   "\\textnormal", ()
 ]
 
-let alphabet_commands = 
+let alphabet_commands =
   map (fun () -> (0, 1)) alphabets
 
 let is_alphabet command =
@@ -141,11 +141,11 @@ let operators = make [
   "\\sum",        ()
 ]
 
-let operator_commands = 
+let operator_commands =
   map (fun () -> (0, 0)) operators
 
 let loglikes = make [
-(* log-like symbols:: *) 
+(* log-like symbols:: *)
   "\\Pr",         ();
   "\\arccos",     ();
   "\\arcsin",     ();
@@ -186,7 +186,7 @@ let loglikes = make [
   "\\varprojlim", (); (* FIXME: erroneously implemented *)
 ]
 
-let loglike_commands = 
+let loglike_commands =
   map (fun () -> (0, 0)) loglikes
 
 let almostallsymbols = make [ (* FIXME: lots of 0s *)
@@ -244,7 +244,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\diamond",          0x22c4;
   "\\div",              0x00f7;
   "\\lhd",              0x25c1;
-  "\\mp",               0x2213;  
+  "\\mp",               0x2213;
   "\\odot",             0x2299;
   "\\ominus",           0x2296;
   "\\oplus",            0x2295;
@@ -434,7 +434,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\beth",       0x2136;
   "\\gimel",      0x2137;
   "\\daleth",     0x2138;
- 
+
 (* AMS arrows:: *)
   "\\circlearrowleft",      0x21ba;
   "\\circlearrowright",     0x21bb;
@@ -660,7 +660,7 @@ let almostallsymbols = make [ (* FIXME: lots of 0s *)
   "\\varsupsetneqq",    0
 ]
 
-let symbol_commands = 
+let symbol_commands =
   map (fun _ -> (0, 0)) almostallsymbols
 
 let delimiters1 = make [
@@ -719,9 +719,9 @@ let delimiter_commands =
 let commands = union [
   main_commands;
   ornament_commands;
-  alphabet_commands; 
+  alphabet_commands;
   operator_commands;
-  loglike_commands; 
+  loglike_commands;
   symbol_commands;
   delimiter_commands
 ]

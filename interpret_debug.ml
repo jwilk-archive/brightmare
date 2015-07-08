@@ -20,17 +20,17 @@
  * DEALINGS IN THE SOFTWARE.
  *)
 
-module type T = 
+module type T =
   Signatures.INTERPRET with type t = Parsetree.t
 
-module Make 
-  (SubInterpret : T) : 
+module Make
+  (SubInterpret : T) :
   T with type s = SubInterpret.s =
 struct
-  
+
   type t = Parsetree.t
   type s = SubInterpret.s
-  
+
   open Parsetree
 
   let rec implode =

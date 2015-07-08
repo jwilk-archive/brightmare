@@ -23,8 +23,8 @@
 module type PARSE = Signatures.PARSE
 module type LATDICT = Signatures.LATDICT
 
-module Make 
-  (LatDict : LATDICT) : 
+module Make
+  (LatDict : LATDICT) :
   PARSE with type t = Parsetree.t =
 struct
 
@@ -35,7 +35,7 @@ struct
 
   exception Parse_error
   exception Internal_error
- 
+
   open Parsetree
 
   let empty = Operator ("", [])
@@ -50,25 +50,25 @@ struct
         Operator ("_^", [fix a; fix b; fix tree])
     | Operator ("^", [Operator ("_", [tree; b]); a]) ->
         Operator ("_^", [fix b; fix a; fix tree])
-    | Operator (op, trees) -> 
+    | Operator (op, trees) ->
         Operator (op, ListEx.rev_map fix trees)
 
   let rec add basetree subtree =
     match basetree with
-    | Element _ -> 
+    | Element _ ->
         Operator ("", [subtree; basetree])
     | Operator (("&" | "\\\\" | "\\newline") as opstr, baselast::basetrees) ->
         Operator (opstr, (add baselast subtree)::basetrees)
-    | Operator (opstr, basetrees) -> 
+    | Operator (opstr, basetrees) ->
         Operator (opstr, subtree::basetrees)
 
   let add_nl_0 basetree subtree =
     match subtree with
     | Operator (("\\\\" | "\\newline"), subtrees) ->
       ( match basetree with
-        | Operator (("\\\\" | "\\newline"), basetrees) -> 
+        | Operator (("\\\\" | "\\newline"), basetrees) ->
             Operator ("\\\\", subtrees@basetrees)
-        | _ -> 
+        | _ ->
             Operator("\\\\", subtrees@[basetree]) )
     | _ -> raise(Internal_error)
 
@@ -78,11 +78,11 @@ struct
       | Operator (("\\\\" | "\\newline"), subtrees) -> subtrees
       | Operator ("&", _) -> [subtree]
       | _ -> []
-    in 
+    in
     match basetree with
-    | Operator (("\\\\" | "\\newline"), basetrees) -> 
+    | Operator (("\\\\" | "\\newline"), basetrees) ->
         Operator ("\\\\", subtrees@basetrees)
-    | _ -> 
+    | _ ->
         Operator ("\\\\", subtrees@[basetree])
 
   let rec add_amp basetree subtree =
@@ -92,15 +92,15 @@ struct
         add_amp basetree (Operator ("&", nullop))
     | Operator ("&", subtrees) ->
       ( match basetree with
-        | Operator ("&", []) -> 
+        | Operator ("&", []) ->
             Operator ("&", subtrees@nullop)
-        | Operator ("&", basetrees) -> 
+        | Operator ("&", basetrees) ->
             Operator ("&", subtrees@basetrees)
         | Operator (("\\\\" | "\\newline"), baselast::basetrees) ->
             Operator ("\\\\", (add_amp baselast subtree)::basetrees)
-        | _ -> 
+        | _ ->
             Operator ("&", subtrees@[basetree]) )
-    | _ -> 
+    | _ ->
       raise(Internal_error)
 
   let rec add_infix basetree subtree =
@@ -110,10 +110,10 @@ struct
         | Operator (("\\\\" | "\\newline" | "&") as opstr, baselast::basetrees) ->
             Operator (opstr, (add_infix baselast subtree)::basetrees)
         | Operator ("", baselast::basetrees) ->
-            Operator 
-            ( "", 
+            Operator
+            ( "",
               Operator (subop, baselast::subtrees)::basetrees )
-        | _ -> 
+        | _ ->
             Operator (subop, basetree::subtrees) )
     | _ -> raise(Internal_error)
 
@@ -146,10 +146,10 @@ struct
     else
     match lexlist with
     | [] -> (accum, lexlist)
-    | lexem::lexlist -> 
+    | lexem::lexlist ->
     match lexem with
     | "}" -> (accum, lexlist)
-    | "{" -> 
+    | "{" ->
         let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
           parse_a (add accum newaccum) lexlist (limit-1) 0 br
 
@@ -166,9 +166,9 @@ struct
             let (p, q) = LatDict.get envname LatDict.environments in
               parse_a empty lexlist q p false in
         let (newaccum, lexlist) = parse_a empty lexlist oo 0 false in
-          parse_a 
+          parse_a
             (add accum (Operator ("#"^envname, [newaccum; params])))
-            lexlist 
+            lexlist
             (limit-1) 0 br
 
     | "\\right" ->
@@ -180,68 +180,68 @@ struct
         let newaccum =
         ( match newaccum with
           | Operator ("\\right", trees) ->
-              Operator 
-                ( "\\left\\right", 
+              Operator
+                ( "\\left\\right",
                   (Operator (delim, []))::trees )
-          | _ -> 
-              Operator 
-                ( "\\left\\right", 
+          | _ ->
+              Operator
+                ( "\\left\\right",
                   [Operator (delim, []); Operator (".", []); newaccum] )
-        ) in          
-          parse_a 
-            (add accum newaccum) 
-            lexlist 
+        ) in
+          parse_a
+            (add accum newaccum)
+            lexlist
             (limit-1) 0 br
 
     | "[" ->
         if brlimit = 0 then
-          parse_a 
-            (add accum (Element "[")) 
-            lexlist 
+          parse_a
+            (add accum (Element "["))
+            lexlist
             (limit-1) 0 br
         else
           let (newaccum, lexlist) = parse_a (Operator ("[", [])) lexlist oo 0 true in
-            parse_a 
-              (add accum newaccum) 
-              lexlist 
+            parse_a
+              (add accum newaccum)
+              lexlist
               limit (brlimit-1) false
-    | "]" -> 
-        if br then 
-          (accum, lexlist) 
+    | "]" ->
+        if br then
+          (accum, lexlist)
         else
-          parse_a 
-            (add accum (Element "]")) 
-            lexlist 
+          parse_a
+            (add accum (Element "]"))
+            lexlist
             (limit-1) brlimit false
 
     | "\x00" | "\t" | "\r" | "\n" | " " ->
         if limit > 0 then
-          parse_a accum lexlist limit brlimit br  
+          parse_a accum lexlist limit brlimit br
         else
           parse_a
             (add accum (Element " "))
             lexlist
             (-1) 0 br
     | _ ->
-      try 
+      try
         let (p, q) = LatDict.get lexem LatDict.commands in
         let (subtree, lexlist) = parse_a (Operator (lexem, [])) lexlist q p br in
           parse_a
-            ( ( match lexem with 
+            ( ( match lexem with
                 | "^" | "_"   -> add_infix
                 | "&"         -> add_amp
-                | "\\\\"      -> add_nl 
-                | "\\newline" -> add_nl 
+                | "\\\\"      -> add_nl
+                | "\\newline" -> add_nl
                 | _           -> add )
-                accum 
-                subtree ) 
-            lexlist 
+                accum
+                subtree )
+            lexlist
             (limit-1) 0 br
-      with 
+      with
         Not_found ->
-          parse_a 
-            (add accum (Element lexem)) 
-            lexlist 
+          parse_a
+            (add accum (Element lexem))
+            lexlist
             (limit-1) 0 br
 
   let from_lexems lexems =

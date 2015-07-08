@@ -24,9 +24,9 @@ module type UNICODE = Signatures.UNICODE
 module type DECORATION = Signatures.DECORATION
 module type T = Signatures.RENDER
 
-module Make 
-  (Uni : UNICODE) 
-  (Decoration : DECORATION) : 
+module Make
+  (Uni : UNICODE)
+  (Decoration : DECORATION) :
   T with module Uni = Uni =
 struct
   module Uni = Uni
@@ -34,7 +34,7 @@ struct
   type wstring = Uni.wstring
   type wchar = Uni.wchar
 
-  type t = 
+  type t =
     { width: int; height: int; lines: wstring list }
 
   let ( ++ ) = Uni.( ++ )
@@ -77,7 +77,7 @@ struct
 
   let grow_right box width =
     grow_leftright box width (fun x y -> y ++ x)
-   
+
   let grow_left box width =
     grow_leftright box width (fun x y -> x ++ y)
 
@@ -90,7 +90,7 @@ struct
     else
       let lspace = diffwidth/2 in
       let rspace = diffwidth-lspace in
-      let 
+      let
         lspacer = lspace ** wspace and
         rspacer = rspace ** wspace
       in
@@ -119,7 +119,7 @@ struct
 
   let grow_bottom box height =
     grow_topbottom box height (fun x y -> y @ x)
-   
+
   let grow_top box height =
     grow_topbottom box height (fun x y -> x @ y)
 
@@ -133,7 +133,7 @@ struct
       let tspace = diffheight/2 in
       let bspace = diffheight-tspace in
       let spacer = box.width ** wspace in
-      let 
+      let
         tspacer = ListEx.make tspace spacer and
         bspacer = ListEx.make bspace spacer
       in
@@ -178,26 +178,26 @@ struct
     match grow_auto_h choice boxlist with
     | [] -> raise (Invalid_argument "Render.Make()().join_v")
     | head::boxlist ->
-        ListEx.fold 
-          ( fun addbox box -> 
-            { width = head.width; 
-              height = addbox.height+box.height; 
+        ListEx.fold
+          ( fun addbox box ->
+            { width = head.width;
+              height = addbox.height+box.height;
               lines = addbox.lines @ box.lines }
           )
-          head 
+          head
           boxlist
 
   let join_h choice boxlist =
     match grow_auto_v choice boxlist with
     | [] -> raise (Invalid_argument "Render.Make()().join_h")
     | head::boxlist ->
-        ListEx.fold 
-          (fun addbox box -> 
-            { width=addbox.width+box.width; 
-              height=head.height; 
+        ListEx.fold
+          (fun addbox box ->
+            { width=addbox.width+box.width;
+              height=head.height;
               lines=ListEx.map2 (++) addbox.lines box.lines}
           )
-          head 
+          head
           boxlist
 
 (* ---------------------------------------------------------------------- *)
@@ -210,31 +210,31 @@ struct
       join_h 'Z' [left; right]
 
   let join_tr botleft topright =
-    let 
+    let
       topleft  = empty  botleft.width topright.height and
-      botright = empty topright.width  botleft.height 
+      botright = empty topright.width  botleft.height
     in
       join4 topleft botleft topright botright
 
   let join_br topleft botright =
-    let 
+    let
       topright = empty botright.width  topleft.height and
-      botleft  = empty  topleft.width botright.height 
+      botleft  = empty  topleft.width botright.height
     in
       join4 topleft botleft topright botright
 
 (* ---------------------------------------------------------------------- *)
 
   let render box =
-    let lines = ListEx.map Uni.to_string box.lines in 
-    let contents = 
-      ListEx.rfold 
-        ( fun s1 s2 -> 
+    let lines = ListEx.map Uni.to_string box.lines in
+    let contents =
+      ListEx.rfold
+        ( fun s1 s2 ->
           Decoration.line_begin ^ s1 ^ Decoration.line_end ^ s2
         )
-        lines 
+        lines
         ""
-    in 
+    in
       Decoration.formula_begin ^ contents ^ Decoration.formula_end
 
 end

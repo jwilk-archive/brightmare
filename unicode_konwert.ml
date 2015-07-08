@@ -20,8 +20,8 @@
  * DEALINGS IN THE SOFTWARE.
  *)
 
-type 
-  wstring = string and 
+type
+  wstring = string and
   wchar = string and
   t = string
 
@@ -29,20 +29,20 @@ let ( ** ) = StrEx.( ** )
 
 let empty = ""
 
-let locale_charmap = 
+let locale_charmap =
   let s = Locale.charmap () in
     if s = "UTF-8" then
       "utf8"
     else
-    try 
+    try
       let ison = Scanf.sscanf s "ISO-8859-%d" (fun n -> n) in
-      if (ison < 1) || (ison > 16) then 
-        "ascii" 
+      if (ison < 1) || (ison > 16) then
+        "ascii"
       else
         Printf.sprintf "iso%d" ison
     with
       Scanf.Scan_failure _ -> "ascii"
- 
+
 let fetch_contents chin =
   let rec f q accum =
     try
@@ -57,9 +57,9 @@ let fetch_contents chin =
     f false ""
 
 let perform_filter cmdline str =
-  let 
+  let
     (chin, chout) = Unix.open_process cmdline and
-    forget _ = () 
+    forget _ = ()
   in
     begin
       output_string chout str;
@@ -72,16 +72,16 @@ let perform_filter cmdline str =
     end
 
 let perform_convert encfrom encto str =
-    let cmdline = 
-      Printf.sprintf 
-        "if [ -x /usr/bin/konwert ]; then /usr/bin/konwert %s-%s; else cat; fi" 
-        encfrom 
-        encto 
+    let cmdline =
+      Printf.sprintf
+        "if [ -x /usr/bin/konwert ]; then /usr/bin/konwert %s-%s; else cat; fi"
+        encfrom
+        encto
     in try
       perform_filter cmdline str
     with
       _ -> ""
-     
+
 let from_utf8 =
   perform_convert "utf8" locale_charmap
 
@@ -96,10 +96,10 @@ let wchar_of_int n =
   else
     from_utf8 (Unicore.utf8char_of_int n)
 
-let wchar_of_char ch = 
+let wchar_of_char ch =
   wchar_of_int (int_of_char ch)
 
-let length = 
+let length =
   match locale_charmap with
   | "utf8" -> Unicore.utf8string_length
   | _ -> StrEx.length

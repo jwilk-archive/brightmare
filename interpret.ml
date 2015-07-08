@@ -20,22 +20,22 @@
  * DEALINGS IN THE SOFTWARE.
  *)
 
-module type UNICODE = 
+module type UNICODE =
   Signatures.UNICODE
 module type LATDICT =
   Signatures.LATDICT
-module type RMATH = 
+module type RMATH =
   Signatures.RMATH
-module type T = 
+module type T =
   Signatures.INTERPRET with type t = Parsetree.t
 
-module Make 
-  (Uni : UNICODE) 
+module Make
+  (Uni : UNICODE)
   (LatDict : LATDICT)
   (Rmath : RMATH with module Uni = Uni) :
   T with type s = Rmath.t =
 struct
-  
+
   let ( ** ) = Uni.( ** )
 
   type t = Parsetree.t
@@ -70,20 +70,20 @@ struct
   let rec
     env_array_make accum =
       function
-      | Operator ("\\\\", []) -> accum 
+      | Operator ("\\\\", []) -> accum
       | Operator ("\\\\", tree::trees) ->
-          let result = 
-            env_array_make 
-              (Matrix.append_row accum) 
+          let result =
+            env_array_make
+              (Matrix.append_row accum)
               tree
           in
-            env_array_make 
-              result 
+            env_array_make
+              result
               (Operator ("\\\\", trees))
       | Operator ("&", []) -> accum
       | Operator ("&", tree::trees) ->
-          env_array_make 
-            (Matrix.append accum (make tree)) 
+          env_array_make
+            (Matrix.append accum (make tree))
             (Operator ("&", trees))
       | tree ->
           env_array_make accum (Operator ("&", [tree]))
@@ -101,19 +101,19 @@ struct
           (
             match (d1, d2) with
             | Operator (d1, []), Operator(d2, []) ->
-                let 
+                let
                   d1 = get_large_delim d1 box and
                   d2 = get_large_delim d2 box
                 in
                   Rmath.join_h [d1; box; d2]
             | _ -> Rmath.join_h [(make d1); box; (make d2)]
-          ) 
+          )
       | Operator ("_", [sub; obj]) ->
           let subbox = make sub and objbox = make obj in
           let joinf =
             ( match obj with
               | Operator (opstr, []) ->
-                  if 
+                  if
                     LatDict.exists opstr LatDict.loglikes ||
                     LatDict.exists opstr LatDict.operators
                   then
@@ -151,26 +151,26 @@ struct
           in
             joinf objbox supbox subbox
       | Operator ("#array", [optv; cont]) ->
-          let optv = 
+          let optv =
             match optv with
             | Operator ("", trees) ->
-                ListEx.map 
+                ListEx.map
                   ( function
                     | Element "l" -> 'E'
                     | Element "c" -> 'W'
                     | Element "r" -> 'Q'
-                    | _ -> '?' ) 
+                    | _ -> '?' )
                   trees
             | Element "l" -> ['E']
             | Element "c" -> ['W']
             | Element "r" -> ['Q']
             | _ -> []
-          in let optv = 
-            ListEx.filter 
+          in let optv =
+            ListEx.filter
               ( function
                 | 'E' | 'W' | 'Q' -> true
                 | _ -> false)
-              optv 
+              optv
           in let optc = ListEx.length optv in
           let matrix = Matrix.make (Rmath.empty 0 0) in
           let matrix = env_array_make matrix cont in
@@ -182,26 +182,26 @@ struct
               width, optv @ (ListEx.make (width-optc) 'Z')
             else
               optc, optv
-          in let widths = 
-            Matrix.eachcol_fold 
-              (fun ac box -> max ac (Rmath.width box)) 
-              0 
+          in let widths =
+            Matrix.eachcol_fold
+              (fun ac box -> max ac (Rmath.width box))
+              0
               matrix
           in let widths_aligns =
             ListEx.map2 (fun x y -> x, y) widths optv
           in let matrix =
-            Matrix.eachcol_map 
-              (fun (w, al) box -> Rmath.align al box w) 
-              widths_aligns 
+            Matrix.eachcol_map
+              (fun (w, al) box -> Rmath.align al box w)
+              widths_aligns
               matrix
           in let spacings =
             match width with
-            | 0 -> [] 
+            | 0 -> []
             | 1 -> [0]
             | n -> 0::(ListEx.make (n-1) 1)
-          in let matrix = 
-            Matrix.eachcol_map 
-              (fun w box -> Rmath.join_h [Rmath.empty w 1; box]) 
+          in let matrix =
+            Matrix.eachcol_map
+              (fun w box -> Rmath.join_h [Rmath.empty w 1; box])
               spacings
               matrix
           in let rows =
@@ -223,17 +223,17 @@ struct
           match (op, boxlist) with
           | "\\!", [] -> Rmath.empty 0 1
           | ("\\;" | "\\:" | "\\,"), [] -> Rmath.empty 1 1
-          | "\\overbrace",      [b] -> 
+          | "\\overbrace",      [b] ->
               Rmath.join_top b (Rmath.overornament b Rmath.Ornament_brace)
           | "\\overleftarrow",  [b] ->
               Rmath.join_top b (Rmath.overornament b (Rmath.Ornament_arrow (true)))
-          | "\\overline",       [b] -> 
+          | "\\overline",       [b] ->
               Rmath.join_top b (Rmath.overornament b Rmath.Ornament_line)
-          | "\\overrightarrow", [b] -> 
+          | "\\overrightarrow", [b] ->
               Rmath.join_top b (Rmath.overornament b (Rmath.Ornament_arrow (false)))
           | "\\underbrace",     [b] ->
               Rmath.join_bot b (Rmath.underornament b Rmath.Ornament_brace)
-          | "\\underline",      [b] -> 
+          | "\\underline",      [b] ->
               Rmath.join_bot b (Rmath.underornament b Rmath.Ornament_line)
           | "\\bigcap",    [] -> Rmath.bigcap false 0x20
           | "\\bigcup",    [] -> Rmath.bigcup false 0x20
@@ -261,7 +261,7 @@ struct
           | "\\pmod", [b] ->
               let spc = Rmath.empty 2 1 in
               let d x = Rmath.Delim_bracket (x,  Rmath.Bracket_round) in
-              let (d1, d2) = 
+              let (d1, d2) =
                 if (Rmath.height b) > 1 then
                   Rmath.largedelimiter b (d true),
                   Rmath.largedelimiter b (d false)
@@ -270,14 +270,14 @@ struct
               in
               let modb = Rmath.s (Uni.from_string "mod ") in
                 Rmath.join_h [spc; d1; modb; b; d2]
-          | opstr, [] -> 
+          | opstr, [] ->
               if LatDict.exists opstr LatDict.symbols
               then
                 let symbol = LatDict.get opstr LatDict.symbols in
                 let symbol = Uni.wchar_of_int symbol in
                 let symbol = 1 ** symbol in
-                  Rmath.s symbol 
-              else if LatDict.exists opstr LatDict.loglikes then 
+                  Rmath.s symbol
+              else if LatDict.exists opstr LatDict.loglikes then
                 Rmath.s (Uni.from_string (StrEx.str_after opstr 1))
               else
                 Rmath.s (Uni.from_string opstr)
@@ -294,7 +294,7 @@ struct
           | opstr, _ ->
               if LatDict.is_alphabet opstr then
                 Rmath.join_h boxlist (* FIXME *)
-              else 
+              else
                 let opbox = Rmath.s (Uni.from_string opstr) in
                   Rmath.join_h (opbox::boxlist)
 

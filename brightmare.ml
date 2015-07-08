@@ -30,7 +30,7 @@ end
 module Brightmare
   (Unicode : UNICODE)
   (Decoration : DECORATION)
-  (Automaton : LEX_AUTOMATON) 
+  (Automaton : LEX_AUTOMATON)
   (LatDict : LATDICT) :
   BRIGHTMARE =
 struct
@@ -42,9 +42,9 @@ struct
   module Interpret_dbg = Interpret_debug.Make(Interpret)
   let iterate debug =
     let as_rmathbox =
-      if debug then 
-        Interpret_dbg.make 
-      else 
+      if debug then
+        Interpret_dbg.make
+      else
         Interpret.make
     in
       ListEx.iter
@@ -57,55 +57,55 @@ struct
         )
 end
 
-module Brightmare_html = 
+module Brightmare_html =
   Brightmare(Unicode_html)(Decoration_html)(Automaton)(Latex_dictionary)
 module Brightmare_plain =
   Brightmare(Unicode_ascii)(Decoration)(Automaton)(Latex_dictionary)
 module Brightmare_utf8 =
   Brightmare(Unicode)(Decoration)(Automaton)(Latex_dictionary)
 
-type options_t = 
-  { argv : string list; 
+type options_t =
+  { argv : string list;
     opt_uni : int; opt_debug : bool; opt_help : bool }
 
-let (exename, rev_argv) = 
+let (exename, rev_argv) =
   match Array.to_list Sys.argv with
   | [] -> "", []
   | exename::argv -> exename, (ListEx.rev argv)
 
 let ifhtml =
   try
-    let _ = 
+    let _ =
       StrEx.search_forward (StrEx.regexp "html") exename 0
     in 1
   with
     Not_found -> 0
 
-let defaultoptions = 
-  { argv = []; 
+let defaultoptions =
+  { argv = [];
     opt_uni = ifhtml; opt_debug = false; opt_help = false }
- 
+
 let options =
   ListEx.fold
     ( fun a s ->
       match s with
-      | "--help" | "--version" -> 
-        { argv = a.argv; 
+      | "--help" | "--version" ->
+        { argv = a.argv;
           opt_uni = a.opt_uni; opt_debug = a.opt_debug; opt_help = true }
       | "--debug" ->
-        { argv = a.argv; 
+        { argv = a.argv;
           opt_uni = a.opt_uni; opt_debug = true; opt_help = a.opt_help }
       | "--html" ->
-        { argv = a.argv; 
+        { argv = a.argv;
           opt_uni = 1; opt_debug = a.opt_debug; opt_help = a.opt_help }
       | "--ascii" ->
-        { argv = a.argv; 
+        { argv = a.argv;
           opt_uni = 0; opt_debug = a.opt_debug; opt_help = a.opt_help }
       | "--utf8" ->
-        { argv = a.argv; 
+        { argv = a.argv;
           opt_uni = 2; opt_debug = a.opt_debug; opt_help = a.opt_help }
        | _ ->
-        { argv = s::a.argv; 
+        { argv = s::a.argv;
           opt_uni = a.opt_uni; opt_debug = a.opt_debug; opt_help = a.opt_help}
     )
     defaultoptions
@@ -114,7 +114,7 @@ let options =
 let () =
   if options.opt_help then
     Printf.printf "%s\n\n" Version.product_name
-  else 
+  else
   match options.opt_uni with
   | 1 -> Brightmare_html.iterate options.opt_debug options.argv
   | 2 -> Brightmare_utf8.iterate options.opt_debug options.argv

@@ -31,8 +31,8 @@ sig
 end
 
 module type LEX_AUTOMATON =
-  AUTOMATON with 
-    type command = char and 
+  AUTOMATON with
+    type command = char and
     type s = bool
 
 module type LEXSCAN =
@@ -112,12 +112,12 @@ sig
   val bigwedge : unit -> t
   val integral : unit -> t
   val ointegral : unit -> t
-  type bracket_t = 
+  type bracket_t =
   | Bracket_round
   | Bracket_square
   | Bracket_brace
   | Bracket_angle
-  type delimiter_t = 
+  type delimiter_t =
   | Delim_bracket of bool * bracket_t
   | Delim_floor of bool
   | Delim_ceil of bool

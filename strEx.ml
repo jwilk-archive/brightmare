@@ -50,7 +50,7 @@ let as_list str =
     los_helper [] (len-1)
 
 let of_list =
-  ListEx.fold 
+  ListEx.fold
     (fun acc ch -> acc ^ (1 ** ch))
     ""
 

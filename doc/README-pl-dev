@@ -9,7 +9,7 @@ Przewodnik    |___/           po sygnaturach i modułach
 
   1.1. Moduł *ListEx* -- <listEx.ml>, <listEx.mli>
     Udostępnia funkcje:
-      -- znajdujące minimum/maksimum na liście: 
+      -- znajdujące minimum/maksimum na liście:
          [min], [max], [min_map], [max_map]
       -- tworzącą listę o zadanej długości: [make]
       -- inne funkcje zaimportowane ze standardowego modułu List
@@ -20,13 +20,13 @@ Przewodnik    |___/           po sygnaturach i modułach
       -- łączącą dwa napisy: [( ++ )]
       -- zwielokrotniającą znak: [( ** )]
       -- zwielokrotniającą napis: [( **! )]
-      -- inne funkcje zaimportowane ze standardowych modułów *String* 
+      -- inne funkcje zaimportowane ze standardowych modułów *String*
          oraz *Str*
 
   1.3. Moduły *Unicore* i *Unicore_convert* -- <unicore.ml>, <unicore.mli>,
        <unicore_convert.ml>, <unicore_convert.mli>
     Udostępniają funkcje:
-      -- dającą napis składający się z jednego znaku zakodowanego w UTF-8 
+      -- dającą napis składający się z jednego znaku zakodowanego w UTF-8
          o zadanym kodzie: [utf8char_of_int]
       -- zamieniająca znak zakodowany w ISO-8859-1 na jednoznakowy napis
          zakodowany w UTF-8: [utf8char_of_char]
@@ -39,7 +39,7 @@ Przewodnik    |___/           po sygnaturach i modułach
   1.4. Moduł *Locale* -- <locale.c>, <locale.mli>
     Moduł udostępnia funkcję [charmap], która zwraca nazwę systemu kodowania
     znaków odpowiedniego dla aktualnego locale.
-    
+
 2. Unikod
 
   2.1. Sygatura UNICODE -- <signatures.ml>
@@ -48,7 +48,7 @@ Przewodnik    |___/           po sygnaturach i modułach
       -- funkcje konwersji do znaków unikodowych: [wchar_of_int] oraz
          [wchar_of_char]
       -- funkcję konwertujące do/z zwykłych napisów: [from_string] oraz
-         [to_string] 
+         [to_string]
       -- pusty napis unikodowy: [empty]
       -- funkcję dającą długość napisu: [length]
       -- funkcje [( ++ )] oraz [( ** )] analogiczne do tych z modułu *StrEx*
@@ -73,7 +73,7 @@ Przewodnik    |___/           po sygnaturach i modułach
 
   2.4. Moduł *Unicode_konwert* : *UNICODE* -- <unicode_konwert.ml>
     Implementacja za pomocą zewnętrznego konwertera:
-      -- oczekuje i zwraca napisy zakodowane w ISO-8859-n lub UTF-8 
+      -- oczekuje i zwraca napisy zakodowane w ISO-8859-n lub UTF-8
          (w zależności od locale).
     Konwersję przeprowadza zewnętrzny program `konwert'
     (<http://qrczak.ids.net.pl/programy/linux/konwert/>).
@@ -121,7 +121,7 @@ Przewodnik    |___/           po sygnaturach i modułach
          ile_argumentów_opcjonalnych-ile_argumentów_obowiązkowych):
          [commands].
 
-    TODO: Prawdopodobnie sensowne byłoby drobniejsze rozbicie symboli 
+    TODO: Prawdopodobnie sensowne byłoby drobniejsze rozbicie symboli
     na kilka słowników wg pełnionych funkcji -- to umożliwiłoby automatyczne
     wstawianie odpowiednich odstępów między symbole, czego na razie brak.
 
@@ -144,8 +144,8 @@ Przewodnik    |___/           po sygnaturach i modułach
         -- funkcję ,,karmiącą'' automat poleceniem: [execute]
       Sygnatura *LEX_AUTOMATON* to sygnatura *AUTOMATON* z ukonkretnionymi
       typami: [command = char] oraz [s = bool].
-      Automat o takiej sygnaturze ma służyć do rozpoznawania końca leksemu 
-      w ciągu znaków, którymi jest ,,karmiony''. 
+      Automat o takiej sygnaturze ma służyć do rozpoznawania końca leksemu
+      w ciągu znaków, którymi jest ,,karmiony''.
       Publiczny stan [true] oznacza, że poprzednio wczytany znak kończył
       leksem.
 
@@ -155,14 +155,14 @@ Przewodnik    |___/           po sygnaturach i modułach
     4.1.3. Moduł *Automaton2* : *LEX_AUTOMATON* -- <automaton2.ml>
       Automat rozpoznający leksemy TeX-opodobne. Zasadniczym odstępstwem
       jest traktowanie zawsze ciągu cyfr jako całości. Zastosowanie tego
-      modułu zamiast modułu *Automaton* daje niepoprawne, 
+      modułu zamiast modułu *Automaton* daje niepoprawne,
       ale za to intuicyjne wyniki, takie jak ten:
       |          32                    3
       | x^32 -> x      --zamiast--    x 2
 
     4.1.4. Sygnatura *LEXSCAN* -- <signatures.ml>
-      Prosta sygnatura modułu przeprowadzającego analizę leksykalną: 
-      jedyną udostępnioną funkcją jest [make], która przekształca napis 
+      Prosta sygnatura modułu przeprowadzającego analizę leksykalną:
+      jedyną udostępnioną funkcją jest [make], która przekształca napis
       na listę napisów (leksemów).
 
     4.1.5. Funktor Lexscan.Make() : *LEXSCAN* -- <lexscan.ml>
@@ -173,7 +173,7 @@ Przewodnik    |___/           po sygnaturach i modułach
 
     4.2.1. Moduł *Parsetree* -- <parsetree.ml>
       Zawiera jedynie implementację typu [t] drzewa analizy składniowej.
-      Na potrzeby modułów *Parse* i *Interpret*.  
+      Na potrzeby modułów *Parse* i *Interpret*.
 
     4.2.2. Sygnatura *PARSE* -- <signatures.ml>
       Prosta sygnatyra modułu doknującego analizy składniowej.
@@ -216,7 +216,7 @@ Przewodnik    |___/           po sygnaturach i modułach
     5.1.1. Sygnatura *DECORATION* -- <signatures.ml>
       Moduł o takiej sygnaturze udostępnia:
         -- napis wstawiany na początku/końcu linii: [line_begin], [line_end]
-        -- napis wstawiany na początku/końcu wzoru: 
+        -- napis wstawiany na początku/końcu wzoru:
            [formula_begin], [formula_end]
 
     5.1.2. Moduły *Decoration*, *Decoration_ansi* i *Decoration_html* --
@@ -232,16 +232,16 @@ Przewodnik    |___/           po sygnaturach i modułach
         -- funkcję przekształcającą napis unikodowy (typu [Uni.t]) na obraz:
            [s]
         -- funkcję dokonującą wizualizacji: [render]
-        
+
     5.1.4. Sygnatura *RENDER* -- <signatures.ml>
-      Sygnatura wizualizatora opartego na ,,rachunku pudełkowym'': 
+      Sygnatura wizualizatora opartego na ,,rachunku pudełkowym'':
       nowe obrazy (pudełka) uzyskujemy przez odpowiednie składanie innych
       obrazów (pudełek).
       Moduł o takiej sygnaturze udostępnia:
         -- wszystko to, co moduł o sygnaturze *SIMPLE_RENDER*;
         -- funkcję dającą pudełko o ustalonym rozmiarze, wypełnione zadanym
            znakiem unikodowym: [make]
-        -- funkcję zwiększającą rozmiar pudełka poprzez rozszerzenie go 
+        -- funkcję zwiększającą rozmiar pudełka poprzez rozszerzenie go
            w zadanym kierunku (kierunkach): [grow]
         -- funkcje łączące pudełka w pionie i w poziomie: [join_v], [join_v]
         -- funkcje łączące pudełka na ukos: [join_tr], [join_br]
@@ -280,7 +280,7 @@ Przewodnik    |___/           po sygnaturach i modułach
       | ---- +  y
       |   2    ----
       |  x      x
-              
+
     5.2.2. Funktor *Rmath.Make()()* : *RMATH'* -- <rmath.ml>
       Implementacja wizualizatora wzorów korzystająca z modułu obsługi
       Unikodu o sygnaturze UNICODE (parametr), a do składania pudełek

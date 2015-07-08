@@ -20,14 +20,14 @@
  * DEALINGS IN THE SOFTWARE.
  *)
 
-type 'a t = 
+type 'a t =
 { up : bool;
   width : int;
   height : int;
   default : 'a;
   lines : (int * 'a list) list }
 
-let make e = 
+let make e =
   { up = true;
     width = 0;
     height = 0;
@@ -49,7 +49,7 @@ let append_row mat =
 
 let append mat e =
   match mat.lines with
-  | [] -> 
+  | [] ->
       { up = false;
         width = 1;
         height = 1;
@@ -112,24 +112,24 @@ let eachrow_fold f a mat =
       mat.lines
 
 let split mat =
-  let lst = 
-    ListEx.map 
-      ( function 
-        | n, (head::tail as lst) -> 
-            if n < mat.width then 
-              mat.default, n, lst 
-            else 
+  let lst =
+    ListEx.map
+      ( function
+        | n, (head::tail as lst) ->
+            if n < mat.width then
+              mat.default, n, lst
+            else
               head, n-1, tail
         | _ -> mat.default, 0, [] )
       mat.lines
-  in let 
-    (heads, tails) = 
-      ListEx.rfold 
+  in let
+    (heads, tails) =
+      ListEx.rfold
         (fun (h, n, t) (ah, at) -> h::ah, (n, t)::at)
         lst
-        ([], []) 
+        ([], [])
   in
-    (mat.height, heads), 
+    (mat.height, heads),
     { up = mat.up;
       width = mat.width-1;
       height = mat.height;
@@ -160,11 +160,11 @@ let transpose mat =
 let eachcol_fold f a mat =
   if not mat.up then
     raise(Invalid_argument "Matrix.eachcol_fold")
-  else 
+  else
     let result = eachrow_fold f a (transpose mat) in
       ListEx.rev result
 
-let eachcol_rfold f mat a = 
+let eachcol_rfold f mat a =
   if not mat.up then
     raise(Invalid_argument "Matrix.eachcol_rfold")
   else
@@ -174,7 +174,7 @@ let eachcol_rfold f mat a =
 let map f mat =
   if not mat.up then
     raise(Invalid_argument "Matrix.map")
-  else 
+  else
     { up = true;
       width = mat.width;
       height = mat.height;
@@ -184,7 +184,7 @@ let map f mat =
 let eachrow_map f mlst mat =
   if not mat.up then
     raise(Invalid_argument "Matrix.eachrow_map")
-  else 
+  else
     let mlst = ListEx.rev mlst in
       { up = true;
         width = mat.width;
@@ -195,7 +195,7 @@ let eachrow_map f mlst mat =
 let eachcol_map f mlst mat =
   if not mat.up then
     raise(Invalid_argument "Matrix.eachcol_map")
-  else 
+  else
     let mlst = ListEx.rev mlst in
       { up = true;
         width = mat.width;

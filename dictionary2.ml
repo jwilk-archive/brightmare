@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  *)
 
-type ('a, 'b) bst = 
+type ('a, 'b) bst =
 | BST_Empty
 | BST_Node of 'a * 'b * ('a,'b) bst * ('a,'b) bst
 
@@ -30,10 +30,10 @@ let rec bst_of_sarray_lim arr p q =
   else
     let m = (p+q)/2 in
     let (k, v) = arr.(m) in
-      BST_Node 
-        ( k, 
-          v, 
-          bst_of_sarray_lim arr p (m-1), 
+      BST_Node
+        ( k,
+          v,
+          bst_of_sarray_lim arr p (m-1),
           bst_of_sarray_lim arr (m+1) q )
 
 let rec bst_of_sarray arr =
@@ -41,13 +41,13 @@ let rec bst_of_sarray arr =
 
 let rec bst_of_slist lst =
   bst_of_sarray (Array.of_list lst)
-  
+
 let rec bst_of_list lst =
-  bst_of_slist 
+  bst_of_slist
     ( List.sort
         (fun (k1, _) (k2, _) -> compare k1 k2)
         lst
-    )  
+    )
 
 let rec bst_get tree key =
   match tree with
@@ -59,13 +59,13 @@ let rec bst_get tree key =
       | _ -> bst_get leftson  key
 
 (* ------------------------------------------------------------------------------------------ *)
-    
+
 type ('a, 'b) t =
   ('a -> 'b)
 
 let empty _ =
   raise Not_found
-  
+
 let make lst =
   let bst = bst_of_list lst in
     bst_get bst
@@ -91,5 +91,5 @@ let union dicts =
   match dicts with
   | [] -> empty
   | fdict::dicts -> List.fold_left union2 fdict dicts
-    
+
 (* vim: set tw=96 et ts=2 sw=2: *)

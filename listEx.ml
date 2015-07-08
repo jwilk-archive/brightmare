@@ -31,19 +31,19 @@ let id x = x
 let min_map f =
   function
   | [] -> raise(Invalid_argument "ListEx.min_map")
-  | head::tail -> 
-      fold 
-        (fun x y -> min (f y) x) 
-        (f head) 
+  | head::tail ->
+      fold
+        (fun x y -> min (f y) x)
+        (f head)
         tail
 
 let max_map f =
   function
   | [] -> raise(Invalid_argument "ListEx.max_map")
-  | head::tail -> 
-      fold 
-        (fun x y -> max (f y) x) 
-        (f head) 
+  | head::tail ->
+      fold
+        (fun x y -> max (f y) x)
+        (f head)
         tail
 
 let max lst = max_map id lst

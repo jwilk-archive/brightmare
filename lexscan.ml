@@ -27,7 +27,7 @@ module Make(Aut : LEX_AUTOMATON) : T =
 struct
 
   let ( ** ) = StrEx.( ** )
-  
+
   let rec scan lastlex lexlist chars state =
     match chars with
     | [] -> lastlex::lexlist
@@ -41,9 +41,9 @@ struct
 
   let make str =
     let result =
-      ListEx.rev 
+      ListEx.rev
         (scan "" [] (StrEx.as_list str) Aut.default)
-    in 
+    in
       match result with
       | ""::result -> result
       | _ -> result
