@@ -120,4 +120,4 @@ let () =
   | 2 -> Brightmare_utf8.iterate options.opt_debug options.argv
   | _ -> Brightmare_plain.iterate options.opt_debug options.argv
 
-(* vim: set tw=96 et ts=2 sw=2: *)
+(* vim: set tw=96 et ts=2 sts=2 sw=2: *)

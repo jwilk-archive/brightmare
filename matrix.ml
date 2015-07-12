@@ -204,4 +204,4 @@ let eachcol_map f mlst mat =
         lines = ListEx.map (fun (w, lst) -> w, ListEx.map2 f mlst lst) mat.lines }
 
 
-(* vim: set tw=96 et ts=2 sw=2: *)
+(* vim: set tw=96 et ts=2 sts=2 sw=2: *)

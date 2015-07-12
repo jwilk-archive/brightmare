@@ -41,4 +41,4 @@ let execute cmd (_, is) =
   | A_Number, '0'..'9' ->                    false, A_Number
   | _, _  ->                                  true, A_Normal
 
-(* vim: set tw=96 et ts=2 sw=2: *)
+(* vim: set tw=96 et ts=2 sts=2 sw=2: *)

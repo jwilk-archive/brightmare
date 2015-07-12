@@ -27,4 +27,4 @@ let product_name =
   version ^
   ", the mathematical expression renderer"
 
-(* vim: set tw=76 et ts=2 sw=2: *)
+(* vim: set tw=76 et ts=2 sts=2 sw=2: *)

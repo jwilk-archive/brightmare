@@ -61,4 +61,4 @@ let length (l, _) = l
 let ( ++ ) (l1, s1) (l2, s2) = l1 + l2, s1 ++ s2
 let ( ** ) n ch = n, n **! ch
 
-(* vim: set tw=96 et ts=2 sw=2: *)
+(* vim: set tw=96 et ts=2 sts=2 sw=2: *)

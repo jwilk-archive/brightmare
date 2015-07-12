@@ -43,4 +43,4 @@ val map : ('a -> 'b) -> 'a t -> 'b t
 val eachrow_map : ('a -> 'b -> 'b) -> 'a list -> 'b t -> 'b t
 val eachcol_map : ('a -> 'b -> 'b) -> 'a list -> 'b t -> 'b t
 
-(* vim: set tw=96 et ts=2 sw=2: *)
+(* vim: set tw=96 et ts=2 sts=2 sw=2: *)

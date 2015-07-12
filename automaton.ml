@@ -39,4 +39,4 @@ let execute cmd (_, is) =
   | A_Command, _ ->                           true, A_Normal
   | _, _  ->                                  true, A_Normal
 
-(* vim: set tw=96 et ts=2 sw=2: *)
+(* vim: set tw=96 et ts=2 sts=2 sw=2: *)

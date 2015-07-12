@@ -754,4 +754,4 @@ let environments = make [ (* TODO: not implemented *)
   "tabular*",     (1, 1)
 ]
 
-(* vim: set tw=96 et ts=2 sw=2: *)
+(* vim: set tw=96 et ts=2 sts=2 sw=2: *)

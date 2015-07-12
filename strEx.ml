@@ -60,4 +60,4 @@ let replace = global_replace
 let str_after = string_after
 let str_before = string_before
 
-(* vim: set tw=96 et ts=2 sw=2: *)
+(* vim: set tw=96 et ts=2 sts=2 sw=2: *)
