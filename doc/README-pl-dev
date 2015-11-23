@@ -42,7 +42,7 @@ Przewodnik    |___/           po sygnaturach i modułach
 
 2. Unikod
 
-  2.1. Sygatura UNICODE -- <signatures.ml>
+  2.1. Sygnatura UNICODE -- <signatures.ml>
     Moduł o takiej sygnaturze udostępnia:
       -- typ [wchar] i [t] = [wstring]: znak i napis unikodowy
       -- funkcje konwersji do znaków unikodowych: [wchar_of_int] oraz
@@ -57,7 +57,7 @@ Przewodnik    |___/           po sygnaturach i modułach
     zakodowane napisy wyjściowe zależy od implementacji.
 
   2.2. Moduł *Unicode* : *UNICODE* -- <unicode.ml>
-    Najprotsza implementacja sygnatury *UNICODE*:
+    Najprostsza implementacja sygnatury *UNICODE*:
       -- oczekuje napisów zakodowanych w ISO-8859-1 lub UTF-8 (w zależności
          od locale),
       -- zwraca napisy zakodowane w UTF-8.
@@ -107,7 +107,7 @@ Przewodnik    |___/           po sygnaturach i modułach
   3.2. Sygnatura *LATDICT* -- <signatures.ml>
     Sygnatura zestawu słowników symboli i poleceń LaTeXa.
     Moduł o takiej sygnaturze udostępnia:
-      -- wszysto to, co moduł o sygnaturze *DICTIONARY*
+      -- wszystko to, co moduł o sygnaturze *DICTIONARY*
       -- słownik alfabetów (np. `\mathtt', `\mathbf'): [alphabets]
       -- słownik operatorów o zmiennej wielkości (np. `\sum', `bigcup'):
          [operators]
@@ -176,7 +176,7 @@ Przewodnik    |___/           po sygnaturach i modułach
       Na potrzeby modułów *Parse* i *Interpret*.
 
     4.2.2. Sygnatura *PARSE* -- <signatures.ml>
-      Prosta sygnatyra modułu doknującego analizy składniowej.
+      Prosta sygnatura modułu dokonującego analizy składniowej.
       Moduł o takiej sygnaturze udostępnia:
         -- typ [t] drzewa analizy składniowej,
         -- wyjątek [Parse_error],
