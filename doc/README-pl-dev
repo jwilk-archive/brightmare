@@ -255,7 +255,7 @@ Przewodnik    |___/           po sygnaturach i modułach
 
   5.2. Wizualizacja wzorów
 
-    5.2.1. Syngatura *RMATH* -- <signatures.ml>
+    5.2.1. Sygnatura *RMATH* -- <signatures.ml>
       Sygnatura wizualizatora wzorów matematycznych.
       Docelowo powinna pozwolić skonstruować obraz dowolnie wyszukany wzoru.
       Moduł o takiej sygnaturze udostępnia:
