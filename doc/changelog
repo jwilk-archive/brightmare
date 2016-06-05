@@ -9,9 +9,9 @@ brightmare (0.35) unstable; urgency=low
   * Change the license to the Expat license.
   * Improve error handling.
   * Improve the manual pages, as per man-pages(7) recommendations:
-    - Remove the “AUTHOR” section.
-    - Rename the “USAGE EXAMPLE” section as “EXAMPLE”.
-    - Fix wording in a few places.
+    + Remove the “AUTHOR” section.
+    + Rename the “USAGE EXAMPLE” section as “EXAMPLE”.
+    + Fix wording in a few places.
   * Remove some unused cruft from Makefile.
   * Remove Debian packaging.
 
