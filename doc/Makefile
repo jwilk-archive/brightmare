@@ -1,5 +1,5 @@
 xsl = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-xsltproc_options = --param man.authors.section.enabled 0
+xsltproc_options = --nonet --param man.authors.section.enabled 0
 xml_files = $(wildcard *.xml)
 man_files = $(xml_files:.xml=.1)
 
