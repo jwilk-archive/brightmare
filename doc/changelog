@@ -1,8 +1,14 @@
 brightmare (0.35.1) UNRELEASED; urgency=low
 
-  * 
+  * Put license into a separate file.
+  * Disable network access for xsltproc.
+  * Stop shipping Makefile.dep (it's a generated file).
+  * Improve the Polish README:
+    + Convert to UTF-8.
+    + Fix typos.
+    + Fix grammar error.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Fri, 11 Dec 2015 12:37:22 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 16 Sep 2017 12:57:54 +0200
 
 brightmare (0.35) unstable; urgency=low
 
