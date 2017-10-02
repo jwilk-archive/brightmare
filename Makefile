@@ -80,7 +80,7 @@ test: all
 		xargs -d '\n' ./brightmare
 
 .PHONY: clean
-clean: Makefile.dep
-	rm -f brightmare brightmare-html *.cmi *.cmo *.cmx *.o *~ a.out
+clean:
+	rm -f brightmare brightmare-html *.cmi *.cmo *.cmx *.o *~ a.out Makefile.dep
 
 # vim:ts=4 sts=4 sw=4
