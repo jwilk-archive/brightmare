@@ -3,6 +3,7 @@ brightmare (0.35.1) UNRELEASED; urgency=low
   * Put license into a separate file.
   * Disable network access for xsltproc.
   * Stop shipping Makefile.dep (it's a generated file).
+    Remove it in the clean target.
   * Improve the Polish README:
     + Convert to UTF-8.
     + Fix typos.
