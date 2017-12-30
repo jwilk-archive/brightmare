@@ -2,5 +2,6 @@
 version=${1:?"no version number provided"}
 set -e -x
 dch -m -v "$version" -c doc/changelog
-sed -i -E -e "s/^(let version) = .*/\1 = \"$version\"/" version.ml
-sed -i -E -e "s/<(!ENTITY version) '[0-9.]+'>/<\1 '$version'>/" doc/*.xml
+export version
+perl -pi -e 's/^let version = "\K[\w.]+/$ENV{version}/' version.ml
+perl -pi -e 's/<!ENTITY version '"'"'\K[\w.]+/$ENV{version}/' doc/*.xml
