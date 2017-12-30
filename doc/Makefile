@@ -6,6 +6,10 @@ man_files = $(xml_files:.xml=.1)
 .PHONY: all
 all: $(man_files)
 
+.PHONY: validate
+validate: $(xml_files)
+	xmllint --nonet --noout --valid $(^)
+
 .PHONY: clean
 clean:
 	rm -f *.1
