@@ -4,6 +4,7 @@ language: c
 addons:
   apt:
     packages:
+    - cppcheck
     - docbook-xsl
     - ocaml-native-compilers
     - xsltproc
@@ -16,5 +17,6 @@ script:
 - brightmare --version
 - export MANPATH=~/.local/share/man MANWIDTH=80
 - man 1 brightmare | grep -A 10 -w BRIGHTMARE
+- cppcheck --error-exitcode=1 *.c
 
 # vim:ts=2 sts=2 sw=2 et
