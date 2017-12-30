@@ -19,10 +19,11 @@
 # DEALINGS IN THE SOFTWARE.
 
 test_files = $(wildcard test/*)
-c_files = locale.c
+c_files = locale-impl.c
 ml_files = \
 	signatures.ml \
 	version.ml \
+	locale.ml \
 	listEx.ml strEx.ml \
 	matrix.ml \
 	dictionary2.ml dictionary.ml latex_dictionary.ml \
