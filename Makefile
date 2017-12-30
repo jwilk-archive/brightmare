@@ -4,6 +4,10 @@
 DESTDIR =
 PREFIX = /usr/local
 
+OCAMLOPT = ocamlopt.opt
+OCAMLDEP = ocamldep.opt -native
+OCAMLFLAGS =
+
 prefix = $(PREFIX)
 exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
@@ -39,10 +43,6 @@ mli_files = \
 cmx_files = $(ml_files:ml=cmx)
 cmxa_files = unix.cmxa str.cmxa
 o_files = $(c_files:c=o)
-
-OCAMLOPT = ocamlopt.opt
-OCAMLDEP = ocamldep.opt -native
-OCAMLFLAGS =
 
 .PHONY: all
 all: brightmare
