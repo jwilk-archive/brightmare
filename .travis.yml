@@ -4,9 +4,17 @@ language: c
 addons:
   apt:
     packages:
+    - docbook-xsl
     - ocaml-native-compilers
+    - xsltproc
 script:
 - make
 - make test
+- make -C doc
+- make install PREFIX=$HOME/.local
+- export PATH=~/.local/bin:"$PATH"
+- brightmare --version
+- export MANPATH=~/.local/share/man MANWIDTH=80
+- man 1 brightmare | grep -A 10 -w BRIGHTMARE
 
 # vim:ts=2 sts=2 sw=2 et
