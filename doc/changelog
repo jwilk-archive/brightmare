@@ -1,5 +1,6 @@
 brightmare (0.35.1) UNRELEASED; urgency=low
 
+  * Fix build failure with OCaml 4.05.
   * Put license into a separate file.
   * Disable network access for xsltproc.
   * Stop shipping Makefile.dep (it's a generated file).
@@ -9,7 +10,7 @@ brightmare (0.35.1) UNRELEASED; urgency=low
     + Fix typos.
     + Fix grammar error.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 16 Sep 2017 12:57:54 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 30 Dec 2017 17:25:43 +0100
 
 brightmare (0.35) unstable; urgency=low
 
