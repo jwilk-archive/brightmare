@@ -5,13 +5,15 @@ addons:
   apt:
     packages:
     - cppcheck
+    - docbook-xml
     - docbook-xsl
+    - libxml2-utils
     - ocaml-native-compilers
     - xsltproc
 script:
 - make
 - make test
-- make -C doc
+- make -C doc validate all
 - make install PREFIX=$HOME/.local
 - export PATH=~/.local/bin:"$PATH"
 - brightmare --version
