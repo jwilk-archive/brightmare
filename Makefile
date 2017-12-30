@@ -18,6 +18,15 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
+DESTDIR =
+PREFIX = /usr/local
+
+prefix = $(PREFIX)
+exec_prefix = $(prefix)
+bindir = $(exec_prefix)/bin
+datarootdir = $(prefix)/share
+mandir = $(datarootdir)/man
+
 test_files = $(wildcard test/*)
 c_files = locale-impl.c
 ml_files = \
@@ -71,6 +80,17 @@ include Makefile.dep
 
 brightmare: $(cmx_files) $(o_files)
 	$(OCAMLOPT) $(OCAMLFLAGS) $(cmxa_files) $(^) -o $(@)
+
+.PHONY: install
+install: brightmare
+	install -d $(DESTDIR)$(bindir)
+	install -m755 brightmare $(DESTDIR)$(bindir)/brightmare
+ifeq "$(wildcard .git doc/*.1)" ".git"
+	# run "$(MAKE) -C doc" to build the manpages
+else
+	install -d $(DESTDIR)$(mandir)/man1
+	install -m644 doc/brightmare.1 $(DESTDIR)$(mandir)/man1/brightmare.1
+endif
 
 .PHONY: test
 test: all
