@@ -4,4 +4,6 @@ set -e -x
 dch -m -v "$version" -c doc/changelog
 export version
 perl -pi -e 's/^let version = "\K[\w.]+/$ENV{version}/' version.ml
-perl -pi -e 's/<!ENTITY version '"'"'\K[\w.]+/$ENV{version}/' doc/*.xml
+perl -M'Time::Piece' -pi -e '
+s/<!ENTITY version '"'"'\K[\w.]+/$ENV{version}/;
+s/<date>\K[\d-]+/gmtime->ymd/e' doc/*.xml
