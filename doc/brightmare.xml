@@ -2,7 +2,7 @@
 <!DOCTYPE refentry PUBLIC '-//OASIS//DTD DocBook XML V4.5//EN' 'http://www.docbook.org/xml/4.5/docbookx.dtd'
 [
 	<!ENTITY p 'brightmare'>
-	<!ENTITY version '0.35.1'>
+	<!ENTITY version '0.36'>
 ]>
 
 <refentry>
@@ -14,7 +14,7 @@
 		<firstname>Jakub</firstname> <surname>Wilk</surname>
 		<email>jwilk@jwilk.net</email>
 	</author>
-	<date>2013-01-25</date>
+	<date>2017-12-30</date>
 </refentryinfo>
 
 <refmeta>

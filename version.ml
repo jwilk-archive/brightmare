@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  *)
 
-let version = "0.35.1"
+let version = "0.36"
 
 let product_name =
   "BrightMaRe v. " ^

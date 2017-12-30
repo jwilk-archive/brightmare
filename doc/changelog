@@ -1,4 +1,4 @@
-brightmare (0.35.1) UNRELEASED; urgency=low
+brightmare (0.36) UNRELEASED; urgency=low
 
   * Get rid of the brightmare-html executable.
     Use the --html option instead.
@@ -13,7 +13,7 @@ brightmare (0.35.1) UNRELEASED; urgency=low
     + Fix typos.
     + Fix grammar error.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 30 Dec 2017 17:56:32 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 30 Dec 2017 18:21:16 +0100
 
 brightmare (0.35) unstable; urgency=low
 
