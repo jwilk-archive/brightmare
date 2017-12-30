@@ -48,7 +48,7 @@ struct
       in
         Rmath.largedelimiter box d
     with
-      Failure "" -> Rmath.empty 1 1
+      Failure _ -> Rmath.empty 1 1
 
   let rec
     env_array_make accum =
