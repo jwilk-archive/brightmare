@@ -73,17 +73,9 @@ let (exename, rev_argv) =
   | [] -> "", []
   | exename::argv -> exename, (ListEx.rev argv)
 
-let ifhtml =
-  try
-    let _ =
-      StrEx.search_forward (StrEx.regexp "html") exename 0
-    in 1
-  with
-    Not_found -> 0
-
 let defaultoptions =
   { argv = [];
-    opt_uni = ifhtml; opt_debug = false; opt_help = false }
+    opt_uni = 0; opt_debug = false; opt_help = false }
 
 let options =
   ListEx.fold

@@ -53,7 +53,7 @@ OCAMLDEP = ocamldep.opt -native
 OCAMLFLAGS =
 
 .PHONY: all
-all: brightmare brightmare-html
+all: brightmare
 
 Makefile.dep: $(ml_files) $(mli_files)
 	$(OCAMLDEP) $(^) > Makefile.dep
@@ -72,9 +72,6 @@ include Makefile.dep
 brightmare: $(cmx_files) $(o_files)
 	$(OCAMLOPT) $(OCAMLFLAGS) $(cmxa_files) $(^) -o $(@)
 
-brightmare-html: brightmare
-	ln -sf $(<) $(@)
-
 .PHONY: test
 test: all
 	cat $(test_files) | \
@@ -82,6 +79,6 @@ test: all
 
 .PHONY: clean
 clean:
-	rm -f brightmare brightmare-html *.cmi *.cmo *.cmx *.o *~ a.out Makefile.dep
+	rm -f brightmare *.cmi *.cmo *.cmx *.o *~ a.out Makefile.dep
 
 # vim:ts=4 sts=4 sw=4
