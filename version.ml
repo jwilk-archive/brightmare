@@ -1,5 +1,5 @@
 (*
- * Copyright © 2006-2013 Jakub Wilk <jwilk@jwilk.net>
+ * Copyright © 2006-2017 Jakub Wilk <jwilk@jwilk.net>
  * SPDX-License-Identifier: MIT
  *)
 
