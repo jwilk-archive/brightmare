@@ -42,8 +42,8 @@
     <cmdsynopsis>
         <command>&p;</command>
         <group choice='req'>
-            <arg choice='plain'><option>--version</option></arg>
             <arg choice='plain'><option>--help</option></arg>
+            <arg choice='plain'><option>--version</option></arg>
         </group>
     </cmdsynopsis>
 </refsynopsisdiv>
