@@ -4,8 +4,8 @@
 DESTDIR =
 PREFIX = /usr/local
 
-OCAMLOPT = ocamlopt.opt
-OCAMLDEP = ocamldep.opt -native
+OCAMLOPT = ocamlopt
+OCAMLDEP = ocamldep -native
 OCAMLFLAGS =
 
 prefix = $(PREFIX)
