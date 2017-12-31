@@ -72,7 +72,7 @@ let options =
   ListEx.fold
     ( fun a s ->
       match s with
-      | "--help" -> { a with opt_action = Help }
+      | "-h" | "--help" -> { a with opt_action = Help }
       | "--version" -> { a with opt_action = Version }
       | "--debug" -> { a with opt_debug = true }
       | "--ascii" -> { a with opt_uni = 0 }
@@ -91,7 +91,7 @@ Options:
   --html       output HTML
   --ascii      force the US-ASCII encoding
   --utf8       force the UTF-8 encoding
-  --help       show version information and exit
+  -h, --help   show version information and exit
   --version    show this help message and exit
 "
 
