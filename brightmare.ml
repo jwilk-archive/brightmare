@@ -88,7 +88,7 @@ let options =
 
 let () =
   if options.opt_help then
-    Printf.printf "%s\n\n" Version.product_name
+    Printf.printf "%s\n" Version.product_name
   else
   match options.opt_uni with
   | 1 -> Brightmare_html.iterate options.opt_debug options.argv
