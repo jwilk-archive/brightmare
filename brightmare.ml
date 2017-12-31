@@ -79,7 +79,7 @@ let options =
       | "--utf8" ->
         { argv = a.argv;
           opt_uni = 2; opt_debug = a.opt_debug; opt_help = a.opt_help }
-       | _ ->
+      | _ ->
         { argv = s::a.argv;
           opt_uni = a.opt_uni; opt_debug = a.opt_debug; opt_help = a.opt_help}
     )
