@@ -2,9 +2,14 @@ brightmare (0.36) UNRELEASED; urgency=low
 
   * Get rid of the brightmare-html executable.
     Use the --html option instead.
+  * Make -h/--help print proper help message.
   * Shorten the --version output.
-  * Fix build failure with OCaml 4.05.
-  * Add install target to Makefile.
+  * Improve the manual page.
+  * Improve the build system:
+    + Fix build failure with OCaml 4.05.
+    + Use ocamlopt (instead of ocamlopt.opt) and ocamldep (instead of
+      ocamldep.opt).
+    + Add install target to Makefile.
   * Put license into a separate file.
   * Disable network access for xsltproc.
   * Stop shipping Makefile.dep (it's a generated file).
@@ -14,7 +19,7 @@ brightmare (0.36) UNRELEASED; urgency=low
     + Fix typos.
     + Fix grammar error.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 31 Dec 2017 20:57:30 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun, 31 Dec 2017 23:52:45 +0100
 
 brightmare (0.35) unstable; urgency=low
 
