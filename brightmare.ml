@@ -64,24 +64,12 @@ let options =
   ListEx.fold
     ( fun a s ->
       match s with
-      | "--help" | "--version" ->
-        { argv = a.argv;
-          opt_uni = a.opt_uni; opt_debug = a.opt_debug; opt_help = true }
-      | "--debug" ->
-        { argv = a.argv;
-          opt_uni = a.opt_uni; opt_debug = true; opt_help = a.opt_help }
-      | "--html" ->
-        { argv = a.argv;
-          opt_uni = 1; opt_debug = a.opt_debug; opt_help = a.opt_help }
-      | "--ascii" ->
-        { argv = a.argv;
-          opt_uni = 0; opt_debug = a.opt_debug; opt_help = a.opt_help }
-      | "--utf8" ->
-        { argv = a.argv;
-          opt_uni = 2; opt_debug = a.opt_debug; opt_help = a.opt_help }
-      | _ ->
-        { argv = s::a.argv;
-          opt_uni = a.opt_uni; opt_debug = a.opt_debug; opt_help = a.opt_help}
+      | "--help" | "--version" -> { a with opt_help = true }
+      | "--debug" -> { a with opt_debug = true }
+      | "--ascii" -> { a with opt_uni = 0 }
+      | "--html" -> { a with opt_uni = 1 }
+      | "--utf8" -> { a with opt_uni = 2 }
+      | _ -> { a with argv = s::a.argv }
     )
     defaultoptions
     rev_argv
