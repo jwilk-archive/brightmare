@@ -31,14 +31,7 @@ ml_files = \
 	lexscan.ml \
 	parsetree.ml parse.ml interpret.ml interpret_debug.ml \
 	brightmare.ml
-mli_files = \
-	locale.mli \
-	listEx.mli strEx.mli \
-	matrix.mli \
-	dictionary.mli dictionary2.mli latex_dictionary.mli \
-	unicore.mli unicore_convert.mli \
-	unicode.mli unicode_html.mli unicode_ascii.mli unicode_konwert.mli \
-	automaton.mli automaton2.mli
+mli_files = $(wildcard *.mli)
 
 cmx_files = $(ml_files:ml=cmx)
 cmxa_files = unix.cmxa str.cmxa
