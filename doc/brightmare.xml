@@ -43,9 +43,7 @@
 		<command>&p;</command>
 		<group choice='req'>
 			<arg choice='plain'><option>--version</option></arg>
-			<arg choice='plain'><option>-v</option></arg>
 			<arg choice='plain'><option>--help</option></arg>
-			<arg choice='plain'><option>-h</option></arg>
 		</group>
 	</cmdsynopsis>
 </refsynopsisdiv>
@@ -78,9 +76,7 @@
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term><option>-h</option></term>
 			<term><option>--help</option></term>
-			<term><option>-v</option></term>
 			<term><option>--version</option></term>
 			<listitem>
           		<para>Output version information and exit.</para>
