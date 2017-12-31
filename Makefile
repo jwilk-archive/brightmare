@@ -15,7 +15,7 @@ datarootdir = $(prefix)/share
 mandir = $(datarootdir)/man
 
 test_files = $(wildcard test/*)
-c_files = locale-impl.c
+c_files = $(wildcard *-impl.c)
 ml_files = \
 	signatures.ml \
 	version.ml \
