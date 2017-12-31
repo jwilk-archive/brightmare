@@ -47,9 +47,14 @@ module Brightmare_plain =
 module Brightmare_utf8 =
   Brightmare(Unicode)(Decoration)(Automaton)(Latex_dictionary)
 
+type action_t = Default | Help | Version
+
 type options_t =
   { argv : string list;
-    opt_uni : int; opt_debug : bool; opt_help : bool }
+    opt_uni : int;
+    opt_debug : bool;
+    opt_action : action_t;
+  }
 
 let (exename, rev_argv) =
   match Array.to_list Sys.argv with
@@ -58,13 +63,17 @@ let (exename, rev_argv) =
 
 let defaultoptions =
   { argv = [];
-    opt_uni = 0; opt_debug = false; opt_help = false }
+    opt_uni = 0;
+    opt_debug = false;
+    opt_action = Default;
+  }
 
 let options =
   ListEx.fold
     ( fun a s ->
       match s with
-      | "--help" | "--version" -> { a with opt_help = true }
+      | "--help" -> { a with opt_action = Help }
+      | "--version" -> { a with opt_action = Version }
       | "--debug" -> { a with opt_debug = true }
       | "--ascii" -> { a with opt_uni = 0 }
       | "--html" -> { a with opt_uni = 1 }
@@ -74,13 +83,26 @@ let options =
     defaultoptions
     rev_argv
 
+let help_message =
+"Usage: brightmare [--debug] [--html | --ascii | --utf8] EXPRESSION...
+
+Options:
+  --debug      turn on debug output
+  --html       output HTML
+  --ascii      force the US-ASCII encoding
+  --utf8       force the UTF-8 encoding
+  --help       show version information and exit
+  --version    show this help message and exit
+"
+
 let () =
-  if options.opt_help then
-    Printf.printf "%s\n" Version.product_name
-  else
-  match options.opt_uni with
-  | 1 -> Brightmare_html.iterate options.opt_debug options.argv
-  | 2 -> Brightmare_utf8.iterate options.opt_debug options.argv
-  | _ -> Brightmare_plain.iterate options.opt_debug options.argv
+  match options.opt_action with
+  | Help -> Printf.printf "%s" help_message
+  | Version -> Printf.printf "%s\n" Version.product_name
+  | Default ->
+    match options.opt_uni with
+    | 1 -> Brightmare_html.iterate options.opt_debug options.argv
+    | 2 -> Brightmare_utf8.iterate options.opt_debug options.argv
+    | _ -> Brightmare_plain.iterate options.opt_debug options.argv
 
 (* vim: set tw=96 et ts=2 sts=2 sw=2: *)
