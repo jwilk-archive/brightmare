@@ -78,13 +78,13 @@
         <varlistentry>
             <term><option>--help</option></term>
             <listitem>
-                <para>Print help message and exit.</para>
+                <para>Show help message and exit.</para>
             </listitem>
         </varlistentry>
         <varlistentry>
             <term><option>--version</option></term>
             <listitem>
-                <para>Output version information and exit.</para>
+                <para>Show version information and exit.</para>
             </listitem>
         </varlistentry>
     </variablelist>
