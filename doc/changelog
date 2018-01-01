@@ -1,4 +1,4 @@
-brightmare (0.36) UNRELEASED; urgency=low
+brightmare (0.36) unstable; urgency=low
 
   * Get rid of the brightmare-html executable.
     Use the --html option instead.
@@ -15,7 +15,7 @@ brightmare (0.36) UNRELEASED; urgency=low
     + Disable network access for xsltproc.
   * Put license into a separate file.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 01 Jan 2018 12:32:03 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 01 Jan 2018 14:16:22 +0100
 
 brightmare (0.35) unstable; urgency=low
 
