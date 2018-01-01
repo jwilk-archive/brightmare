@@ -1,3 +1,6 @@
+# Copyright © 2008-2017 Jakub Wilk <jwilk@jwilk.net>
+# SPDX-License-Identifier: MIT
+
 xsl = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
 xsltproc_options = --nonet --param man.authors.section.enabled 0
 xml_files = $(wildcard *.xml)
