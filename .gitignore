@@ -4,5 +4,4 @@
 *.o
 /Makefile.dep
 /brightmare
-/brightmare-html
 /doc/*.1
